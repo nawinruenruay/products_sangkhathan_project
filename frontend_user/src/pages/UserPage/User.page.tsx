@@ -25,7 +25,7 @@ import { useDocumentTitle } from "@mantine/hooks";
 export function UserPage() {
   const nav = useNavigate();
   const { tabsValue } = useParams();
-  const iconStyle = { width: rem(), height: rem(12) };
+  const iconStyle = { width: rem(15), height: rem(15) };
 
   useEffect(() => {
     window.scrollTo(0, 0);
