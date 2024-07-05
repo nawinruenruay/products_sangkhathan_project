@@ -54,9 +54,9 @@ export function Register() {
     },
     validate: {
       username: (v) => {
-        if (v.length === 0) return "กรอกชื่อผู้ใช้งาน";
+        if (v.length < 6) return "กรอกชื่อผู้ใช้งาน 6 ตัวอักษรขึ้นไป";
         if (/[\u0E00-\u0E7F]/.test(v))
-          return "ชื่อผู้ใช้งานต้องเป็นภาษาอังกฤษเท่านั้น";
+          return "ชื่อผู้ใช้งานต้องเป็นภาษาอังกฤษเท่านั้น เช่น abc1234";
         return null;
       },
       password: (v) => {
@@ -70,7 +70,8 @@ export function Register() {
         if (value !== values.password) return "รหัสผ่านไม่ตรงกัน";
         return null;
       },
-      name: (value) => (value.length < 2 ? "กรุณากรอกชื่อ-นามสกุล" : null),
+      name: (value) =>
+        value.length < 6 ? "กรุณากรอกชื่อ-นามสกุลที่ถูกต้อง" : null,
     },
   });
 
