@@ -19,6 +19,7 @@ import {
   UnstyledButton,
   Indicator,
   Avatar,
+  Skeleton,
 } from "@mantine/core";
 import axios from "axios";
 import { useDisclosure } from "@mantine/hooks";
@@ -61,11 +62,12 @@ function Header() {
   const location = useLocation();
   const nav = useNavigate();
   const [activePath, setActivePath] = useState<string>(location.pathname);
-  const [Data, setData] = useState([]);
-  // const [LoadingData, setLoadingData] = useState(false);
+  const [Img, setImg] = useState("");
+  const [Name, setName] = useState("");
+  const [LoadingData, setLoadingData] = useState(false);
 
   const FetchData = () => {
-    // setLoadingData(true);
+    setLoadingData(true);
     axios
       .post(Api + "/User/Showuser", {
         userid: atob(id),
@@ -74,9 +76,10 @@ function Header() {
         const data = res.data;
         console.log(data);
         if (data.length !== 0) {
-          // setData(data);
+          setName(data[0].name);
+          setImg(data[0].img);
         }
-        // setLoadingData(false);
+        setLoadingData(false);
       });
   };
 
@@ -158,41 +161,63 @@ function Header() {
                   offset={7}
                   onClose={() => setUserMenuOpened(false)}
                   onOpen={() => setUserMenuOpened(true)}
+                  withArrow
                 >
                   <Menu.Target>
                     <UnstyledButton>
                       <Group gap={10}>
-                        <Indicator
-                          inline
-                          size={14}
-                          offset={6}
-                          position="bottom-end"
-                          color="green"
-                          withBorder
-                          processing
-                        >
-                          <Avatar
-                            size="45"
-                            radius="xl"
-                            color="green"
-                            variant="light"
-                          />
-                        </Indicator>
-                        <Flex direction="column" wrap="wrap">
-                          <Text size="sm" fw={500}>
-                            {/* name */}
-                          </Text>
-                        </Flex>
-                        {userMenuOpened ? (
-                          <IconChevronUp
-                            style={{ width: rem(16), height: rem(16) }}
-                            stroke={1.5}
-                          />
+                        {LoadingData === true ? (
+                          <>
+                            <Flex direction={"row"} gap={10}>
+                              <Skeleton h={50} circle />
+                              <Skeleton h={5} />
+                            </Flex>
+                          </>
                         ) : (
-                          <IconChevronDown
-                            style={{ width: rem(16), height: rem(16) }}
-                            stroke={1.5}
-                          />
+                          <>
+                            <Indicator
+                              inline
+                              size={14}
+                              offset={6}
+                              position="bottom-end"
+                              color="green"
+                              withBorder
+                              processing
+                            >
+                              {Img ? (
+                                <Avatar
+                                  size="45"
+                                  radius="xl"
+                                  color="green"
+                                  variant="light"
+                                  src={Api + Img}
+                                />
+                              ) : (
+                                <Avatar
+                                  size="45"
+                                  radius="xl"
+                                  color="green"
+                                  variant="light"
+                                />
+                              )}
+                            </Indicator>
+                            <Flex direction="column" wrap="wrap">
+                              <Text size="sm" fw={500}>
+                                {Name}
+                              </Text>
+                            </Flex>
+                            {userMenuOpened ? (
+                              <IconChevronUp
+                                style={{ width: rem(16), height: rem(16) }}
+                                stroke={1.5}
+                              />
+                            ) : (
+                              <IconChevronDown
+                                style={{ width: rem(16), height: rem(16) }}
+                                stroke={1.5}
+                              />
+                            )}
+                          </>
                         )}
                       </Group>
                     </UnstyledButton>
@@ -334,10 +359,11 @@ function Header() {
         padding="md"
         title="สินค้าผลิตภัณฑ์และสังฆทานออนไลน์"
         hiddenFrom="md"
+        overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
         // zIndex={1000000}
       >
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
-          <Divider my="sm" />
+          <Divider />
           <Flex direction="column" px={"xs"} gap={3}>
             {Link(data)}
           </Flex>
@@ -363,10 +389,25 @@ function Header() {
                   withBorder
                   processing
                 >
-                  <Avatar size="45" radius="xl" color="green" variant="light" />
+                  {Img ? (
+                    <Avatar
+                      size="45"
+                      radius="xl"
+                      color="green"
+                      variant="light"
+                      src={Api + Img}
+                    />
+                  ) : (
+                    <Avatar
+                      size="45"
+                      radius="xl"
+                      color="green"
+                      variant="light"
+                    />
+                  )}
                 </Indicator>
                 <Text size="sm" fw={500}>
-                  {/* {name} */}
+                  {Name}
                 </Text>
               </Group>
 

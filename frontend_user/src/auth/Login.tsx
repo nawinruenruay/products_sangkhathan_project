@@ -35,6 +35,7 @@ import Footer from "../layout/LayoutUser/Footer/Footer";
 
 export function Login() {
   useDocumentTitle("เข้าสู่ระบบเพื่อเลือกซื้อสินค้าผลิตภัณฑ์และสังฆทานออนไลน์");
+  const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme("light", {
     getInitialValueInEffect: true,
@@ -50,7 +51,6 @@ export function Login() {
       password: (v) => (v.length !== 0 ? null : "กรุณากรอกรหัสผ่านผู้ใช้งาน"),
     },
   });
-
   const [LoadingLogin, setLoadingLogin] = useState(false);
 
   const Login = (v: any) => {
@@ -107,7 +107,9 @@ export function Login() {
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    // document.title = "เข้าสู่ระบบ | ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน";
+    if (id) {
+      nav("/");
+    }
   }, []);
 
   return (
