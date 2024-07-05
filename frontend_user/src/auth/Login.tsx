@@ -64,18 +64,17 @@ export function Login() {
         setLoadingLogin(false);
         if (res.data.message === "success") {
           const data = res.data.data[0];
-          // console.log(data);
+          console.log(data);
           Notifications.show({
             title: "เข้าสู่ระบบสำเร็จ",
-            message: "ยินดีต้อนรับ " + data.cname,
+            message: "ยินดีต้อนรับ " + data.name,
             autoClose: 2000,
             color: "green",
             icon: <IconCheck />,
           });
           localStorage.clear();
           const dataUser = {
-            id: btoa(data.username),
-            name: data.cname,
+            id: btoa(data.userid),
             role: "user",
           };
           localStorage.setItem("tokenID", res.data.token);
