@@ -181,40 +181,42 @@ export function ProductDetailPage() {
                     {/* BUTTON */}
                     {i.qty > 0 ? (
                       <>
-                        <Group mt={30} gap={0} align="center">
-                          <Button
-                            variant="default"
-                            radius={0}
-                            onClick={() => setQty((v) => (v > 1 ? v - 1 : 1))}
-                          >
-                            <IconMinus size={16} />
-                          </Button>
-                          <TextInput
-                            radius={0}
-                            w={70}
-                            value={Qty}
-                            onChange={(e: any) => {
-                              const value = e.currentTarget.value;
-                              if (/^\d*$/.test(value)) {
-                                const newQty = parseInt(value, 10);
-                                if (newQty <= i.qty) {
-                                  setQty(newQty);
+                        <Group mt={30}>
+                          <Text>จำนวน </Text>
+                          <Group gap={0} align="center">
+                            <Button
+                              variant="default"
+                              radius={0}
+                              onClick={() => setQty((v) => (v > 1 ? v - 1 : 1))}
+                            >
+                              <IconMinus size={16} />
+                            </Button>
+                            <TextInput
+                              radius={0}
+                              w={70}
+                              value={Qty}
+                              onChange={(e: any) => {
+                                const value = e.currentTarget.value;
+                                if (/^\d*$/.test(value)) {
+                                  const newQty = parseInt(value, 10);
+                                  if (newQty <= i.qty) {
+                                    setQty(newQty);
+                                  }
                                 }
+                              }}
+                              classNames={{ input: classes.textinput }}
+                            />
+                            <Button
+                              variant="default"
+                              radius={0}
+                              onClick={() =>
+                                setQty((v) => (v < i.qty ? v + 1 : v))
                               }
-                            }}
-                            classNames={{ input: classes.textinput }}
-                          />
-                          <Button
-                            variant="default"
-                            radius={0}
-                            onClick={() =>
-                              setQty((v) => (v < i.qty ? v + 1 : v))
-                            }
-                          >
-                            <IconPlus size={16} />
-                          </Button>
+                            >
+                              <IconPlus size={16} />
+                            </Button>
+                          </Group>
                         </Group>
-
                         <Flex mt={25} gap={10}>
                           <Button w={"100%"} onClick={Addcart}>
                             เพิ่มไปยังตระกร้าสินค้า
