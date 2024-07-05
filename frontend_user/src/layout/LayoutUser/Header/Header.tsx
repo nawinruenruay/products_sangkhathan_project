@@ -20,6 +20,7 @@ import {
   Indicator,
   Avatar,
 } from "@mantine/core";
+import axios from "axios";
 import { useDisclosure } from "@mantine/hooks";
 import {
   IconMoon,
@@ -34,17 +35,17 @@ import {
 import { NavLink as Nl, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import data from "./data";
+import classes from "./Header.module.css";
+import logo from "../../../assets/icon/LOGO.png";
+import { useCartsum } from "../../../components/CartContext";
+import { Api } from "../../../Api";
+
 interface MenuItem {
   title: string;
   path: string;
   sub?: MenuItem[];
   icon?: React.ReactNode;
 }
-
-import classes from "./Header.module.css";
-import logo from "../../../assets/icon/LOGO.png";
-
-import { useCartsum } from "../../../components/CartContext";
 
 function Header() {
   const { cartsum, fetchCartsum } = useCartsum();
@@ -55,13 +56,29 @@ function Header() {
     getInitialValueInEffect: true,
   });
   const [userMenuOpened, setUserMenuOpened] = useState(false);
-  const { id, role, name } = JSON.parse(
-    localStorage.getItem("dataUser") || "{}"
-  );
 
+  const { id, role } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const location = useLocation();
   const nav = useNavigate();
   const [activePath, setActivePath] = useState<string>(location.pathname);
+  const [Data, setData] = useState([]);
+  // const [LoadingData, setLoadingData] = useState(false);
+
+  const FetchData = () => {
+    // setLoadingData(true);
+    axios
+      .post(Api + "/User/Showuser", {
+        userid: atob(id),
+      })
+      .then((res) => {
+        const data = res.data;
+        console.log(data);
+        if (data.length !== 0) {
+          // setData(data);
+        }
+        // setLoadingData(false);
+      });
+  };
 
   // FUCK OFF
   const Link = (item: MenuItem[], path: string = ""): JSX.Element[] => {
@@ -99,6 +116,7 @@ function Header() {
     if (id) {
       fetchCartsum(atob(id));
     }
+    FetchData();
   }, []);
 
   useEffect(() => {
@@ -121,7 +139,7 @@ function Header() {
             </Flex>
           </Group>
           <Group gap={10} visibleFrom={"md"}>
-            {!id && !name && !role ? (
+            {!id && !role ? (
               <>
                 <Group gap={5}>
                   <Button variant="default" onClick={() => nav("/login")}>
@@ -162,7 +180,7 @@ function Header() {
                         </Indicator>
                         <Flex direction="column" wrap="wrap">
                           <Text size="sm" fw={500}>
-                            {name}
+                            {/* name */}
                           </Text>
                         </Flex>
                         {userMenuOpened ? (
@@ -258,7 +276,7 @@ function Header() {
           </Group>
 
           <Group gap={2}>
-            {id && name && role && (
+            {id && role && (
               <>
                 <Tooltip label={"ตระกร้าสินค้า"}>
                   <Indicator
@@ -348,7 +366,7 @@ function Header() {
                   <Avatar size="45" radius="xl" color="green" variant="light" />
                 </Indicator>
                 <Text size="sm" fw={500}>
-                  {name}
+                  {/* {name} */}
                 </Text>
               </Group>
 

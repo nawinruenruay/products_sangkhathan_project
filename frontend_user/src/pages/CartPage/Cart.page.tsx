@@ -47,7 +47,7 @@ export function CartPage() {
     if (v) {
       axios
         .post(Api + "Cart/Showcart/", {
-          username: v,
+          userid: v,
         })
         .then((res) => {
           const data = res.data;
@@ -92,7 +92,7 @@ export function CartPage() {
           qty: qty,
           price: price,
           pid: pid,
-          username: atob(id),
+          userid: atob(id),
         })
         .then((res) => {
           if (res.data === 200) {
@@ -110,7 +110,7 @@ export function CartPage() {
     if (id && pid) {
       axios
         .post(Api + "Cart/Plus", {
-          username: atob(id),
+          userid: atob(id),
           pid: pid,
           qty: qty,
         })
@@ -139,7 +139,7 @@ export function CartPage() {
     if (id && pid) {
       axios
         .post(Api + "Cart/Minus", {
-          username: atob(id),
+          userid: atob(id),
           pid: pid,
           qty: qty,
         })

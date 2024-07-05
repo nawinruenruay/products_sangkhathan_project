@@ -64,7 +64,7 @@ export function Login() {
         setLoadingLogin(false);
         if (res.data.message === "success") {
           const data = res.data.data[0];
-          console.log(data);
+          // console.log(data);
           Notifications.show({
             title: "เข้าสู่ระบบสำเร็จ",
             message: "ยินดีต้อนรับ " + data.name,

@@ -70,7 +70,7 @@ export function ProductDetailPage() {
           qty: Qty,
           price: Price,
           pid: atob(v1),
-          username: atob(id),
+          userid: atob(id),
         })
         .then((res) => {
           if (res.data === 200) {

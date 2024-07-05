@@ -27,7 +27,7 @@ export const CartsumProvider: React.FC<CartsumProviderProps> = ({
   const fetchCartsum = (id: string): void => {
     axios
       .post<{ sum: number }>(Api + "Cart/Cartsum/", {
-        username: id,
+        userid: id,
       })
       .then((res) => {
         const data = res.data;
