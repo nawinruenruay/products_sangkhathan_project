@@ -64,7 +64,7 @@ const router = createBrowserRouter([
         element: <CheckoutPage />,
       },
       {
-        path: "/user/:v",
+        path: "/user/:tabsValue",
         element: <UserPage />,
       },
     ],

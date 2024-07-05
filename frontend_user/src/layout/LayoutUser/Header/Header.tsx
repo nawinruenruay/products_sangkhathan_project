@@ -158,7 +158,7 @@ function Header() {
                   position="bottom-end"
                   transitionProps={{ transition: "pop-top-right" }}
                   withinPortal
-                  offset={7}
+                  offset={1}
                   onClose={() => setUserMenuOpened(false)}
                   onOpen={() => setUserMenuOpened(true)}
                   withArrow
