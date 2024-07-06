@@ -9,7 +9,7 @@ import { Api } from "../../Api";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
-import classes from "./Layout.module.css";
+import classes from "./Header/Header.module.css";
 import { IconExclamationMark } from "@tabler/icons-react";
 
 export function LayoutUser() {
