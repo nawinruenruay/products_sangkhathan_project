@@ -22,10 +22,13 @@ import {
   IconChevronRight,
   IconMinus,
   IconPlus,
+  IconCheck,
+  IconInfoCircle,
 } from "@tabler/icons-react";
 import { useDocumentTitle } from "@mantine/hooks";
 import { DataTable } from "mantine-datatable";
 import Swal from "sweetalert2";
+import { Notifications } from "@mantine/notifications";
 
 import classes from "./Card.module.css";
 import cartempty from "../../assets/img/cartempty.png";
@@ -60,30 +63,38 @@ export function CartPage() {
     }
   };
 
-  // const Buy = () => {
-  //   if (dataUser.username) {
-  //     axios
-  //       .post(Api + "Buy/Buyproduct", {
-  //         username: dataUser.username,
-  //       })
-  //       .then((res) => {
-  //         if (res.data === 200) {
-  //           Notifications.show({
-  //             title: "สั่งซื้อสินค้าสำเร็จ",
-  //             message: "คุณสั่งซื้อสินค้าเรียบร้อยแล้ว",
-  //             autoClose: 2000,
-  //             color: "green",
-  //             icon: <IconCheck />,
-  //           });
-  //           fetchCartsum(dataUser.username);
-  //           LoadData(dataUser.username);
-  //           if (Data.length >= 1) {
-  //             setData([]);
-  //           }
-  //         }
-  //       });
-  //   }
-  // };
+  const Buy = () => {
+    if (id) {
+      axios
+        .post(Api + "Buy/Buyproduct", {
+          userid: atob(id),
+        })
+        .then((res) => {
+          if (res.data === 200) {
+            Notifications.show({
+              title: "สั่งซื้อสินค้าสำเร็จ",
+              message: "คุณสั่งซื้อสินค้าเรียบร้อยแล้ว",
+              autoClose: 2000,
+              color: "green",
+              icon: <IconCheck />,
+            });
+            fetchCartsum(atob(id));
+            LoadData(atob(id));
+            if (Data.length >= 1) {
+              setData([]);
+            }
+          } else if (res.data === 400) {
+            Notifications.show({
+              title: "สั่งซื้อสินค้าไม่สำเร็จ",
+              message: "คุณต้องเพิ่มจำนวนสินค้าก่อนจะสั่งซื้อ",
+              autoClose: 2000,
+              color: "red",
+              icon: <IconInfoCircle />,
+            });
+          }
+        });
+    }
+  };
 
   const Delcart = (qty: number, price: number, pid: string) => {
     if (id && qty && price && pid) {
@@ -152,16 +163,16 @@ export function CartPage() {
     }
   };
 
-  const RandomId = (length = 100) => {
-    const characters =
-      "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    let result = "";
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
-  };
+  // const RandomId = (length = 100) => {
+  //   const characters =
+  //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  //   let result = "";
+  //   const charactersLength = characters.length;
+  //   for (let i = 0; i < length; i++) {
+  //     result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  //   }
+  //   return result;
+  // };
 
   const items = [
     { title: "สินค้า", href: "/product" },
@@ -311,11 +322,12 @@ export function CartPage() {
               </Flex>
               <Flex justify={"flex-end"} mt={20}>
                 <Button
-                  onClick={() => {
-                    const ramdomId = RandomId();
-                    nav("/checkout/" + ramdomId);
-                  }}
+                  // onClick={() => {
+                  //   const ramdomId = RandomId();
+                  //   nav("/checkout/" + ramdomId);
+                  // }}
                   w={"100%"}
+                  onClick={Buy}
                 >
                   สั่งซื้อสินค้า
                 </Button>

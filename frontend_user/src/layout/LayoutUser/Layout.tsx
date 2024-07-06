@@ -69,7 +69,7 @@ export function LayoutUser() {
             <Outlet />
           </Container>
         </AppShell.Main>
-        <AppShell.Footer pos={"relative"}>
+        <AppShell.Footer pos={"static"}>
           <Footer />
         </AppShell.Footer>
       </AppShell>

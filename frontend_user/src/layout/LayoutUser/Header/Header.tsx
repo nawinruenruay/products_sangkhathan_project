@@ -106,8 +106,13 @@ function Header() {
     closeDrawer();
   };
 
-  const UserPage = () => {
+  const UserProfile = () => {
     nav("/user/profile");
+    closeDrawer();
+  };
+
+  const Userpurchase = () => {
+    nav("/user/purchase");
     closeDrawer();
   };
 
@@ -118,8 +123,8 @@ function Header() {
   useEffect(() => {
     if (id) {
       fetchCartsum(atob(id));
+      FetchData();
     }
-    FetchData();
   }, []);
 
   useEffect(() => {
@@ -230,7 +235,7 @@ function Header() {
                           stroke={1.5}
                         />
                       }
-                      onClick={UserPage}
+                      onClick={UserProfile}
                     >
                       บัญชีของฉัน
                     </Menu.Item>
@@ -241,7 +246,7 @@ function Header() {
                           stroke={1.5}
                         />
                       }
-                      // onClick={}
+                      onClick={Userpurchase}
                     >
                       การซื้อของฉัน
                     </Menu.Item>
@@ -363,7 +368,7 @@ function Header() {
         // zIndex={1000000}
       >
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">
-          <Divider />
+          <Divider mb="sm" />
           <Flex direction="column" px={"xs"} gap={3}>
             {Link(data)}
           </Flex>
@@ -420,7 +425,7 @@ function Header() {
                       stroke={1.5}
                     />
                   }
-                  onClick={UserPage}
+                  onClick={UserProfile}
                 />
                 <NavLink
                   label="การซื้อของฉัน"
@@ -430,7 +435,7 @@ function Header() {
                       stroke={1.5}
                     />
                   }
-                  // onClick={}
+                  onClick={Userpurchase}
                 />
                 <NavLink
                   label="ออกจากระบบ"
