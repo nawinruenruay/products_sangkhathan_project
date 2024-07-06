@@ -77,7 +77,9 @@ export function Login() {
             id: btoa(data.userid),
             role: "user",
           };
-          localStorage.setItem("tokenID", res.data.token);
+          localStorage.setItem("UUID", res.data.uuid);
+          // localStorage.setItem("tokenID", res.data.token);
+          localStorage.setItem("auth", res.data.auth);
           localStorage.setItem("dataUser", JSON.stringify(dataUser));
           nav("/home");
         } else {

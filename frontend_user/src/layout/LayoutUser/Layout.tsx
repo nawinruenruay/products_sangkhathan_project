@@ -17,12 +17,12 @@ export function LayoutUser() {
   const pinned = useHeadroom({ fixedAt: 120 });
   const [{ y }] = useWindowScroll();
   const isScrolled = y > 0;
-  const token = localStorage.getItem("tokenID");
+  const auth = localStorage.getItem("auth");
 
-  const FetchToken = () => {
-    if (token) {
+  const FetchAuth = () => {
+    if (auth) {
       axios
-        .post(Api + "Auth/verifyToken", { token })
+        .post(Api + "Auth/verifyToken", { auth })
         .then((res) => {
           if (res.data.status === 200) {
             // console.log("Token ถูกต้อง");
@@ -42,7 +42,7 @@ export function LayoutUser() {
   };
 
   useEffect(() => {
-    FetchToken();
+    FetchAuth();
   }, []);
 
   return (
