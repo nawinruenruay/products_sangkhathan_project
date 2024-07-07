@@ -1,8 +1,8 @@
-import { Button, Flex, Select, Text } from "@mantine/core";
+import { Button, Flex, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconDeviceFloppy } from "@tabler/icons-react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Api } from "../../Api";
 
 interface AddItemsProps {
@@ -11,14 +11,15 @@ interface AddItemsProps {
 }
 
 export function AddEmail({ closeWithSuccess, close }: AddItemsProps) {
+  const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
+
   const form = useForm({
     initialValues: {
-      id_course: "",
-      id_term: "",
+      email: "",
     },
     validate: {
-      id_term: (val) => (val.length === 0 ? "กรุณาเลือกเทอม/ปีการศึกษา" : null),
-      id_course: (val) => (val.length === 0 ? "กรุณาเลือกรายวิชา" : null),
+      email: (value) =>
+        /^\S+@\S+$/.test(value) ? null : "กรุณากรอกอีเมลที่ถูกต้อง",
     },
   });
 
@@ -26,26 +27,32 @@ export function AddEmail({ closeWithSuccess, close }: AddItemsProps) {
 
   const Submit = (v: any) => {
     setLoadingSubmit(true);
-
-    const Add = new FormData();
-
-    axios.post(Api + "/Addcourseplaninmajorteml", Add).then((res) => {
-      if (res.data === "200") {
-        setLoadingSubmit(false);
-        closeWithSuccess();
-      }
-    });
+    axios
+      .post(Api + "User/Addemail", {
+        userid: atob(id),
+        email: v.email,
+      })
+      .then((res) => {
+        if (res.data === 200) {
+          setLoadingSubmit(false);
+          closeWithSuccess();
+        }
+      });
   };
 
   return (
     <>
       <form
-        style={{ fontWeight: 400 }}
         onSubmit={form.onSubmit((v: any) => {
           Submit(v);
         })}
       >
-        <Text>Test</Text>
+        <TextInput
+          label="อีเมล"
+          placeholder="กรอกอีเมล"
+          {...form.getInputProps("email")}
+          withAsterisk
+        />
         <Flex pt={10} justify={"flex-end"} gap={5}>
           <Button
             fw={400}

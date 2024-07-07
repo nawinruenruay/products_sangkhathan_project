@@ -1,8 +1,8 @@
-import { Button, Flex, Select, Text } from "@mantine/core";
+import { Button, Flex, TextInput } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconDeviceFloppy } from "@tabler/icons-react";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Api } from "../../Api";
 
 interface AddItemsProps {
@@ -10,15 +10,16 @@ interface AddItemsProps {
   close: () => void;
 }
 
-export function AddPhone({ closeWithSuccess, close }: AddItemsProps) {
+export function Addphone({ closeWithSuccess, close }: AddItemsProps) {
+  const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
+
   const form = useForm({
     initialValues: {
-      id_course: "",
-      id_term: "",
+      phone: "",
     },
     validate: {
-      id_term: (val) => (val.length === 0 ? "กรุณาเลือกเทอม/ปีการศึกษา" : null),
-      id_course: (val) => (val.length === 0 ? "กรุณาเลือกรายวิชา" : null),
+      phone: (value: any) =>
+        value.length < 10 ? "กรุณากรอกหมายเลขโทรศัพท์ที่ถูกต้อง" : null,
     },
   });
 
@@ -26,26 +27,32 @@ export function AddPhone({ closeWithSuccess, close }: AddItemsProps) {
 
   const Submit = (v: any) => {
     setLoadingSubmit(true);
-
-    const Add = new FormData();
-
-    axios.post(Api + "/Addcourseplaninmajorteml", Add).then((res) => {
-      if (res.data === "200") {
-        setLoadingSubmit(false);
-        closeWithSuccess();
-      }
-    });
+    axios
+      .post(Api + "User/Addphone", {
+        userid: atob(id),
+        phone: v.phone,
+      })
+      .then((res) => {
+        if (res.data === 200) {
+          setLoadingSubmit(false);
+          closeWithSuccess();
+        }
+      });
   };
 
   return (
     <>
       <form
-        style={{ fontWeight: 400 }}
         onSubmit={form.onSubmit((v: any) => {
           Submit(v);
         })}
       >
-        <Text>Test</Text>
+        <TextInput
+          label="หมายเลขโทรศัพท์"
+          placeholder="กรอกหมายเลขโทรศัพท์"
+          {...form.getInputProps("phone")}
+          withAsterisk
+        />
         <Flex pt={10} justify={"flex-end"} gap={5}>
           <Button
             fw={400}

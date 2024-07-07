@@ -18,6 +18,8 @@ import {
   Center,
   UnstyledButton,
   Modal,
+  LoadingOverlay,
+  Box,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -25,7 +27,7 @@ import { IconUser, IconShoppingBag } from "@tabler/icons-react";
 import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
 
 import { AddEmail } from "./AddEmail";
-import { AddPhone } from "./AddPhone";
+import { Addphone } from "./AddPhone";
 import { AddBirthday } from "./AddBirthday";
 
 export function UserPage() {
@@ -35,7 +37,7 @@ export function UserPage() {
   const iconStyle = { width: rem(15), height: rem(15) };
   const isMobile = useMediaQuery("(max-width: 999px)");
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
-  // const [LoadingData, setLoadingData] = useState(false);
+  const [LoadingProfile, setLoadingProfile] = useState(false);
   const [ModalAddEmail, setModalAddEmail] = useState<boolean>(false);
   const [ModalAddPhone, setModalAddPhone] = useState<boolean>(false);
   const [ModalAddBirthday, setModalAddBirthday] = useState<boolean>(false);
@@ -57,7 +59,7 @@ export function UserPage() {
   });
 
   const FetchData = () => {
-    // setLoadingData(true);
+    setLoadingProfile(true);
     axios
       .post(Api + "/User/Showuser", {
         userid: atob(id),
@@ -75,7 +77,7 @@ export function UserPage() {
           setImg(data[0].img);
           setBirthday(data[0].birthday);
         }
-        // setLoadingData(false);
+        setLoadingProfile(false);
       });
   };
 
@@ -140,7 +142,13 @@ export function UserPage() {
                 Submit(v);
               })}
             >
-              <Tabs.Panel value="profile">
+              <Tabs.Panel value="profile" pos="relative">
+                <LoadingOverlay
+                  visible={LoadingProfile}
+                  zIndex={100}
+                  overlayProps={{ radius: "sm", blur: 2 }}
+                  loaderProps={{ type: "dots" }}
+                />
                 <Paper shadow="sm" px={30} py={25}>
                   <Text size={"lg"} fw={"bold"}>
                     ข้อมูลของฉัน
@@ -293,6 +301,7 @@ export function UserPage() {
         <AddEmail
           closeWithSuccess={() => {
             setModalAddEmail(false);
+            FetchData();
           }}
           close={() => {
             setModalAddEmail(false);
@@ -309,9 +318,10 @@ export function UserPage() {
         centered
         overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
       >
-        <AddEmail
+        <Addphone
           closeWithSuccess={() => {
             setModalAddPhone(false);
+            FetchData();
           }}
           close={() => {
             setModalAddPhone(false);
@@ -328,9 +338,10 @@ export function UserPage() {
         centered
         overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
       >
-        <AddEmail
+        <AddBirthday
           closeWithSuccess={() => {
             setModalAddBirthday(false);
+            FetchData();
           }}
           close={() => {
             setModalAddBirthday(false);
