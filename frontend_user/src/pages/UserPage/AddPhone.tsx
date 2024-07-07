@@ -18,8 +18,15 @@ export function Addphone({ closeWithSuccess, close }: AddItemsProps) {
       phone: "",
     },
     validate: {
-      phone: (value: any) =>
-        value.length < 10 ? "กรุณากรอกหมายเลขโทรศัพท์ที่ถูกต้อง" : null,
+      phone: (value: any) => {
+        const isNumeric = /^\d+$/.test(value);
+        if (!isNumeric) {
+          return "กรุณากรอกหมายเลขโทรศัพท์ที่ถูกต้อง";
+        } else if (value.length < 10) {
+          return "กรุณากรอกหมายเลขโทรศัพท์ที่ถูกต้อง";
+        }
+        return null;
+      },
     },
   });
 
