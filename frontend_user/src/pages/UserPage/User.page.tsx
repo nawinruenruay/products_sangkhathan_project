@@ -158,7 +158,7 @@ export function UserPage() {
                   </Text>
                   <Divider my="md" />
 
-                  <Group justify={"space-between"} px={30} py={20}>
+                  <Group justify={"space-between"} px={30} py={20} gap={50}>
                     <Flex
                       gap={10}
                       justify="flex-start"
@@ -260,7 +260,7 @@ export function UserPage() {
                         )}
                       </Group>
                     </Flex>
-                    <Flex direction={"column"}>
+                    <Flex direction={"column"} gap={10}>
                       <Center>
                         {Img.length > 0 ? (
                           <Avatar src={Api + Img} size={100} />
@@ -268,8 +268,8 @@ export function UserPage() {
                           <Avatar color={"green"} size={100} />
                         )}
                       </Center>
-                      <Button mt={15}>เลือกรูป</Button>
-                      <Text c={"#999999"} mt={15}>
+                      <Button>เลือกรูป</Button>
+                      <Text c={"#999999"}>
                         ขนาดไฟล์: สูงสุด 1 MB ไฟล์ที่รองรับ: .JPEG, .PNG
                       </Text>
                     </Flex>

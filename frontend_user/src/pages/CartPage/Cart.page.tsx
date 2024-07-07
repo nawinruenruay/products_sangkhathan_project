@@ -230,7 +230,9 @@ export function CartPage() {
                     title: "สินค้า",
                     render: ({ pname, img, pid }) => (
                       <UnstyledButton
-                        onClick={() => nav(`/product/${pid}/${pname}`)}
+                        onClick={() =>
+                          nav("/product/" + btoa(pid) + "/" + pname)
+                        }
                       >
                         <Flex align={"center"}>
                           <Image src={Api + img} w={45} />
