@@ -19,6 +19,7 @@ import {
   UnstyledButton,
   Modal,
   LoadingOverlay,
+  CheckIcon,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -43,13 +44,12 @@ export function UserPage() {
   const [Email, setEmail] = useState("");
   const [Phone, setPhone] = useState("");
   const [Img, setImg] = useState("");
-  const [Sex, setSex] = useState("");
   const [Birthday, setBirthday] = useState("");
 
   const form = useForm({
-    mode: "uncontrolled",
     initialValues: {
       name: "",
+      sex: "",
     },
     validate: {
       name: (value) =>
@@ -75,10 +75,10 @@ export function UserPage() {
         if (data.length !== 0) {
           form.setValues({
             name: data[0].name,
+            sex: data[0].sex,
           });
           setEmail(data[0].email);
           setPhone(data[0].phone);
-          setSex(data[0].sex);
           setImg(data[0].img);
           setBirthday(data[0].birthday);
         }
@@ -226,11 +226,15 @@ export function UserPage() {
                       </Flex>
                       <Group gap={5}>
                         <Text>เพศ</Text>
-                        <Radio.Group value={Sex} withAsterisk>
+                        <Radio.Group
+                          value={form.values.sex}
+                          onChange={(value) => form.setValues({ sex: value })}
+                          withAsterisk
+                        >
                           <Group gap={5}>
-                            <Radio label="ชาย" value="1" />
-                            <Radio label="หญิง" value="2" />
-                            <Radio label="อื่น ๆ" value="3" />
+                            <Radio label="ชาย" icon={CheckIcon} value="1" />
+                            <Radio label="หญิง" icon={CheckIcon} value="2" />
+                            <Radio label="อื่น ๆ" icon={CheckIcon} value="3" />
                           </Group>
                         </Radio.Group>
                       </Group>
