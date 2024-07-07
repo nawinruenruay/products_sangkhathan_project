@@ -206,7 +206,7 @@ export function Register() {
                 <PasswordInput
                   label="ยืนยันรหัสผ่านผู้ใช้งาน"
                   {...form.getInputProps("confirmPassword")}
-                  placeholder="ยืนยันรหัสผ่านผู้ใช้งานที่เหมือนด้านบน"
+                  placeholder="ยืนยันรหัสผ่านผู้ใช้งานอีกครั้ง"
                   visible={visible}
                   onVisibilityChange={toggle}
                   withAsterisk

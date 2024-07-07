@@ -75,7 +75,7 @@ function Header() {
       })
       .then((res) => {
         const data = res.data;
-        console.log(data);
+        // console.log(data);
         if (data.length !== 0) {
           setName(data[0].name);
           setImg(data[0].img);
@@ -108,12 +108,12 @@ function Header() {
   };
 
   const UserProfile = () => {
-    nav("/user/profile");
+    nav("/user/account/profile");
     closeDrawer();
   };
 
   const Userpurchase = () => {
-    nav("/user/purchase");
+    nav("/user/account/purchase");
     closeDrawer();
   };
 
