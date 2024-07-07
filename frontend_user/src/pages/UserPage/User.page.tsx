@@ -160,7 +160,7 @@ export function UserPage() {
 
                   <Group justify={"space-between"} px={30} py={20} gap={50}>
                     <Flex
-                      gap={10}
+                      gap={15}
                       justify="flex-start"
                       align="flex-start"
                       direction="column"
