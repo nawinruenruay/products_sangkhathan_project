@@ -19,7 +19,6 @@ import {
   UnstyledButton,
   Modal,
   LoadingOverlay,
-  Box,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useNavigate, useParams } from "react-router-dom";
@@ -58,6 +57,12 @@ export function UserPage() {
     },
   });
 
+  const optionsDate: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+
   const FetchData = () => {
     setLoadingProfile(true);
     axios
@@ -90,11 +95,6 @@ export function UserPage() {
     const [localPart, domain] = email.split("@");
     if (localPart.length < 2) return email;
     return `${localPart.slice(0, 2)}***@${domain}`;
-  };
-
-  const formatBirthday = (birthday: string) => {
-    const [year, month] = birthday.split("-");
-    return `**/${month}/${year.slice(0, 2)}**`;
   };
 
   const Submit = (v: any) => {};
@@ -238,7 +238,12 @@ export function UserPage() {
                         <Text>วัน/เดือน/ปี เกิด</Text>
                         {Birthday !== "0000-00-00" ? (
                           <>
-                            <Text>{formatBirthday(Birthday)}</Text>
+                            <Text>
+                              {new Date(Birthday).toLocaleDateString(
+                                "TH-th",
+                                optionsDate
+                              )}
+                            </Text>
                             <UnstyledButton
                               variant="transparent"
                               c={"green"}
@@ -329,7 +334,7 @@ export function UserPage() {
         />
       </Modal>
       <Modal
-        title="เพิ่มวันเกิด"
+        title="เพิ่ม วัน/เดือน/ปี เกิด"
         opened={ModalAddBirthday}
         onClose={() => {
           setModalAddBirthday(false);
