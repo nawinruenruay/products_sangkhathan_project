@@ -84,8 +84,7 @@ function Footer() {
       </Container>
       <Container className={classes.afterFooter}>
         <Text c="dimmed" size="sm">
-          © สงวนลิขสิทธิ์ {currentYear} พัฒนาระบบโดย
-          วิศวกรสังคมคณะวิทยาศาสตร์และเทคโนโลยี
+          © สงวนลิขสิทธิ์ {currentYear} ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน
         </Text>
 
         <Group
