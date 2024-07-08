@@ -22,8 +22,9 @@ import {
   CheckIcon,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
+import { Notifications } from "@mantine/notifications";
 import { useNavigate, useParams } from "react-router-dom";
-import { IconUser, IconShoppingBag } from "@tabler/icons-react";
+import { IconUser, IconShoppingBag, IconCheck } from "@tabler/icons-react";
 import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
 
 import { AddEmail } from "./AddEmail";
@@ -310,6 +311,13 @@ export function UserPage() {
         <AddEmail
           closeWithSuccess={() => {
             setModalAddEmail(false);
+            Notifications.show({
+              title: "เพิ่มอีเมลสำเร็จ",
+              message: "คุณได้เพิ่มอีเมลเรียบร้อยแล้ว",
+              autoClose: 2000,
+              color: "green",
+              icon: <IconCheck />,
+            });
             FetchData();
           }}
           close={() => {
@@ -330,6 +338,13 @@ export function UserPage() {
         <Addphone
           closeWithSuccess={() => {
             setModalAddPhone(false);
+            Notifications.show({
+              title: "เพิ่มหมายเลขโทรศัพท์สำเร็จ",
+              message: "คุณได้เพิ่มหมายเลขโทรศัพท์เรียบร้อยแล้ว",
+              autoClose: 2000,
+              color: "green",
+              icon: <IconCheck />,
+            });
             FetchData();
           }}
           close={() => {
@@ -350,6 +365,13 @@ export function UserPage() {
         <AddBirthday
           closeWithSuccess={() => {
             setModalAddBirthday(false);
+            Notifications.show({
+              title: "เพิ่มวัน/เดือน/ปี เกิดสำเร็จ",
+              message: "คุณได้เพิ่มวัน/เดือน/ปี เกิดเรียบร้อยแล้ว",
+              autoClose: 2000,
+              color: "green",
+              icon: <IconCheck />,
+            });
             FetchData();
           }}
           close={() => {

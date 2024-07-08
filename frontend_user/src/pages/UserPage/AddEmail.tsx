@@ -28,9 +28,10 @@ export function AddEmail({ closeWithSuccess, close }: AddItemsProps) {
   const Submit = (v: any) => {
     setLoadingSubmit(true);
     axios
-      .post(Api + "User/Addemail", {
+      .post(Api + "User/Addemail_phone_birthday", {
         userid: atob(id),
         email: v.email,
+        typeadd: "email",
       })
       .then((res) => {
         if (res.data === 200) {
