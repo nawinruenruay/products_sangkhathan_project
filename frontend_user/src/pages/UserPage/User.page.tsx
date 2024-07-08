@@ -244,7 +244,7 @@ export function UserPage() {
                   </Text>
                   <Divider my="md" />
 
-                  <Group justify={"space-between"} gap={50}>
+                  <Group justify={"space-between"} gap={50} p={10}>
                     <Flex
                       gap={15}
                       justify="flex-start"
@@ -372,7 +372,7 @@ export function UserPage() {
                           </Button>
                         )}
                       </FileButton>
-                      <Text c={"#999999"}>
+                      <Text c={"#999999"} fz={"12px"}>
                         ขนาดไฟล์: สูงสุด 1 MB ไฟล์ที่รองรับ: .JPEG, .PNG
                       </Text>
                     </Flex>
