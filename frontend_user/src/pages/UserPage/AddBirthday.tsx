@@ -111,9 +111,10 @@ export function AddBirthday({ closeWithSuccess, close }: AddItemsProps) {
       return;
     } else {
       axios
-        .post(Api + "User/AddBirthday", {
+        .post(Api + "User/Addemail_phone_birthday", {
           userid: atob(id),
           birthday: BD_year - 543 + "-" + BD_month + "-" + BD_day,
+          typeadd: "birthday",
         })
         .then((res) => {
           if (res.data === 200) {

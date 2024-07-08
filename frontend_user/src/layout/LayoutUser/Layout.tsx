@@ -56,7 +56,7 @@ export function LayoutUser() {
             [classes.scrolled]: isScrolled,
           })}
         >
-          <Container size={"1200px"}>
+          <Container size={"md"}>
             <Header />
           </Container>
         </AppShell.Header>

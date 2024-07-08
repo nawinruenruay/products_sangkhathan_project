@@ -35,9 +35,10 @@ export function Addphone({ closeWithSuccess, close }: AddItemsProps) {
   const Submit = (v: any) => {
     setLoadingSubmit(true);
     axios
-      .post(Api + "User/Addphone", {
+      .post(Api + "User/Addemail_phone_birthday", {
         userid: atob(id),
         phone: v.phone,
+        typeadd: "phone",
       })
       .then((res) => {
         if (res.data === 200) {
