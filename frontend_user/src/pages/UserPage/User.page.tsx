@@ -30,6 +30,8 @@ import {
   IconShoppingBag,
   IconCheck,
   IconCamera,
+  IconPassword,
+  IconMap2,
 } from "@tabler/icons-react";
 import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
 
@@ -47,7 +49,7 @@ export function UserPage() {
   useDocumentTitle("สินค้าผลิตภัณฑ์และสังฆทานออนไลน์");
   const nav = useNavigate();
   const { tabsValue } = useParams();
-  const iconStyle = { width: rem(15), height: rem(15) };
+  const iconStyle = { width: rem(16), height: rem(16) };
   const isMobile = useMediaQuery("(max-width: 999px)");
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const [LoadingProfile, setLoadingProfile] = useState(false);
@@ -55,7 +57,6 @@ export function UserPage() {
   const [ModalAddPhone, setModalAddPhone] = useState<boolean>(false);
   const [ModalAddBirthday, setModalAddBirthday] = useState<boolean>(false);
   const [LoadingSubmit, setLoadingSubmit] = useState(false);
-
   const [Email, setEmail] = useState("");
   const [Phone, setPhone] = useState("");
   const [Birthday, setBirthday] = useState("");
@@ -218,6 +219,18 @@ export function UserPage() {
                 leftSection={<IconShoppingBag style={iconStyle} />}
               >
                 การซื้อของฉัน
+              </Tabs.Tab>
+              <Tabs.Tab
+                value="test1"
+                leftSection={<IconMap2 style={iconStyle} />}
+              >
+                ที่อยู่ของฉัน
+              </Tabs.Tab>
+              <Tabs.Tab
+                value="test2"
+                leftSection={<IconPassword style={iconStyle} />}
+              >
+                เปลี่ยนรหัสผ่าน
               </Tabs.Tab>
             </Tabs.List>
           </Grid.Col>
