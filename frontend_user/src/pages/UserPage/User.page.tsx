@@ -26,12 +26,13 @@ import { useForm } from "@mantine/form";
 import { Notifications } from "@mantine/notifications";
 import { useNavigate, useParams } from "react-router-dom";
 import {
-  IconUser,
+  IconUserCircle,
   IconShoppingBag,
   IconCheck,
   IconCamera,
   IconPassword,
   IconMap2,
+  IconPlus,
 } from "@tabler/icons-react";
 import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
 
@@ -202,17 +203,25 @@ export function UserPage() {
         value={tabsValue}
         onChange={(tabsValue) => nav(`/user/account/${tabsValue}`)}
         orientation={isMobile ? "horizontal" : "vertical"}
-        variant="pills"
-        mt={30}
+        // variant="pills"
+        variant="outline"
+        mt={15}
+        p={10}
       >
         <Grid gutter={20}>
           <Grid.Col span={{ base: 12, md: 2, lg: 2 }}>
-            <Tabs.List>
+            <Tabs.List grow>
               <Tabs.Tab
                 value="profile"
-                leftSection={<IconUser style={iconStyle} />}
+                leftSection={<IconUserCircle style={iconStyle} />}
               >
                 บัญชีของฉัน
+              </Tabs.Tab>
+              <Tabs.Tab
+                value="address"
+                leftSection={<IconMap2 style={iconStyle} />}
+              >
+                ที่อยู่ของฉัน
               </Tabs.Tab>
               <Tabs.Tab
                 value="purchase"
@@ -221,13 +230,7 @@ export function UserPage() {
                 การซื้อของฉัน
               </Tabs.Tab>
               <Tabs.Tab
-                value="test1"
-                leftSection={<IconMap2 style={iconStyle} />}
-              >
-                ที่อยู่ของฉัน
-              </Tabs.Tab>
-              <Tabs.Tab
-                value="test2"
+                value="password"
                 leftSection={<IconPassword style={iconStyle} />}
               >
                 เปลี่ยนรหัสผ่าน
@@ -248,16 +251,17 @@ export function UserPage() {
                   overlayProps={{ radius: "sm", blur: 2 }}
                   loaderProps={{ type: "dots" }}
                 />
-                <Paper shadow="sm" px={30} py={25}>
-                  <Text size={"lg"} fw={"bold"}>
-                    ข้อมูลของฉัน
-                  </Text>
-                  <Text>
-                    จัดการข้อมูลส่วนตัวคุณเพื่อความปลอดภัยของบัญชีผู้ใช้นี้
-                  </Text>
+                <Paper shadow="sm" py={25} mih={400}>
+                  <Flex direction={"column"} px={30}>
+                    <Text size={"lg"} fw={"bold"}>
+                      ข้อมูลของฉัน
+                    </Text>
+                    <Text>
+                      จัดการข้อมูลส่วนตัวคุณเพื่อความปลอดภัยของบัญชีผู้ใช้นี้
+                    </Text>
+                  </Flex>
                   <Divider my="md" />
-
-                  <Group justify={"space-between"} gap={50} p={10}>
+                  <Group justify={"space-between"} gap={25} p={10} px={30}>
                     <Flex
                       gap={15}
                       justify="flex-start"
@@ -385,26 +389,37 @@ export function UserPage() {
                           </Button>
                         )}
                       </FileButton>
-                      <Text c={"#999999"} fz={"12px"}>
+                      <Text c={"#999999"} fz={"14px"}>
                         ขนาดไฟล์: สูงสุด 1 MB ไฟล์ที่รองรับ: .JPEG, .PNG
                       </Text>
                     </Flex>
+                    <Button
+                      w={"100%"}
+                      type="submit"
+                      loading={LoadingSubmit}
+                      loaderProps={{ type: "dots" }}
+                    >
+                      บันทึกข้อมูล
+                    </Button>
                   </Group>
-                  <Button
-                    w={"100%"}
-                    mt={20}
-                    type="submit"
-                    loading={LoadingSubmit}
-                    loaderProps={{ type: "dots" }}
-                  >
-                    บันทึกข้อมูล
-                  </Button>
                 </Paper>
               </Tabs.Panel>
             </form>
 
+            <Tabs.Panel value="address">
+              <Paper shadow="sm" py={25} mih={400}>
+                <Group justify={"space-between"} px={30}>
+                  <Text size={"lg"} fw={"bold"}>
+                    ที่อยู่ของฉัน
+                  </Text>
+                  <Button leftSection={<IconPlus />}>เพิ่มที่อยู่</Button>
+                </Group>
+                <Divider my="md" />
+              </Paper>
+            </Tabs.Panel>
+
             <Tabs.Panel value="purchase">
-              <Paper shadow="sm" px={30} py={25}></Paper>
+              <Paper shadow="sm" px={30} py={25} mih={400}></Paper>
             </Tabs.Panel>
           </Grid.Col>
         </Grid>

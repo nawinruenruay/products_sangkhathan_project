@@ -31,7 +31,7 @@ import {
   IconChevronDown,
   IconUserCircle,
   IconShoppingCart,
-  IconCashRegister,
+  IconShoppingBag,
 } from "@tabler/icons-react";
 import { NavLink as Nl, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -242,7 +242,7 @@ function Header() {
                     </Menu.Item>
                     <Menu.Item
                       leftSection={
-                        <IconCashRegister
+                        <IconShoppingBag
                           style={{ width: rem(16), height: rem(16) }}
                           stroke={1.5}
                         />
@@ -426,7 +426,7 @@ function Header() {
                 <NavLink
                   label="การซื้อของฉัน"
                   leftSection={
-                    <IconCashRegister
+                    <IconShoppingBag
                       style={{ width: rem(16), height: rem(16) }}
                       stroke={1.5}
                     />
