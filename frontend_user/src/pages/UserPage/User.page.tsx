@@ -452,7 +452,7 @@ export function UserPage() {
         />
       </Modal>
       <Modal
-        title="เพิ่ม วัน/เดือน/ปี เกิด"
+        title="เพิ่มวันเกิด"
         opened={ModalAddBirthday}
         onClose={() => {
           setModalAddBirthday(false);
@@ -465,8 +465,8 @@ export function UserPage() {
           closeWithSuccess={() => {
             setModalAddBirthday(false);
             Notifications.show({
-              title: "เพิ่มวัน/เดือน/ปี เกิดสำเร็จ",
-              message: "คุณได้เพิ่มวัน/เดือน/ปี เกิดเรียบร้อยแล้ว",
+              title: "เพิ่มวันเกิดสำเร็จ",
+              message: "คุณได้วันเกิดเรียบร้อยแล้ว",
               autoClose: 2000,
               color: "green",
               icon: <IconCheck />,

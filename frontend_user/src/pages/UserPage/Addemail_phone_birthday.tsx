@@ -160,7 +160,7 @@ export function Addphone({ closeWithSuccess, close }: AddItemsProps) {
   );
 }
 
-// วัน/เดือน/ปี เกิด
+// วันเกิด
 export function AddBirthday({ closeWithSuccess, close }: AddItemsProps) {
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const [Day, setDay] = useState<any[]>([]);
@@ -252,8 +252,8 @@ export function AddBirthday({ closeWithSuccess, close }: AddItemsProps) {
     setLoadingSubmit(true);
     if (!BD_day || !BD_month || !BD_year) {
       Notifications.show({
-        title: "เพิ่ม วัน/เดือน/ปี เกิด ไม่สำเร็จ",
-        message: "กรุณาเลือก วัน/เดือน/ปี เกิด",
+        title: "เพิ่มวันเกิดไม่สำเร็จ",
+        message: "กรุณาเลือกวันเกิดที่ถูกต้อง",
         autoClose: 2000,
         color: "red",
         icon: <IconAlertCircle />,
