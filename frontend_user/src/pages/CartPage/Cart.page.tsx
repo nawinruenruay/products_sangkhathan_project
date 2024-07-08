@@ -203,7 +203,7 @@ export function CartPage() {
       >
         {items}
       </Breadcrumbs>
-      <Flex gap={30} direction="column">
+      <Flex gap={30} direction="column" mb={50}>
         {Data.length !== 0 ? (
           <>
             <Paper shadow="xs">
@@ -213,6 +213,7 @@ export function CartPage() {
                     height: "50px",
                   },
                 }}
+                // scrollAreaProps={{ type: "never" }}
                 minHeight={350}
                 idAccessor="pid"
                 fetching={LoadingData}
@@ -353,7 +354,6 @@ export function CartPage() {
               align={"center"}
               direction={"column"}
               wrap={"wrap"}
-              mt={50}
               w={"100%"}
             >
               <Image src={cartempty} w={300} />

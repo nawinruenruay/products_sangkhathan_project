@@ -64,6 +64,7 @@ export function LayoutUser() {
         <AppShell.Main
           pt={`calc(${rem(90)} + var(--mantine-spacing-md))`}
           className={classes.bgcolor_main}
+          mih={600}
         >
           <Notifications zIndex={1000} />
           <Container size={"1200px"}>

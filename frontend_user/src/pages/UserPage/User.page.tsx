@@ -113,6 +113,11 @@ export function UserPage() {
     return `${localPart.slice(0, 2)}***@${domain}`;
   };
 
+  const formatBirthday = (birthday: string) => {
+    const [year, month, day] = birthday.split("-");
+    return `**/${month}/${year.slice(0, 2)}**`;
+  };
+
   const handleFileChange = (files: any) => {
     form.setValues({
       img_file: null,
@@ -245,7 +250,7 @@ export function UserPage() {
                   </Text>
                   <Divider my="md" />
 
-                  <Group justify={"space-between"} px={30} py={20} gap={50}>
+                  <Group justify={"space-between"} gap={50}>
                     <Flex
                       gap={15}
                       justify="flex-start"
@@ -326,15 +331,16 @@ export function UserPage() {
                         </Radio.Group>
                       </Group>
                       <Group gap={10}>
-                        <Text>วัน/เดือน/ปี เกิด</Text>
+                        <Text>วันเกิด</Text>
                         {Birthday !== "0000-00-00" ? (
                           <>
-                            <Text>
+                            {/* <Text>
                               {new Date(Birthday).toLocaleDateString(
                                 "TH-th",
                                 optionsDate
                               )}
-                            </Text>
+                            </Text> */}
+                            <Text>{formatBirthday(Birthday)}</Text>
                             <UnstyledButton
                               variant="transparent"
                               c={"green"}
@@ -384,10 +390,11 @@ export function UserPage() {
                     </Flex>
                   </Group>
                   <Button
-                    mt={5}
                     w={"100%"}
+                    mt={20}
                     type="submit"
                     loading={LoadingSubmit}
+                    loaderProps={{ type: "dots" }}
                   >
                     บันทึกข้อมูล
                   </Button>
