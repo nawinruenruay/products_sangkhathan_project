@@ -74,12 +74,6 @@ export function UserPage() {
     },
   });
 
-  const optionsDate: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
-
   const FetchData = () => {
     setLoadingProfile(true);
     axios
@@ -114,7 +108,7 @@ export function UserPage() {
   };
 
   const formatBirthday = (birthday: string) => {
-    const [year, month, day] = birthday.split("-");
+    const [year, month] = birthday.split("-");
     return `**/${month}/${year.slice(0, 2)}**`;
   };
 
@@ -334,12 +328,6 @@ export function UserPage() {
                         <Text>วันเกิด</Text>
                         {Birthday !== "0000-00-00" ? (
                           <>
-                            {/* <Text>
-                              {new Date(Birthday).toLocaleDateString(
-                                "TH-th",
-                                optionsDate
-                              )}
-                            </Text> */}
                             <Text>{formatBirthday(Birthday)}</Text>
                             <UnstyledButton
                               variant="transparent"
