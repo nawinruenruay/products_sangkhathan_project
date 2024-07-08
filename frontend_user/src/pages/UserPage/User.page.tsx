@@ -27,9 +27,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { IconUser, IconShoppingBag, IconCheck } from "@tabler/icons-react";
 import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
 
-import { AddEmail } from "./AddEmail";
-import { Addphone } from "./AddPhone";
-import { AddBirthday } from "./AddBirthday";
+import { AddEmail, Addphone, AddBirthday } from "./Addemail_phone_birthday";
 
 export function UserPage() {
   useDocumentTitle("สินค้าผลิตภัณฑ์และสังฆทานออนไลน์");
