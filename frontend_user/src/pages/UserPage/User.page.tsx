@@ -134,13 +134,11 @@ export function UserPage() {
 
   const Submit = (val: any) => {
     setLoadingSubmit(true);
-    console.log(val);
     if (val.img_file !== null) {
       const Update = new FormData();
       Update.append("userid", atob(id));
       Update.append("file", val.img_file);
       Update.append("typeimg", "update");
-      console.log(Update);
       axios.post(Api + "User/UploadIMG", Update).then(() => {
         axios
           .post(Api + "User/Update_name_sex", {
@@ -158,7 +156,6 @@ export function UserPage() {
                 color: "green",
                 icon: <IconCheck />,
               });
-              FetchData();
             }
           });
       });
@@ -183,7 +180,6 @@ export function UserPage() {
                 color: "green",
                 icon: <IconCheck />,
               });
-              FetchData();
             }
           });
       });
