@@ -306,7 +306,7 @@ function Header() {
             )}
           </Group>
 
-          <Group gap={2}>
+          <Group gap={2} hiddenFrom="md">
             {id && role && (
               <>
                 <Tooltip label={"ตระกร้าสินค้า"}>
@@ -316,7 +316,6 @@ function Header() {
                     size={16}
                     offset={1}
                     position="top-end"
-                    hiddenFrom={"md"}
                     mr={15}
                     onClick={() => nav("/cart")}
                   >
@@ -340,7 +339,6 @@ function Header() {
                 }
                 variant="default"
                 size={"35px"}
-                hiddenFrom={"md"}
               >
                 {computedColorScheme === "light" ? (
                   <IconMoon stroke={1.5} />
@@ -349,11 +347,7 @@ function Header() {
                 )}
               </ActionIcon>
             </Tooltip>
-            <Burger
-              opened={drawerOpened}
-              onClick={toggleDrawer}
-              hiddenFrom="md"
-            />
+            <Burger opened={drawerOpened} onClick={toggleDrawer} />
           </Group>
         </Group>
       </header>
@@ -364,8 +358,9 @@ function Header() {
         onClose={closeDrawer}
         padding="md"
         title="สินค้าผลิตภัณฑ์และสังฆทานออนไลน์"
-        hiddenFrom="md"
         overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
+        size={"sm"}
+        // hiddenFrom="md"
         // zIndex={1000000}
       >
         <ScrollArea h={`calc(100vh - ${rem(80)})`} mx="-md">

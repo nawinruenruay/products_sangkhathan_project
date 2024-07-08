@@ -56,10 +56,11 @@ export function LayoutUser() {
             [classes.scrolled]: isScrolled,
           })}
         >
-          <Container size={"md"}>
+          <Container size={"1200px"}>
             <Header />
           </Container>
         </AppShell.Header>
+
         <AppShell.Main
           pt={`calc(${rem(90)} + var(--mantine-spacing-md))`}
           className={classes.bgcolor_main}
@@ -69,6 +70,7 @@ export function LayoutUser() {
             <Outlet />
           </Container>
         </AppShell.Main>
+
         <AppShell.Footer pos={"static"}>
           <Footer />
         </AppShell.Footer>
