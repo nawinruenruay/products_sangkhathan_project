@@ -20,14 +20,28 @@ import {
   Modal,
   LoadingOverlay,
   CheckIcon,
+  FileButton,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Notifications } from "@mantine/notifications";
 import { useNavigate, useParams } from "react-router-dom";
-import { IconUser, IconShoppingBag, IconCheck } from "@tabler/icons-react";
+import {
+  IconUser,
+  IconShoppingBag,
+  IconCheck,
+  IconCamera,
+} from "@tabler/icons-react";
 import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
 
 import { AddEmail, Addphone, AddBirthday } from "./Addemail_phone_birthday";
+
+type FormValues = {
+  name: string;
+  sex: string;
+  img: string;
+  img_file: File | null;
+  img_preview: any | ArrayBuffer | null;
+};
 
 export function UserPage() {
   useDocumentTitle("สินค้าผลิตภัณฑ์และสังฆทานออนไลน์");
@@ -40,15 +54,19 @@ export function UserPage() {
   const [ModalAddEmail, setModalAddEmail] = useState<boolean>(false);
   const [ModalAddPhone, setModalAddPhone] = useState<boolean>(false);
   const [ModalAddBirthday, setModalAddBirthday] = useState<boolean>(false);
+  const [LoadingSubmit, setLoadingSubmit] = useState(false);
+
   const [Email, setEmail] = useState("");
   const [Phone, setPhone] = useState("");
-  const [Img, setImg] = useState("");
   const [Birthday, setBirthday] = useState("");
 
-  const form = useForm({
+  const form = useForm<FormValues>({
     initialValues: {
       name: "",
       sex: "",
+      img: "",
+      img_file: null,
+      img_preview: null,
     },
     validate: {
       name: (value) =>
@@ -70,15 +88,14 @@ export function UserPage() {
       })
       .then((res) => {
         const data = res.data;
-        // console.log(data);
         if (data.length !== 0) {
           form.setValues({
             name: data[0].name,
             sex: data[0].sex,
+            img: data[0].img,
           });
           setEmail(data[0].email);
           setPhone(data[0].phone);
-          setImg(data[0].img);
           setBirthday(data[0].birthday);
         }
         setLoadingProfile(false);
@@ -96,7 +113,82 @@ export function UserPage() {
     return `${localPart.slice(0, 2)}***@${domain}`;
   };
 
-  const Submit = (v: any) => {};
+  const handleFileChange = (files: any) => {
+    form.setValues({
+      img_file: null,
+      img_preview: null,
+    });
+    if (files) {
+      form.setValues({
+        img_file: files,
+      });
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        form.setValues({
+          img_preview: reader.result,
+        });
+      };
+      reader.readAsDataURL(files);
+    }
+  };
+
+  const Submit = (val: any) => {
+    setLoadingSubmit(true);
+    console.log(val);
+    if (val.img_file !== null) {
+      const Update = new FormData();
+      Update.append("userid", atob(id));
+      Update.append("file", val.img_file);
+      Update.append("typeimg", "update");
+      console.log(Update);
+      axios.post(Api + "User/UploadIMG", Update).then(() => {
+        axios
+          .post(Api + "User/Update_name_sex", {
+            userid: atob(id),
+            name: val.name,
+            sex: val.sex,
+          })
+          .then((res) => {
+            if (res.data === 200) {
+              setLoadingSubmit(false);
+              Notifications.show({
+                title: "บันทึกข้อมูลสำเร็จ",
+                message: "คุณได้เพิ่มข้อมูลเรียบร้อยแล้ว",
+                autoClose: 2000,
+                color: "green",
+                icon: <IconCheck />,
+              });
+              FetchData();
+            }
+          });
+      });
+    } else {
+      const Update = new FormData();
+      Update.append("file", val.img);
+      Update.append("typeimg", "update");
+      axios.post(Api + "User/UploadIMG", Update).then(() => {
+        axios
+          .post(Api + "User/Update_name_sex", {
+            userid: atob(id),
+            name: val.name,
+            sex: val.sex,
+          })
+          .then((res) => {
+            if (res.data === 200) {
+              setLoadingSubmit(false);
+              Notifications.show({
+                title: "บันทึกข้อมูลสำเร็จ",
+                message: "คุณได้เพิ่มข้อมูลเรียบร้อยแล้ว",
+                autoClose: 2000,
+                color: "green",
+                icon: <IconCheck />,
+              });
+              FetchData();
+            }
+          });
+      });
+    }
+  };
 
   useEffect(() => {
     if (id) {
@@ -137,8 +229,8 @@ export function UserPage() {
 
           <Grid.Col span={{ base: 12, md: 10, lg: 10 }} w={999}>
             <form
-              onSubmit={form.onSubmit((v) => {
-                Submit(v);
+              onSubmit={form.onSubmit((val) => {
+                Submit(val);
               })}
             >
               <Tabs.Panel value="profile" pos="relative">
@@ -270,19 +362,37 @@ export function UserPage() {
                     </Flex>
                     <Flex direction={"column"} gap={10}>
                       <Center>
-                        {Img.length > 0 ? (
-                          <Avatar src={Api + Img} size={100} />
-                        ) : (
-                          <Avatar color={"green"} size={100} />
-                        )}
+                        <Avatar
+                          src={
+                            form.values.img_preview === null
+                              ? Api + form.values.img
+                              : form.values.img_preview
+                          }
+                          size={100}
+                          color={"green"}
+                        />
                       </Center>
-                      <Button>เลือกรูป</Button>
+                      <FileButton
+                        onChange={handleFileChange}
+                        accept="image/png,image/jpeg"
+                      >
+                        {(props) => (
+                          <Button variant="outline" {...props}>
+                            <IconCamera />
+                          </Button>
+                        )}
+                      </FileButton>
                       <Text c={"#999999"}>
                         ขนาดไฟล์: สูงสุด 1 MB ไฟล์ที่รองรับ: .JPEG, .PNG
                       </Text>
                     </Flex>
                   </Group>
-                  <Button mt={5} w={"100%"} type="submit">
+                  <Button
+                    mt={5}
+                    w={"100%"}
+                    type="submit"
+                    loading={LoadingSubmit}
+                  >
                     บันทึกข้อมูล
                   </Button>
                 </Paper>
