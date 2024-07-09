@@ -448,7 +448,7 @@ export function UserPage() {
               color: "green",
               icon: <IconCheck />,
             });
-            FetchData();
+            // FetchData();
           }}
           close={() => {
             setModalAddEmail(false);
@@ -475,7 +475,7 @@ export function UserPage() {
               color: "green",
               icon: <IconCheck />,
             });
-            FetchData();
+            // FetchData();
           }}
           close={() => {
             setModalAddPhone(false);
@@ -502,7 +502,7 @@ export function UserPage() {
               color: "green",
               icon: <IconCheck />,
             });
-            FetchData();
+            // FetchData();
           }}
           close={() => {
             setModalAddBirthday(false);
