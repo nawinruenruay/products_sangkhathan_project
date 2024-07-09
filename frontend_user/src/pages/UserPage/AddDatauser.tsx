@@ -526,14 +526,12 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
       Amphure.find((i) => i.value === v.ad_amphure)?.label || "";
     const selectedTambon =
       Tambon.find((i) => i.value === v.ad_tambon)?.label || "";
-    const selectedZipcode =
-      Zipcode.find((i) => i.value === v.zip_code)?.label || "";
-    console.log(v);
 
     console.log(selectedProvince);
     console.log(selectedAmphure);
     console.log(selectedTambon);
-    console.log(selectedZipcode);
+
+    console.log(v);
 
     // axios
     // .post(Api + "User/Updatedata", {
@@ -544,7 +542,7 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
     //   ad_province: selectedProvince,
     //   ad_amphure: selectedAmphure,
     //   ad_tambon: selectedTambon,
-    //   zip_code: selectedZipcode,
+    //   zip_code: v.zipcode,
     //   typeadd: "address",
     // })
     // .then((res) => {
