@@ -35,7 +35,9 @@ import {
   IconPlus,
 } from "@tabler/icons-react";
 import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
-import { AddEmail, Addphone, AddBirthday } from "./Updatedata";
+
+import { AddEmail, Addphone, AddBirthday } from "./AddDatauser";
+import { AddAddress } from "./AddAddress";
 
 type FormValues = {
   name: string;
@@ -57,6 +59,8 @@ export function UserPage() {
   const [ModalAddEmail, setModalAddEmail] = useState<boolean>(false);
   const [ModalAddPhone, setModalAddPhone] = useState<boolean>(false);
   const [ModalAddBirthday, setModalAddBirthday] = useState<boolean>(false);
+
+  const [ModalAddAddress, setModalAddAddress] = useState<boolean>(false);
 
   const [LoadingSubmit, setLoadingSubmit] = useState(false);
   const [Email, setEmail] = useState("");
@@ -415,7 +419,12 @@ export function UserPage() {
                   <Text size={"lg"} fw={"bold"}>
                     ที่อยู่ของฉัน
                   </Text>
-                  <Button leftSection={<IconPlus />}>เพิ่มที่อยู่</Button>
+                  <Button
+                    leftSection={<IconPlus />}
+                    onClick={() => setModalAddAddress(true)}
+                  >
+                    เพิ่มที่อยู่
+                  </Button>
                 </Group>
                 <Divider my="md" />
               </Paper>
@@ -497,7 +506,7 @@ export function UserPage() {
             setModalAddBirthday(false);
             Notifications.show({
               title: "เพิ่มวันเกิดสำเร็จ",
-              message: "คุณได้วันเกิดเรียบร้อยแล้ว",
+              message: "คุณได้เพิ่มวันเกิดเรียบร้อยแล้ว",
               autoClose: 2000,
               color: "green",
               icon: <IconCheck />,
@@ -506,6 +515,34 @@ export function UserPage() {
           }}
           close={() => {
             setModalAddBirthday(false);
+          }}
+        />
+      </Modal>
+
+      <Modal
+        title="เพิ่มที่อยู่"
+        opened={ModalAddAddress}
+        onClose={() => {
+          setModalAddAddress(false);
+        }}
+        size={"md"}
+        centered
+        overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
+      >
+        <AddAddress
+          closeWithSuccess={() => {
+            setModalAddAddress(false);
+            Notifications.show({
+              title: "เพิ่มที่อยู่สำเร็จ",
+              message: "คุณได้ที่เพิ่มอยู่เรียบร้อยแล้ว",
+              autoClose: 2000,
+              color: "green",
+              icon: <IconCheck />,
+            });
+            // FetchData();
+          }}
+          close={() => {
+            setModalAddAddress(false);
           }}
         />
       </Modal>
