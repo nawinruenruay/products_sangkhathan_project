@@ -36,8 +36,7 @@ import {
 } from "@tabler/icons-react";
 import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
 
-import { AddEmail, Addphone, AddBirthday } from "./AddDatauser";
-import { AddAddress } from "./AddAddress";
+import { AddEmail, Addphone, AddBirthday, AddAddress } from "./AddDatauser";
 
 type FormValues = {
   name: string;
