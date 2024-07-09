@@ -437,7 +437,7 @@ export function UserPage() {
       </Tabs>
 
       <Modal
-        title="เพิ่มอีเมล"
+        title="อีเมล"
         opened={ModalAddEmail}
         onClose={() => {
           setModalAddEmail(false);
@@ -464,7 +464,7 @@ export function UserPage() {
         />
       </Modal>
       <Modal
-        title="เพิ่มหมายเลขโทรศัพท์"
+        title="หมายเลขโทรศัพท์"
         opened={ModalAddPhone}
         onClose={() => {
           setModalAddPhone(false);
@@ -491,7 +491,7 @@ export function UserPage() {
         />
       </Modal>
       <Modal
-        title="เพิ่มวันเกิด"
+        title="วันเกิด"
         opened={ModalAddBirthday}
         onClose={() => {
           setModalAddBirthday(false);
@@ -519,12 +519,12 @@ export function UserPage() {
       </Modal>
 
       <Modal
-        title="เพิ่มที่อยู่"
+        title="ที่อยู่ใหม่"
         opened={ModalAddAddress}
         onClose={() => {
           setModalAddAddress(false);
         }}
-        size={"md"}
+        size={"auto"}
         centered
         overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
       >

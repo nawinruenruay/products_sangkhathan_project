@@ -1,4 +1,12 @@
-import { Button, Flex, TextInput, SimpleGrid, Select } from "@mantine/core";
+import {
+  Button,
+  Flex,
+  TextInput,
+  SimpleGrid,
+  Select,
+  Group,
+  Textarea,
+} from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { IconDeviceFloppy, IconAlertCircle } from "@tabler/icons-react";
 import axios from "axios";
@@ -493,19 +501,19 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
   };
 
   const Submit = (v: any) => {
-    setLoadingSubmit(true);
-    axios
-      .post(Api + "User/Updatedata", {
-        userid: atob(id),
-        email: v.email,
-        typeadd: "email",
-      })
-      .then((res) => {
-        if (res.data === 200) {
-          setLoadingSubmit(false);
-          closeWithSuccess();
-        }
-      });
+    // setLoadingSubmit(true);
+    // axios
+    //   .post(Api + "User/Updatedata", {
+    //     userid: atob(id),
+    //     email: v.email,
+    //     typeadd: "email",
+    //   })
+    //   .then((res) => {
+    //     if (res.data === 200) {
+    //       setLoadingSubmit(false);
+    //       closeWithSuccess();
+    //     }
+    //   });
   };
 
   useEffect(() => {
@@ -519,54 +527,82 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
           Submit(v);
         })}
       >
-        <Select
-          clearable
+        <Flex gap={5}>
+          <TextInput
+            label="ชื่อ-นามสกุล"
+            withAsterisk
+            placeholder="ชื่อ-นามสกุล"
+            w={"100%"}
+          />
+          <TextInput
+            label="หมายเลขโทรศัพท์"
+            withAsterisk
+            placeholder="หมายเลขโทรศัพท์"
+            w={"100%"}
+          />
+        </Flex>
+        <Group gap={5}>
+          <Select
+            clearable
+            withAsterisk
+            allowDeselect={false}
+            data={Province}
+            placeholder="จังหวัด"
+            label="จังหวัด"
+            onChange={(v) => {
+              if (v) {
+                FetchAmphure(v);
+              }
+            }}
+            searchable
+          />
+          <Select
+            clearable
+            withAsterisk
+            allowDeselect={false}
+            data={Amphure}
+            onChange={(v) => {
+              if (v) {
+                FetchTambon(v);
+                Fetchzipcode(v);
+              }
+            }}
+            label="เขต/อำเภอ"
+            placeholder="เขต/อำเภอ"
+            searchable
+          />
+          <Select
+            clearable
+            withAsterisk
+            allowDeselect={false}
+            data={Tambon}
+            onChange={(v) => {
+              if (v) {
+                Fetchzipcode(v);
+              }
+            }}
+            label="แขวง/ตำบล"
+            placeholder="แขวง/ตำบล"
+            searchable
+          />
+          <Select
+            clearable
+            withAsterisk
+            allowDeselect={false}
+            data={Zipcode}
+            placeholder="รหัสไปรษณีย์"
+            label="รหัสไปรษณีย์"
+            searchable
+          />
+        </Group>
+        <Textarea
+          label="บ้านเลขที่,ซอย,หมู่,ถนน,แขวง/ตำบล"
+          placeholder="บ้านเลขที่,ซอย,หมู่,ถนน,แขวง/ตำบล"
           withAsterisk
-          allowDeselect={false}
-          data={Province}
-          label="จังหวัด"
-          onChange={(v) => {
-            if (v) {
-              FetchAmphure(v);
-            }
-          }}
-          searchable
+          maxRows={3}
+          rows={3}
         />
-        <Select
-          clearable
-          withAsterisk
-          allowDeselect={false}
-          data={Amphure}
-          onChange={(v) => {
-            if (v) {
-              FetchTambon(v);
-              Fetchzipcode(v);
-            }
-          }}
-          label="เขต/อำเภอ"
-          searchable
-        />
-        <Select
-          clearable
-          withAsterisk
-          allowDeselect={false}
-          data={Tambon}
-          onChange={(v) => {
-            if (v) {
-              Fetchzipcode(v);
-            }
-          }}
-          label="แขวง/ตำบล"
-          searchable
-        />
-        <Select
-          clearable
-          withAsterisk
-          allowDeselect={false}
-          data={Zipcode}
-          label="รหัสไปรษณีย์"
-          searchable
-        />
+
         <Flex pt={10} justify={"flex-end"} gap={5}>
           <Button
             fw={400}
