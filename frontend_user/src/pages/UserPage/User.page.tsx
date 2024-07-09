@@ -21,6 +21,7 @@ import {
   LoadingOverlay,
   CheckIcon,
   FileButton,
+  Blockquote,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Notifications } from "@mantine/notifications";
@@ -33,6 +34,7 @@ import {
   IconPassword,
   IconMap2,
   IconPlus,
+  IconInfoCircle,
 } from "@tabler/icons-react";
 import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
 
@@ -54,17 +56,17 @@ export function UserPage() {
   const isMobile = useMediaQuery("(max-width: 999px)");
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const [LoadingProfile, setLoadingProfile] = useState(false);
-
+  const [LoadingSubmit, setLoadingSubmit] = useState(false);
   const [ModalAddEmail, setModalAddEmail] = useState<boolean>(false);
   const [ModalAddPhone, setModalAddPhone] = useState<boolean>(false);
   const [ModalAddBirthday, setModalAddBirthday] = useState<boolean>(false);
-
   const [ModalAddAddress, setModalAddAddress] = useState<boolean>(false);
 
-  const [LoadingSubmit, setLoadingSubmit] = useState(false);
   const [Email, setEmail] = useState("");
   const [Phone, setPhone] = useState("");
   const [Birthday, setBirthday] = useState("");
+  const [IsAddress, setIsAddress] = useState("");
+  const [Data, setData] = useState<any[]>([]);
 
   const form = useForm<FormValues>({
     initialValues: {
@@ -97,6 +99,8 @@ export function UserPage() {
           setEmail(data[0].email);
           setPhone(data[0].phone);
           setBirthday(data[0].birthday);
+          setData(data);
+          setIsAddress(data[0].address);
         }
         setLoadingProfile(false);
       });
@@ -267,7 +271,7 @@ export function UserPage() {
                     </Text>
                   </Flex>
                   <Divider my="md" />
-                  <Group justify={"space-between"} gap={25} p={10} px={30}>
+                  <Group justify={"space-between"} gap={25} px={30}>
                     <Flex
                       gap={15}
                       justify="flex-start"
@@ -413,19 +417,50 @@ export function UserPage() {
             </form>
 
             <Tabs.Panel value="address">
-              <Paper shadow="sm" py={25} mih={400}>
+              <Paper shadow="sm" py={25} mih={400} pos={"relative"}>
+                <LoadingOverlay
+                  visible={LoadingProfile}
+                  zIndex={100}
+                  overlayProps={{ radius: "sm", blur: 2 }}
+                  loaderProps={{ type: "dots" }}
+                />
                 <Group justify={"space-between"} px={30}>
                   <Text size={"lg"} fw={"bold"}>
                     ที่อยู่ของฉัน
                   </Text>
-                  <Button
-                    leftSection={<IconPlus />}
-                    onClick={() => setModalAddAddress(true)}
-                  >
-                    เพิ่มที่อยู่
-                  </Button>
+                  {IsAddress !== "" ? (
+                    <></>
+                  ) : (
+                    <Button
+                      leftSection={<IconPlus />}
+                      onClick={() => setModalAddAddress(true)}
+                    >
+                      เพิ่มที่อยู่
+                    </Button>
+                  )}
                 </Group>
                 <Divider my="md" />
+                {IsAddress !== "" ? (
+                  Data.map((i: any, key) => (
+                    <Group px={30} key={key} justify={"space-between"}>
+                      <Flex direction={"column"}>
+                        <Text>
+                          {i.ad_name} | {i.ad_phone}
+                        </Text>
+                        <Text>{i.address}</Text>
+                        <Text>
+                          {i.ad_tambon}, {i.ad_amphure}, จังหวัด
+                          {i.ad_province}, {i.zip_code}
+                        </Text>
+                      </Flex>
+                      <Flex>
+                        <Button variant={"outline"}>แก้ไข</Button>
+                      </Flex>
+                    </Group>
+                  ))
+                ) : (
+                  <></>
+                )}
               </Paper>
             </Tabs.Panel>
 
@@ -517,7 +552,6 @@ export function UserPage() {
           }}
         />
       </Modal>
-
       <Modal
         title="ที่อยู่ใหม่"
         opened={ModalAddAddress}
