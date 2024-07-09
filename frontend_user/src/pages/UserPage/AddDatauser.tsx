@@ -413,11 +413,29 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
 
   const form = useForm({
     initialValues: {
-      email: "",
+      address: "",
+      ad_name: "",
+      ad_phone: "",
+      ad_province: "",
+      ad_amphure: "",
+      ad_tambon: "",
+      zip_code: "",
     },
     validate: {
-      email: (value) =>
-        /^\S+@\S+$/.test(value) ? null : "กรุณากรอกอีเมลที่ถูกต้อง",
+      address: (v) =>
+        v.length < 10 ? "บ้านเลขที่,ซอย,หมู่,ถนน,แขวง/ตำบล" : null,
+      ad_name: (v) => (v.length < 6 ? "กรุณากรอกชื่อ-นามสกุลที่ถูกต้อง" : null),
+      ad_phone: (v) => {
+        const isNumeric = /^\d+$/.test(v);
+        if (!isNumeric || v.length !== 10) {
+          return "กรุณากรอกหมายเลขโทรศัพท์ที่ถูกต้อง";
+        }
+        return null;
+      },
+      ad_province: (v) => (v.length < 1 ? "กรุณาเลือกจังหวัด" : null),
+      ad_amphure: (v) => (v.length < 1 ? "กรุณาเลือกอำเภอ" : null),
+      ad_tambon: (v) => (v.length < 1 ? "กรุณาเลือกตำบล" : null),
+      zip_code: (v) => (v.length < 1 ? "กรุณาเลือกรหัสไปรษณีย์" : null),
     },
   });
 
@@ -502,18 +520,39 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
 
   const Submit = (v: any) => {
     // setLoadingSubmit(true);
+    const selectedProvince =
+      Province.find((i) => i.value === v.ad_province)?.label || "";
+    const selectedAmphure =
+      Amphure.find((i) => i.value === v.ad_amphure)?.label || "";
+    const selectedTambon =
+      Tambon.find((i) => i.value === v.ad_tambon)?.label || "";
+    const selectedZipcode =
+      Zipcode.find((i) => i.value === v.zip_code)?.label || "";
+    console.log(v);
+
+    console.log(selectedProvince);
+    console.log(selectedAmphure);
+    console.log(selectedTambon);
+    console.log(selectedZipcode);
+
     // axios
-    //   .post(Api + "User/Updatedata", {
-    //     userid: atob(id),
-    //     email: v.email,
-    //     typeadd: "email",
-    //   })
-    //   .then((res) => {
-    //     if (res.data === 200) {
-    //       setLoadingSubmit(false);
-    //       closeWithSuccess();
-    //     }
-    //   });
+    // .post(Api + "User/Updatedata", {
+    //   userid: atob(id),
+    //   address: v.address,
+    //   ad_name: v.ad_name,
+    //   ad_phone: v.ad_phone,
+    //   ad_province: selectedProvince,
+    //   ad_amphure: selectedAmphure,
+    //   ad_tambon: selectedTambon,
+    //   zip_code: selectedZipcode,
+    //   typeadd: "address",
+    // })
+    // .then((res) => {
+    //   if (res.data === 200) {
+    //     setLoadingSubmit(false);
+    //     closeWithSuccess();
+    //   }
+    // });
   };
 
   useEffect(() => {
@@ -533,12 +572,14 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
             withAsterisk
             placeholder="ชื่อ-นามสกุล"
             w={"100%"}
+            {...form.getInputProps("ad_name")}
           />
           <TextInput
             label="หมายเลขโทรศัพท์"
             withAsterisk
             placeholder="หมายเลขโทรศัพท์"
             w={"100%"}
+            {...form.getInputProps("ad_phone")}
           />
         </Flex>
         <Group gap={5}>
@@ -547,10 +588,12 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
             withAsterisk
             allowDeselect={false}
             data={Province}
+            {...form.getInputProps("ad_province")}
             placeholder="จังหวัด"
             label="จังหวัด"
             onChange={(v) => {
               if (v) {
+                form.setFieldValue("ad_province", v);
                 FetchAmphure(v);
               }
             }}
@@ -561,8 +604,10 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
             withAsterisk
             allowDeselect={false}
             data={Amphure}
+            {...form.getInputProps("ad_amphure")}
             onChange={(v) => {
               if (v) {
+                form.setFieldValue("ad_amphure", v);
                 FetchTambon(v);
                 Fetchzipcode(v);
               }
@@ -576,8 +621,10 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
             withAsterisk
             allowDeselect={false}
             data={Tambon}
+            {...form.getInputProps("ad_tambon")}
             onChange={(v) => {
               if (v) {
+                form.setFieldValue("ad_tambon", v);
                 Fetchzipcode(v);
               }
             }}
@@ -590,6 +637,7 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
             withAsterisk
             allowDeselect={false}
             data={Zipcode}
+            {...form.getInputProps("zip_code")}
             placeholder="รหัสไปรษณีย์"
             label="รหัสไปรษณีย์"
             searchable
@@ -601,6 +649,7 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
           withAsterisk
           maxRows={3}
           rows={3}
+          {...form.getInputProps("address")}
         />
 
         <Flex pt={10} justify={"flex-end"} gap={5}>

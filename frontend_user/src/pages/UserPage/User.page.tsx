@@ -4,7 +4,6 @@ import { Api } from "../../Api";
 import {
   Avatar,
   Text,
-  // Skeleton,
   Paper,
   Flex,
   Grid,
@@ -21,7 +20,6 @@ import {
   LoadingOverlay,
   CheckIcon,
   FileButton,
-  Blockquote,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Notifications } from "@mantine/notifications";
@@ -34,7 +32,6 @@ import {
   IconPassword,
   IconMap2,
   IconPlus,
-  IconInfoCircle,
 } from "@tabler/icons-react";
 import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
 
@@ -66,7 +63,7 @@ export function UserPage() {
   const [Phone, setPhone] = useState("");
   const [Birthday, setBirthday] = useState("");
   const [IsAddress, setIsAddress] = useState("");
-  const [Data, setData] = useState<any[]>([]);
+  const [DataAddress, setDataAddress] = useState<any[]>([]);
 
   const form = useForm<FormValues>({
     initialValues: {
@@ -99,8 +96,8 @@ export function UserPage() {
           setEmail(data[0].email);
           setPhone(data[0].phone);
           setBirthday(data[0].birthday);
-          setData(data);
           setIsAddress(data[0].address);
+          setDataAddress(data);
         }
         setLoadingProfile(false);
       });
@@ -441,7 +438,7 @@ export function UserPage() {
                 </Group>
                 <Divider my="md" />
                 {IsAddress !== "" ? (
-                  Data.map((i: any, key) => (
+                  DataAddress.map((i: any, key) => (
                     <Group px={30} key={key} justify={"space-between"}>
                       <Flex direction={"column"}>
                         <Text>
