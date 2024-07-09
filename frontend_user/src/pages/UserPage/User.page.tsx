@@ -50,7 +50,7 @@ export function UserPage() {
   useDocumentTitle("สินค้าผลิตภัณฑ์และสังฆทานออนไลน์");
   const nav = useNavigate();
   const { tabsValue } = useParams();
-  const iconStyle = { width: rem(16), height: rem(16) };
+  const iconStyle = { width: rem(15), height: rem(15) };
   const isMobile = useMediaQuery("(max-width: 999px)");
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const [LoadingProfile, setLoadingProfile] = useState(false);
