@@ -35,8 +35,7 @@ import {
   IconPlus,
 } from "@tabler/icons-react";
 import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
-
-import { AddEmail, Addphone, AddBirthday } from "./Addemail_phone_birthday";
+import { AddEmail, Addphone, AddBirthday } from "./Updatedata";
 
 type FormValues = {
   name: string;
@@ -54,9 +53,11 @@ export function UserPage() {
   const isMobile = useMediaQuery("(max-width: 999px)");
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const [LoadingProfile, setLoadingProfile] = useState(false);
+
   const [ModalAddEmail, setModalAddEmail] = useState<boolean>(false);
   const [ModalAddPhone, setModalAddPhone] = useState<boolean>(false);
   const [ModalAddBirthday, setModalAddBirthday] = useState<boolean>(false);
+
   const [LoadingSubmit, setLoadingSubmit] = useState(false);
   const [Email, setEmail] = useState("");
   const [Phone, setPhone] = useState("");
@@ -142,10 +143,11 @@ export function UserPage() {
       Update.append("typeimg", "update");
       axios.post(Api + "User/UploadIMG", Update).then(() => {
         axios
-          .post(Api + "User/Update_name_sex", {
+          .post(Api + "User/Updatedata", {
             userid: atob(id),
             name: val.name,
             sex: val.sex,
+            typeadd: "name_sex",
           })
           .then((res) => {
             if (res.data === 200) {
@@ -166,10 +168,11 @@ export function UserPage() {
       Update.append("typeimg", "update");
       axios.post(Api + "User/UploadIMG", Update).then(() => {
         axios
-          .post(Api + "User/Update_name_sex", {
+          .post(Api + "User/Updatedata", {
             userid: atob(id),
             name: val.name,
             sex: val.sex,
+            typeadd: "name_sex",
           })
           .then((res) => {
             if (res.data === 200) {
@@ -282,7 +285,7 @@ export function UserPage() {
                               variant="transparent"
                               c={"green"}
                               style={{ textDecoration: "underline" }}
-                              onClick={() => nav("/user/account/email")}
+                              onClick={() => setModalAddEmail(true)}
                             >
                               เปลี่ยน
                             </UnstyledButton>
@@ -309,7 +312,7 @@ export function UserPage() {
                               variant="transparent"
                               c={"green"}
                               style={{ textDecoration: "underline" }}
-                              onClick={() => nav("/user/account/phone")}
+                              onClick={() => setModalAddPhone(true)}
                             >
                               เปลี่ยน
                             </UnstyledButton>
@@ -350,7 +353,7 @@ export function UserPage() {
                               variant="transparent"
                               c={"green"}
                               style={{ textDecoration: "underline" }}
-                              // onClick={}
+                              onClick={() => setModalAddBirthday(true)}
                             >
                               เปลี่ยน
                             </UnstyledButton>

@@ -14,6 +14,7 @@ interface AddItemsProps {
 // อีเมล
 export function AddEmail({ closeWithSuccess, close }: AddItemsProps) {
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
+  const [LoadingSubmit, setLoadingSubmit] = useState(false);
 
   const form = useForm({
     initialValues: {
@@ -25,12 +26,25 @@ export function AddEmail({ closeWithSuccess, close }: AddItemsProps) {
     },
   });
 
-  const [LoadingSubmit, setLoadingSubmit] = useState(false);
+  const FetchData = () => {
+    axios
+      .post(Api + "/User/Showuser", {
+        userid: atob(id),
+      })
+      .then((res) => {
+        const data = res.data;
+        if (data.length !== 0) {
+          form.setValues({
+            email: data[0].email,
+          });
+        }
+      });
+  };
 
   const Submit = (v: any) => {
     setLoadingSubmit(true);
     axios
-      .post(Api + "User/Addemail_phone_birthday", {
+      .post(Api + "User/Updatedata", {
         userid: atob(id),
         email: v.email,
         typeadd: "email",
@@ -42,6 +56,10 @@ export function AddEmail({ closeWithSuccess, close }: AddItemsProps) {
         }
       });
   };
+
+  useEffect(() => {
+    FetchData();
+  }, []);
 
   return (
     <>
@@ -85,6 +103,7 @@ export function AddEmail({ closeWithSuccess, close }: AddItemsProps) {
 // หมายเลขโทรศัพท์
 export function Addphone({ closeWithSuccess, close }: AddItemsProps) {
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
+  const [LoadingSubmit, setLoadingSubmit] = useState(false);
 
   const form = useForm({
     initialValues: {
@@ -97,18 +116,33 @@ export function Addphone({ closeWithSuccess, close }: AddItemsProps) {
           return "กรุณากรอกหมายเลขโทรศัพท์ที่ถูกต้อง";
         } else if (value.length < 10) {
           return "กรุณากรอกหมายเลขโทรศัพท์ที่ถูกต้อง";
+        } else if (value.length > 10) {
+          return "กรุณากรอกหมายเลขโทรศัพท์ที่ถูกต้อง";
         }
         return null;
       },
     },
   });
 
-  const [LoadingSubmit, setLoadingSubmit] = useState(false);
+  const FetchData = () => {
+    axios
+      .post(Api + "/User/Showuser", {
+        userid: atob(id),
+      })
+      .then((res) => {
+        const data = res.data;
+        if (data.length !== 0) {
+          form.setValues({
+            phone: data[0].phone,
+          });
+        }
+      });
+  };
 
   const Submit = (v: any) => {
     setLoadingSubmit(true);
     axios
-      .post(Api + "User/Addemail_phone_birthday", {
+      .post(Api + "User/Updatedata", {
         userid: atob(id),
         phone: v.phone,
         typeadd: "phone",
@@ -120,6 +154,10 @@ export function Addphone({ closeWithSuccess, close }: AddItemsProps) {
         }
       });
   };
+
+  useEffect(() => {
+    FetchData();
+  }, []);
 
   return (
     <>
@@ -248,6 +286,24 @@ export function AddBirthday({ closeWithSuccess, close }: AddItemsProps) {
     setYear(year);
   };
 
+  const FetchData = () => {
+    axios
+      .post(Api + "/User/Showuser", {
+        userid: atob(id),
+      })
+      .then((res) => {
+        const data = res.data;
+        if (data.length !== 0) {
+          const b = data[0].birthday;
+          setBD_day(b.split("-")[2]);
+          const bm1 = b.split("-")[1].split(0)[1];
+          const bm2 = b.split("-")[1].split(0)[0];
+          setBD_month(bm1 !== undefined ? bm1 : bm2);
+          setBD_year((parseInt(b.split("-")[0]) + 543).toString());
+        }
+      });
+  };
+
   const Submit = () => {
     setLoadingSubmit(true);
     if (!BD_day || !BD_month || !BD_year) {
@@ -262,7 +318,7 @@ export function AddBirthday({ closeWithSuccess, close }: AddItemsProps) {
       return;
     } else {
       axios
-        .post(Api + "User/Addemail_phone_birthday", {
+        .post(Api + "User/Updatedata", {
           userid: atob(id),
           birthday: BD_year - 543 + "-" + BD_month + "-" + BD_day,
           typeadd: "birthday",
@@ -278,6 +334,7 @@ export function AddBirthday({ closeWithSuccess, close }: AddItemsProps) {
 
   useEffect(() => {
     FetchDate();
+    FetchData();
   }, []);
 
   return (
