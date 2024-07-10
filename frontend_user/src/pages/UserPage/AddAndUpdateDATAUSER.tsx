@@ -82,7 +82,7 @@ export function AddEmail({ closeWithSuccess, close }: AddItemsProps) {
         })}
       >
         <TextInput
-          label="อีเมล"
+          label="อีเมล (ที่ใช้งานได้จริง)"
           placeholder="กรอกอีเมล"
           {...form.getInputProps("email")}
           withAsterisk
