@@ -78,11 +78,13 @@ export function CartPage() {
               color: "green",
               icon: <IconCheck />,
             });
+
             fetchCartsum(atob(id));
             LoadData(atob(id));
             if (Data.length >= 1) {
               setData([]);
             }
+            nav("/user/account/purchase");
           } else if (res.data === 400) {
             Notifications.show({
               title: "สั่งซื้อสินค้าไม่สำเร็จ",
@@ -162,17 +164,6 @@ export function CartPage() {
         });
     }
   };
-
-  // const RandomId = (length = 100) => {
-  //   const characters =
-  //     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  //   let result = "";
-  //   const charactersLength = characters.length;
-  //   for (let i = 0; i < length; i++) {
-  //     result += characters.charAt(Math.floor(Math.random() * charactersLength));
-  //   }
-  //   return result;
-  // };
 
   const items = [
     { title: "สินค้า", href: "/product" },
@@ -324,14 +315,7 @@ export function CartPage() {
                 </Text>
               </Flex>
               <Flex justify={"flex-end"} mt={20}>
-                <Button
-                  // onClick={() => {
-                  //   const ramdomId = RandomId();
-                  //   nav("/checkout/" + ramdomId);
-                  // }}
-                  w={"100%"}
-                  onClick={Buy}
-                >
+                <Button w={"100%"} onClick={Buy}>
                   สั่งซื้อสินค้า
                 </Button>
               </Flex>

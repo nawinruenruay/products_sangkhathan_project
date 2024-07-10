@@ -20,6 +20,8 @@ import {
   LoadingOverlay,
   CheckIcon,
   FileButton,
+  Badge,
+  Box,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Notifications } from "@mantine/notifications";
@@ -34,6 +36,7 @@ import {
   IconPlus,
 } from "@tabler/icons-react";
 import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
+import { DataTable } from "mantine-datatable";
 
 import {
   AddEmail,
@@ -50,6 +53,12 @@ type FormValues = {
   img_preview: any | ArrayBuffer | null;
 };
 
+type DateOptions = {
+  year: "numeric" | "2-digit";
+  month: "numeric" | "2-digit" | "long" | "short" | "narrow";
+  day: "numeric" | "2-digit";
+};
+
 export function UserPage() {
   useDocumentTitle("สินค้าผลิตภัณฑ์และสังฆทานออนไลน์");
   const nav = useNavigate();
@@ -64,6 +73,7 @@ export function UserPage() {
   const [ModalAddBirthday, setModalAddBirthday] = useState<boolean>(false);
   const [ModalAddAddress, setModalAddAddress] = useState<boolean>(false);
 
+  const [Datatable, setDatatable] = useState<any[]>([]);
   const [Email, setEmail] = useState("");
   const [Phone, setPhone] = useState("");
   const [Birthday, setBirthday] = useState("");
@@ -83,6 +93,28 @@ export function UserPage() {
         value.length < 6 ? "กรุณากรอกชื่อ-นามสกุลที่ถูกต้อง" : null,
     },
   });
+
+  const LoadDatatable = () => {
+    setLoadingProfile(true);
+    if (id) {
+      axios
+        .post(Api + "User/Showorderbuy/", {
+          userid: atob(id),
+        })
+        .then((res) => {
+          const data = res.data;
+          console.log(data);
+          if (data.length !== 0) {
+            const configData = data.map((i: any, key: any) => ({
+              ...i,
+              id: key + 1,
+            }));
+            setDatatable(configData);
+          }
+          setLoadingProfile(false);
+        });
+    }
+  };
 
   const FetchData = () => {
     setLoadingProfile(true);
@@ -122,6 +154,12 @@ export function UserPage() {
   const formatBirthday = (birthday: string) => {
     const [year, month] = birthday.split("-");
     return `**/${month}/${year.slice(0, 2)}**`;
+  };
+
+  const options2: DateOptions = {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
   };
 
   const handleFileChange = (files: any) => {
@@ -202,6 +240,7 @@ export function UserPage() {
   useEffect(() => {
     if (id) {
       FetchData();
+      LoadDatatable();
     } else {
       nav("/login");
     }
@@ -472,8 +511,103 @@ export function UserPage() {
             </Tabs.Panel>
 
             <Tabs.Panel value="purchase">
-              <Paper shadow="sm" px={30} py={25} mih={400}></Paper>
+              <Paper shadow="sm" py={25} mih={400} pos={"relative"}>
+                <LoadingOverlay
+                  visible={LoadingProfile}
+                  zIndex={100}
+                  overlayProps={{ radius: "sm", blur: 2 }}
+                  loaderProps={{ type: "dots" }}
+                />
+                <Group justify={"space-between"} px={30}>
+                  <Text size={"lg"} fw={"bold"}>
+                    การซื้อของฉัน
+                  </Text>
+                </Group>
+                <Divider my="md" />
+                <Box px={30}>
+                  <DataTable
+                    styles={{
+                      header: {
+                        height: "50px",
+                      },
+                    }}
+                    // withColumnBorders
+                    // withTableBorder
+                    // scrollAreaProps={{ type: "never" }}
+                    // minHeight={350}
+                    idAccessor="order_id"
+                    // fetching={LoadingProfile}
+                    loaderType="dots"
+                    // noRecordsText="ไม่มีสินค้าในตระกร้า"
+                    // noRecordsIcon={
+                    //   <Box p={4} mb={4} className={classes.noRecordsBox}>
+                    //     <IconMoodSad size={36} strokeWidth={1.5} />
+                    //   </Box>
+                    // }
+                    highlightOnHover
+                    columns={[
+                      {
+                        accessor: "id",
+                        title: "#",
+                        width: 40,
+                        textAlign: "center",
+                      },
+                      {
+                        accessor: "order_date",
+                        textAlign: "center",
+                        title: "วันที่สั่งซื้อ",
+                        render: ({ order_date }) => (
+                          <>
+                            {new Date(order_date).toLocaleDateString(
+                              "TH-th",
+                              options2
+                            )}
+                          </>
+                        ),
+                      },
+                      {
+                        accessor: "x",
+                        textAlign: "center",
+                        title: "รายการที่สั่งซื้อ",
+                        render: ({}) => <></>,
+                      },
+                      {
+                        accessor: "status",
+                        textAlign: "center",
+                        title: "สถานะ",
+                        render: ({ status }) => (
+                          <>
+                            <Flex align={"center"} justify={"center"}>
+                              {status == 1 ? (
+                                <Badge color="red">รอการชำระเงิน</Badge>
+                              ) : status == 2 ? (
+                                <Badge color="yellow">
+                                  รอตรวจสอบการชำระเงิน
+                                </Badge>
+                              ) : status == 3 ? (
+                                <Badge color="green">
+                                  ชำระเงินเรียบร้อยแล้ว
+                                </Badge>
+                              ) : (
+                                <Badge color="black">test123</Badge>
+                              )}
+                            </Flex>
+                          </>
+                        ),
+                      },
+                      {
+                        accessor: "xx",
+                        textAlign: "center",
+                        title: "ชำระเงิน",
+                        render: ({}) => <></>,
+                      },
+                    ]}
+                    records={Datatable}
+                  />
+                </Box>
+              </Paper>
             </Tabs.Panel>
+
             <Tabs.Panel value="password">
               <Paper shadow="sm" px={30} py={25} mih={400}></Paper>
             </Tabs.Panel>

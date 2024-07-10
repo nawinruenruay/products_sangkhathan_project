@@ -54,7 +54,7 @@ export function ProductPage() {
   };
 
   const ProductDetail = (v1: string, v2: string) => {
-    nav("/product/" + btoa(v1) + "/" + v2);
+    nav("/" + btoa(v1) + "/" + v2);
   };
 
   useEffect(() => {
