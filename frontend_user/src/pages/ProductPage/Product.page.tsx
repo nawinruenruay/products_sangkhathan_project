@@ -20,14 +20,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Carousel } from "@mantine/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { IconBrandProducthunt } from "@tabler/icons-react";
-import { useDocumentTitle } from "@mantine/hooks";
 
 import p1 from "../../assets/img/banner_product1.png";
 import p2 from "../../assets/img/banner_product2.png";
 import classes from "./Product.module.css";
 
 export function ProductPage() {
-  useDocumentTitle("สินค้าผลิตภัณฑ์และสังฆทานออนไลน์");
   const { tabsValue } = useParams();
   const autoplay = useRef(Autoplay({ delay: 3000 }));
   const iconStyle = { width: rem(12), height: rem(12) };

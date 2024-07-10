@@ -2,13 +2,11 @@ import { useEffect, useRef } from "react";
 import { Image, Text, Paper, Grid, Group } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import { useDocumentTitle } from "@mantine/hooks";
 
 import banner from "../../assets/img/banner-contact.png";
 import classes from "./Contact.module.css";
 
 export function ContactPage() {
-  useDocumentTitle("ติดต่อสอบถาม");
   const autoplay = useRef(Autoplay({ delay: 3000 }));
 
   useEffect(() => {

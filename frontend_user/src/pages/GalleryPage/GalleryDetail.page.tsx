@@ -22,7 +22,6 @@ import {
   IconChevronRight,
 } from "@tabler/icons-react";
 import { Fancybox } from "@fancyapps/ui";
-import { useDocumentTitle } from "@mantine/hooks";
 
 import classes from "./Gallery.module.css";
 
@@ -31,7 +30,6 @@ export function GalleryDetailPage() {
   const icon = <IconInfoCircle />;
   const [LoadingData, setLoadingData] = useState(false);
   const [Data, setData] = useState([]);
-  useDocumentTitle(v2);
 
   const LoadData = (v1: any) => {
     setLoadingData(true);

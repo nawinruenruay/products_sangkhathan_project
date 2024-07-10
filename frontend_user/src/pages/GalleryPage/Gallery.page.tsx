@@ -15,13 +15,11 @@ import { useNavigate } from "react-router-dom";
 import { Carousel } from "@mantine/carousel";
 import Autoplay from "embla-carousel-autoplay";
 import { IconCalendarMonth } from "@tabler/icons-react";
-import { useDocumentTitle } from "@mantine/hooks";
 
 import banner from "../../assets/img/banner-gallery.png";
 import classes from "./Gallery.module.css";
 
 export function GalleryPage() {
-  useDocumentTitle("ภาพกิจกรรม");
   const nav = useNavigate();
   const autoplay = useRef(Autoplay({ delay: 3000 }));
   const [Gallery, setGallery] = useState([]);

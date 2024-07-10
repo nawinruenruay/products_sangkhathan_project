@@ -2,11 +2,9 @@ import { useNavigate } from "react-router-dom";
 import { Image, Group } from "@mantine/core";
 import screen from "../../assets/img/splashsreen.png";
 import classes from "./Splashscreen.module.css";
-import { useDocumentTitle } from "@mantine/hooks";
 
 export function SplashscreenPage() {
   const nav = useNavigate();
-  useDocumentTitle("ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน");
 
   return (
     <>

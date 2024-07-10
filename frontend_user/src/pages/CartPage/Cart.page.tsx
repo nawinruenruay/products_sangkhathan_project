@@ -25,7 +25,6 @@ import {
   IconCheck,
   IconInfoCircle,
 } from "@tabler/icons-react";
-import { useDocumentTitle } from "@mantine/hooks";
 import { DataTable } from "mantine-datatable";
 import Swal from "sweetalert2";
 import { Notifications } from "@mantine/notifications";
@@ -38,7 +37,6 @@ import { useCartsum } from "../../components/CartContext";
 export function CartPage() {
   const { cartsum, fetchCartsum } = useCartsum();
   const nav = useNavigate();
-  useDocumentTitle("ตระกร้าสินค้า");
   // const dataUser = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const [LoadingData, setLoadingData] = useState(false);

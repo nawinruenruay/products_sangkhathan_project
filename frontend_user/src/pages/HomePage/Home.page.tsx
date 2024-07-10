@@ -17,12 +17,10 @@ import {
 } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import Autoplay from "embla-carousel-autoplay";
-import { useDocumentTitle } from "@mantine/hooks";
 
 import classes from "./Home.module.css";
 
 export function HomePage() {
-  useDocumentTitle("หน้าหลัก");
   const nav = useNavigate();
   const autoplay = useRef(Autoplay({ delay: 3000 }));
   const [Banner, setBanner] = useState([]);

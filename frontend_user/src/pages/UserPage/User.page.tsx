@@ -35,7 +35,7 @@ import {
   IconMap2,
   IconPlus,
 } from "@tabler/icons-react";
-import { useDocumentTitle, useMediaQuery } from "@mantine/hooks";
+import { useMediaQuery } from "@mantine/hooks";
 import { DataTable } from "mantine-datatable";
 
 import {
@@ -60,7 +60,6 @@ type DateOptions = {
 };
 
 export function UserPage() {
-  useDocumentTitle("สินค้าผลิตภัณฑ์และสังฆทานออนไลน์");
   const nav = useNavigate();
   const { tabsValue } = useParams();
   const iconStyle = { width: rem(15), height: rem(15) };
