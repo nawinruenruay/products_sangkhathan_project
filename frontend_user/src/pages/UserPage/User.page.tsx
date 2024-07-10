@@ -451,7 +451,12 @@ export function UserPage() {
                         </Text>
                       </Flex>
                       <Flex>
-                        <Button variant={"outline"}>แก้ไข</Button>
+                        <Button
+                          variant={"outline"}
+                          onClick={() => setModalAddAddress(true)}
+                        >
+                          แก้ไข
+                        </Button>
                       </Flex>
                     </Group>
                   ))
@@ -462,6 +467,9 @@ export function UserPage() {
             </Tabs.Panel>
 
             <Tabs.Panel value="purchase">
+              <Paper shadow="sm" px={30} py={25} mih={400}></Paper>
+            </Tabs.Panel>
+            <Tabs.Panel value="password">
               <Paper shadow="sm" px={30} py={25} mih={400}></Paper>
             </Tabs.Panel>
           </Grid.Col>

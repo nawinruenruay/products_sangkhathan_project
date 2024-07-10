@@ -411,6 +411,11 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const [LoadingSubmit, setLoadingSubmit] = useState(false);
 
+  const [Province, setProvince] = useState<Items[]>([]);
+  const [Amphure, setAmphure] = useState<Items[]>([]);
+  const [Tambon, setTambon] = useState<Items[]>([]);
+  const [Zipcode, setZipcode] = useState<Items[]>([]);
+
   const form = useForm({
     initialValues: {
       address: "",
@@ -438,11 +443,6 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
       zip_code: (v) => (v.length < 1 ? "กรุณาเลือกรหัสไปรษณีย์" : null),
     },
   });
-
-  const [Province, setProvince] = useState<Items[]>([]);
-  const [Amphure, setAmphure] = useState<Items[]>([]);
-  const [Tambon, setTambon] = useState<Items[]>([]);
-  const [Zipcode, setZipcode] = useState<Items[]>([]);
 
   //จังหวัด
   const FetchProvince = () => {
@@ -518,6 +518,27 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
       });
   };
 
+  // const FetchData = () => {
+  //   axios
+  //     .post(Api + "/User/Showuser", {
+  //       userid: atob(id),
+  //     })
+  //     .then((res) => {
+  //       const data = res.data;
+  //       if (data.length !== 0) {
+  //         form.setValues({
+  //           address: data[0].address,
+  //           ad_name: data[0].ad_name,
+  //           ad_phone: data[0].ad_phone,
+  //           ad_province: data[0].ad_province,
+  //           ad_amphure: data[0].ad_amphure,
+  //           ad_tambon: data[0].ad_tambon,
+  //           zip_code: data[0].zip_code,
+  //         });
+  //       }
+  //     });
+  // };
+
   const Submit = (v: any) => {
     setLoadingSubmit(true);
     const selectedProvince =
@@ -526,13 +547,6 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
       Amphure.find((i) => i.value === v.ad_amphure)?.label || "";
     const selectedTambon =
       Tambon.find((i) => i.value === v.ad_tambon)?.label || "";
-
-    console.log(selectedProvince);
-    console.log(selectedAmphure);
-    console.log(selectedTambon);
-
-    console.log(v);
-
     axios
       .post(Api + "User/Updatedata", {
         userid: atob(id),
@@ -555,6 +569,7 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
 
   useEffect(() => {
     FetchProvince();
+    // FetchData();
   }, []);
 
   return (
