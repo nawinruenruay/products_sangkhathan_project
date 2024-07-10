@@ -25,7 +25,6 @@ import {
   IconCheck,
   IconChevronRight,
 } from "@tabler/icons-react";
-import { useDocumentTitle } from "@mantine/hooks";
 
 import classes from "./Product.module.css";
 import { useCartsum } from "../../components/CartContext";
@@ -34,7 +33,6 @@ import Swal from "sweetalert2";
 export function ProductDetailPage() {
   const nav = useNavigate();
   const { v1, v2 } = useParams<{ v1: any; v2: any }>();
-  useDocumentTitle(v2);
   const [LoadingData, setLoadingData] = useState(false);
   const [Data, setData] = useState([]);
   const [ShowIMG, setShowIMG] = useState(false);
