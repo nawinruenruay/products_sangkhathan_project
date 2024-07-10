@@ -32,7 +32,7 @@ import { useDocumentTitle } from "@mantine/hooks";
 import { useDisclosure } from "@mantine/hooks";
 
 import LOGO from "../assets/icon/LOGO.png";
-import Footer from "../layout/LayoutUser/Footer/Footer";
+import Footer from "../layout/Footer/Footer";
 
 export function Register() {
   useDocumentTitle(

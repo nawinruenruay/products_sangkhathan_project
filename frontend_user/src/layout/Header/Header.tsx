@@ -36,7 +36,7 @@ import {
 import { NavLink as Nl, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import data from "./data";
-import { Api } from "../../../Api";
+import { Api } from "../../Api";
 
 interface MenuItem {
   title: string;
@@ -46,8 +46,8 @@ interface MenuItem {
 }
 
 import classes from "./Header.module.css";
-import logo from "../../../assets/icon/LOGO.png";
-import { useCartsum } from "../../../components/CartContext";
+import logo from "../../assets/icon/LOGO.png";
+import { useCartsum } from "../../components/CartContext";
 
 function Header() {
   const { cartsum, fetchCartsum } = useCartsum();

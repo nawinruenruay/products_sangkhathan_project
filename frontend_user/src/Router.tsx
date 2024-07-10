@@ -1,5 +1,5 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { LayoutUser } from "./layout/LayoutUser/Layout";
+import { LayoutUser } from "./layout/Layout";
 
 // PAGEs
 import { SplashscreenPage } from "./pages/SplashscreenPage/Splashscreen.page";

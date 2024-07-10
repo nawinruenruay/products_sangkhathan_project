@@ -5,7 +5,7 @@ import {
   IconBrandInstagram,
   IconBrandFacebook,
 } from "@tabler/icons-react";
-import logo from "../../../assets/icon/LOGO.png";
+import logo from "../../assets/icon/LOGO.png";
 import classes from "./Footer.module.css";
 
 const data = [

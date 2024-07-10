@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom";
 import Header from "./Header/Header";
 import Footer from "./Footer/Footer";
 import axios from "axios";
-import { Api } from "../../Api";
+import { Api } from "../Api";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
