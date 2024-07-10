@@ -569,7 +569,7 @@ export function UserPage() {
               color: "green",
               icon: <IconCheck />,
             });
-            // FetchData();
+            FetchData();
           }}
           close={() => {
             setModalAddAddress(false);

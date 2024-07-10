@@ -519,7 +519,7 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
   };
 
   const Submit = (v: any) => {
-    // setLoadingSubmit(true);
+    setLoadingSubmit(true);
     const selectedProvince =
       Province.find((i) => i.value === v.ad_province)?.label || "";
     const selectedAmphure =
@@ -533,24 +533,24 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
 
     console.log(v);
 
-    // axios
-    // .post(Api + "User/Updatedata", {
-    //   userid: atob(id),
-    //   address: v.address,
-    //   ad_name: v.ad_name,
-    //   ad_phone: v.ad_phone,
-    //   ad_province: selectedProvince,
-    //   ad_amphure: selectedAmphure,
-    //   ad_tambon: selectedTambon,
-    //   zip_code: v.zipcode,
-    //   typeadd: "address",
-    // })
-    // .then((res) => {
-    //   if (res.data === 200) {
-    //     setLoadingSubmit(false);
-    //     closeWithSuccess();
-    //   }
-    // });
+    axios
+      .post(Api + "User/Updatedata", {
+        userid: atob(id),
+        address: v.address,
+        ad_name: v.ad_name,
+        ad_phone: v.ad_phone,
+        ad_province: selectedProvince,
+        ad_amphure: selectedAmphure,
+        ad_tambon: selectedTambon,
+        zip_code: v.zip_code,
+        typeadd: "address",
+      })
+      .then((res) => {
+        if (res.data === 200) {
+          setLoadingSubmit(false);
+          closeWithSuccess();
+        }
+      });
   };
 
   useEffect(() => {
