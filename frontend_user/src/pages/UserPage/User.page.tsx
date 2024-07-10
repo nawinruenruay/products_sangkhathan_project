@@ -34,6 +34,8 @@ import {
   IconPassword,
   IconMap2,
   IconPlus,
+  IconX,
+  IconCash,
 } from "@tabler/icons-react";
 import { useMediaQuery } from "@mantine/hooks";
 import { DataTable } from "mantine-datatable";
@@ -44,6 +46,8 @@ import {
   AddBirthday,
   AddAddress,
 } from "./AddAndUpdateDATAUSER";
+
+import { Showorderbuy } from "./Showorderbuy";
 
 type FormValues = {
   name: string;
@@ -71,6 +75,9 @@ export function UserPage() {
   const [ModalAddPhone, setModalAddPhone] = useState<boolean>(false);
   const [ModalAddBirthday, setModalAddBirthday] = useState<boolean>(false);
   const [ModalAddAddress, setModalAddAddress] = useState<boolean>(false);
+
+  const [ModalShoworderbuy, setModalShoworderbuy] = useState<boolean>(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
 
   const [Datatable, setDatatable] = useState<any[]>([]);
   const [Email, setEmail] = useState("");
@@ -234,6 +241,11 @@ export function UserPage() {
           });
       });
     }
+  };
+
+  const OpenModalShoworderbuy = (order_id: any) => {
+    setSelectedOrderId(order_id);
+    setModalShoworderbuy(true);
   };
 
   useEffect(() => {
@@ -523,7 +535,7 @@ export function UserPage() {
                   </Text>
                 </Group>
                 <Divider my="md" />
-                <Box px={30}>
+                <Box>
                   <DataTable
                     styles={{
                       header: {
@@ -547,8 +559,8 @@ export function UserPage() {
                     columns={[
                       {
                         accessor: "id",
-                        title: "#",
-                        width: 40,
+                        title: "ลำดับ",
+                        // width: 40,
                         textAlign: "center",
                       },
                       {
@@ -565,10 +577,25 @@ export function UserPage() {
                         ),
                       },
                       {
-                        accessor: "x",
+                        accessor: "order",
                         textAlign: "center",
-                        title: "รายการที่สั่งซื้อ",
-                        render: ({}) => <></>,
+                        title: "รายการสินค้าที่สั่งซื้อ",
+                        render: ({ order_id }) => (
+                          <>
+                            <Button
+                              h={30}
+                              variant="outline"
+                              radius="md"
+                              color="blue"
+                              onClick={(e: React.MouseEvent) => {
+                                e.stopPropagation();
+                                OpenModalShoworderbuy(order_id);
+                              }}
+                            >
+                              ดูรายการสินค้าที่สั่งซื้อ
+                            </Button>
+                          </>
+                        ),
                       },
                       {
                         accessor: "status",
@@ -578,17 +605,25 @@ export function UserPage() {
                           <>
                             <Flex align={"center"} justify={"center"}>
                               {status == 1 ? (
-                                <Badge color="red">รอการชำระเงิน</Badge>
+                                <Badge color="yellow" size="lg" variant="light">
+                                  รอการชำระเงิน
+                                </Badge>
                               ) : status == 2 ? (
-                                <Badge color="yellow">
+                                <Badge color="yellow" size="lg" variant="light">
                                   รอตรวจสอบการชำระเงิน
                                 </Badge>
                               ) : status == 3 ? (
-                                <Badge color="green">
+                                <Badge color="green" size="lg" variant="light">
                                   ชำระเงินเรียบร้อยแล้ว
                                 </Badge>
+                              ) : status == 5 ? (
+                                <Badge color="red" size="lg" variant="light">
+                                  ยกเลิกการสั่งซื้อ
+                                </Badge>
                               ) : (
-                                <Badge color="black">test123</Badge>
+                                <Badge color="black" size="lg" variant="light">
+                                  test123
+                                </Badge>
                               )}
                             </Flex>
                           </>
@@ -597,8 +632,32 @@ export function UserPage() {
                       {
                         accessor: "xx",
                         textAlign: "center",
-                        title: "ชำระเงิน",
-                        render: ({}) => <></>,
+                        title: "จัดการ",
+                        render: ({}) => (
+                          <Flex align={"center"} justify={"center"} gap={5}>
+                            <Button
+                              h={30}
+                              variant="outline"
+                              leftSection={<IconCash />}
+                              onClick={(e: React.MouseEvent) => {
+                                e.stopPropagation();
+                              }}
+                            >
+                              ชำระเงิน
+                            </Button>
+                            <Button
+                              h={30}
+                              variant="outline"
+                              color="red"
+                              leftSection={<IconX />}
+                              onClick={(e: React.MouseEvent) => {
+                                e.stopPropagation();
+                              }}
+                            >
+                              ยกเลิก
+                            </Button>
+                          </Flex>
+                        ),
                       },
                     ]}
                     records={Datatable}
@@ -613,6 +672,20 @@ export function UserPage() {
           </Grid.Col>
         </Grid>
       </Tabs>
+
+      <Modal
+        title="รายการสินค้าที่สั่งซื้อ"
+        opened={ModalShoworderbuy}
+        onClose={() => {
+          setModalShoworderbuy(false);
+          setSelectedOrderId(null);
+        }}
+        size={"lg"}
+        centered
+        overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
+      >
+        <Showorderbuy order={selectedOrderId} />
+      </Modal>
 
       <Modal
         title="อีเมล"
