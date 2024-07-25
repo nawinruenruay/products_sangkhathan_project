@@ -280,30 +280,30 @@ function Header() {
                     </UnstyledButton>
                   </Indicator>
                 </Tooltip>
-                <Tooltip
-                  label={`${
-                    computedColorScheme === "light" ? "Dark" : "Light"
-                  } mode`}
-                >
-                  <ActionIcon
-                    onClick={() =>
-                      setColorScheme(
-                        computedColorScheme === "light" ? "dark" : "light"
-                      )
-                    }
-                    variant="default"
-                    size={"35px"}
-                    visibleFrom={"md"}
-                  >
-                    {computedColorScheme === "light" ? (
-                      <IconMoon stroke={1.5} />
-                    ) : (
-                      <IconSun stroke={1.5} />
-                    )}
-                  </ActionIcon>
-                </Tooltip>
               </>
             )}
+            <Tooltip
+              label={`${
+                computedColorScheme === "light" ? "Dark" : "Light"
+              } mode`}
+            >
+              <ActionIcon
+                onClick={() =>
+                  setColorScheme(
+                    computedColorScheme === "light" ? "dark" : "light"
+                  )
+                }
+                variant="default"
+                size={"35px"}
+                visibleFrom={"md"}
+              >
+                {computedColorScheme === "light" ? (
+                  <IconMoon stroke={1.5} />
+                ) : (
+                  <IconSun stroke={1.5} />
+                )}
+              </ActionIcon>
+            </Tooltip>
           </Group>
 
           <Group gap={2} hiddenFrom="md">
