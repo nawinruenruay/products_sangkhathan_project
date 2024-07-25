@@ -109,7 +109,7 @@ export function UserPage() {
         })
         .then((res) => {
           const data = res.data;
-          console.log(data);
+          // console.log(data);
           if (data.length !== 0) {
             const configData = data.map((i: any, key: any) => ({
               ...i,

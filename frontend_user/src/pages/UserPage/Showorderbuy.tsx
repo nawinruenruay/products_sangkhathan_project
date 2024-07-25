@@ -22,7 +22,7 @@ export function Showorderbuy({ order }: ItemsProps) {
       })
       .then((res) => {
         const data = res.data;
-        console.log(data);
+        // console.log(data);
         if (data.length !== 0) {
           setLoadingData(false);
           const configData = data.map((i: any, key: any) => ({
