@@ -28,16 +28,12 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "@mantine/form";
 import axios from "axios";
 import { Api } from "../Api";
-import { useDocumentTitle } from "@mantine/hooks";
 import { useDisclosure } from "@mantine/hooks";
 
 import LOGO from "../assets/icon/LOGO.png";
 import Footer from "../layout/Footer/Footer";
 
 export function Register() {
-  useDocumentTitle(
-    "สมัครสมาชิกเพื่อเข้าใช้งานเว็บไซต์ผลิตภัณฑ์และสังฆทานออนไลน์"
-  );
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme("light", {
     getInitialValueInEffect: true,
