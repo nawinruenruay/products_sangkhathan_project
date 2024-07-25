@@ -28,13 +28,11 @@ import { useNavigate } from "react-router-dom";
 import { useForm } from "@mantine/form";
 import axios from "axios";
 import { Api } from "../Api";
-import { useDocumentTitle } from "@mantine/hooks";
 
 import LOGO from "../assets/icon/LOGO.png";
 import Footer from "../layout/Footer/Footer";
 
 export function Login() {
-  useDocumentTitle("เข้าสู่ระบบเพื่อเลือกซื้อสินค้าผลิตภัณฑ์และสังฆทานออนไลน์");
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme("light", {
