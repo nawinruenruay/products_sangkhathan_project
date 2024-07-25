@@ -633,29 +633,41 @@ export function UserPage() {
                         accessor: "xx",
                         textAlign: "center",
                         title: "จัดการ",
-                        render: ({}) => (
+                        render: ({ status }) => (
                           <Flex align={"center"} justify={"center"} gap={5}>
-                            <Button
-                              h={30}
-                              variant="outline"
-                              leftSection={<IconCash />}
-                              onClick={(e: React.MouseEvent) => {
-                                e.stopPropagation();
-                              }}
-                            >
-                              ชำระเงิน
-                            </Button>
-                            <Button
-                              h={30}
-                              variant="outline"
-                              color="red"
-                              leftSection={<IconX />}
-                              onClick={(e: React.MouseEvent) => {
-                                e.stopPropagation();
-                              }}
-                            >
-                              ยกเลิก
-                            </Button>
+                            {status == 1 ? (
+                              <>
+                                <Button
+                                  h={30}
+                                  variant="outline"
+                                  leftSection={<IconCash />}
+                                  onClick={(e: React.MouseEvent) => {
+                                    e.stopPropagation();
+                                  }}
+                                >
+                                  ชำระเงิน
+                                </Button>
+                                <Button
+                                  h={30}
+                                  variant="outline"
+                                  color="red"
+                                  leftSection={<IconX />}
+                                  onClick={(e: React.MouseEvent) => {
+                                    e.stopPropagation();
+                                  }}
+                                >
+                                  ยกเลิก
+                                </Button>
+                              </>
+                            ) : status == 2 ? (
+                              <></>
+                            ) : status == 3 ? (
+                              <></>
+                            ) : status == 5 ? (
+                              <></>
+                            ) : (
+                              <></>
+                            )}
                           </Flex>
                         ),
                       },
