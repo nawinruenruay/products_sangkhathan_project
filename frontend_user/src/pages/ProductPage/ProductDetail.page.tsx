@@ -41,6 +41,7 @@ export function ProductDetailPage() {
   const [Qty, setQty] = useState(1);
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const { fetchCartsum } = useCartsum();
+  const [LoadingSubmit, setLoadingSubmit] = useState(false);
 
   const LoadData = (v1: any) => {
     setLoadingData(true);
@@ -59,39 +60,44 @@ export function ProductDetailPage() {
   };
 
   const Addcart = () => {
-    if (!id) {
-      nav("/login");
-    }
-    if (id) {
-      axios
-        .post(Api + "Cart/Addcart", {
-          qty: Qty,
-          price: Price,
-          pid: atob(v1),
-          userid: atob(id),
-        })
-        .then((res) => {
-          if (res.data === 200) {
-            Notifications.show({
-              title: "เพิ่มสินค้าเรียบร้อย",
-              message: "คุณได้เพิ่มสินค้าลงในตระกร้าแล้ว",
-              autoClose: 2000,
-              color: "green",
-              icon: <IconCheck />,
-            });
-            fetchCartsum(atob(id));
-          } else if (res.data.status === 400) {
-            Swal.fire({
-              icon: "info",
-              iconColor: "red",
-              text: res.data.message,
-              timer: 2000,
-              timerProgressBar: true,
-              showConfirmButton: false,
-            });
-          }
-        });
-    }
+    setLoadingSubmit(true);
+    setTimeout(() => {
+      if (!id) {
+        nav("/login");
+      }
+      if (id) {
+        axios
+          .post(Api + "Cart/Addcart", {
+            qty: Qty,
+            price: Price,
+            pid: atob(v1),
+            userid: atob(id),
+          })
+          .then((res) => {
+            if (res.data === 200) {
+              setLoadingSubmit(false);
+              Notifications.show({
+                title: "เพิ่มสินค้าเรียบร้อย",
+                message: "คุณได้เพิ่มสินค้าลงในตระกร้าแล้ว",
+                autoClose: 2000,
+                color: "green",
+                icon: <IconCheck />,
+              });
+              fetchCartsum(atob(id));
+            } else if (res.data.status === 400) {
+              setLoadingSubmit(false);
+              Swal.fire({
+                icon: "info",
+                iconColor: "red",
+                text: res.data.message,
+                timer: 2000,
+                timerProgressBar: true,
+                showConfirmButton: false,
+              });
+            }
+          });
+      }
+    }, 1000);
   };
 
   const ShowImage = (path: string) => {
@@ -222,7 +228,12 @@ export function ProductDetailPage() {
                         </Group>
                       </Group>
                       <Flex mt={25} gap={10}>
-                        <Button w={"100%"} onClick={Addcart}>
+                        <Button
+                          w={"100%"}
+                          onClick={Addcart}
+                          loading={LoadingSubmit}
+                          loaderProps={{ type: "dots" }}
+                        >
                           เพิ่มไปยังตระกร้าสินค้า
                         </Button>
                       </Flex>

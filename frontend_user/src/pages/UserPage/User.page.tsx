@@ -39,6 +39,7 @@ import {
 } from "@tabler/icons-react";
 import { useMediaQuery } from "@mantine/hooks";
 import { DataTable } from "mantine-datatable";
+import Swal from "sweetalert2";
 
 import {
   AddEmail,
@@ -189,63 +190,103 @@ export function UserPage() {
 
   const Submit = (val: any) => {
     setLoadingSubmit(true);
-    if (val.img_file !== null) {
-      const Update = new FormData();
-      Update.append("userid", atob(id));
-      Update.append("file", val.img_file);
-      Update.append("typeimg", "update");
-      axios.post(Api + "User/UploadIMG", Update).then(() => {
-        axios
-          .post(Api + "User/Updatedata", {
-            userid: atob(id),
-            name: val.name,
-            sex: val.sex,
-            typeadd: "name_sex",
-          })
-          .then((res) => {
-            if (res.data === 200) {
-              setLoadingSubmit(false);
-              Notifications.show({
-                title: "บันทึกข้อมูลสำเร็จ",
-                message: "คุณได้เพิ่มข้อมูลเรียบร้อยแล้ว",
-                autoClose: 2000,
-                color: "green",
-                icon: <IconCheck />,
-              });
-            }
-          });
-      });
-    } else {
-      const Update = new FormData();
-      Update.append("file", val.img);
-      Update.append("typeimg", "update");
-      axios.post(Api + "User/UploadIMG", Update).then(() => {
-        axios
-          .post(Api + "User/Updatedata", {
-            userid: atob(id),
-            name: val.name,
-            sex: val.sex,
-            typeadd: "name_sex",
-          })
-          .then((res) => {
-            if (res.data === 200) {
-              setLoadingSubmit(false);
-              Notifications.show({
-                title: "บันทึกข้อมูลสำเร็จ",
-                message: "คุณได้เพิ่มข้อมูลเรียบร้อยแล้ว",
-                autoClose: 2000,
-                color: "green",
-                icon: <IconCheck />,
-              });
-            }
-          });
-      });
-    }
+    setTimeout(() => {
+      if (val.img_file !== null) {
+        const Update = new FormData();
+        Update.append("userid", atob(id));
+        Update.append("file", val.img_file);
+        Update.append("typeimg", "update");
+        axios.post(Api + "User/UploadIMG", Update).then(() => {
+          axios
+            .post(Api + "User/Updatedata", {
+              userid: atob(id),
+              name: val.name,
+              sex: val.sex,
+              typeadd: "name_sex",
+            })
+            .then((res) => {
+              if (res.data === 200) {
+                setLoadingSubmit(false);
+                Notifications.show({
+                  title: "บันทึกข้อมูลสำเร็จ",
+                  message: "คุณได้เพิ่มข้อมูลเรียบร้อยแล้ว",
+                  autoClose: 2000,
+                  color: "green",
+                  icon: <IconCheck />,
+                });
+              }
+            });
+        });
+      } else {
+        const Update = new FormData();
+        Update.append("file", val.img);
+        Update.append("typeimg", "update");
+        axios.post(Api + "User/UploadIMG", Update).then(() => {
+          axios
+            .post(Api + "User/Updatedata", {
+              userid: atob(id),
+              name: val.name,
+              sex: val.sex,
+              typeadd: "name_sex",
+            })
+            .then((res) => {
+              if (res.data === 200) {
+                setLoadingSubmit(false);
+                Notifications.show({
+                  title: "บันทึกข้อมูลสำเร็จ",
+                  message: "คุณได้เพิ่มข้อมูลเรียบร้อยแล้ว",
+                  autoClose: 2000,
+                  color: "green",
+                  icon: <IconCheck />,
+                });
+              }
+            });
+        });
+      }
+    }, 5000);
   };
 
   const OpenModalShoworderbuy = (order_id: any) => {
     setSelectedOrderId(order_id);
     setModalShoworderbuy(true);
+  };
+
+  const CancelOrder = (order_id: any) => {
+    setLoadingSubmit(true);
+    Swal.fire({
+      title: "คุณต้องการยกเลิกออเดอร์?",
+      showCancelButton: true,
+      icon: "warning",
+      confirmButtonText: "ตกลง",
+      confirmButtonColor: "#40C057",
+      cancelButtonText: "ยกเลิก",
+      cancelButtonColor: "red",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .post(Api + "Buy/CancelOrder", {
+            order_id: order_id,
+          })
+          .then((res) => {
+            if (res.data === 200) {
+              setLoadingSubmit(false);
+              Notifications.show({
+                title: "ยกเลิกออเดอร์สำเร็จ",
+                message: "คุณได้ยกเลิกออเดอร์เรียบร้อยแล้ว",
+                autoClose: 2000,
+                color: "green",
+                icon: <IconCheck />,
+              });
+              LoadDatatable();
+            }
+          });
+      }
+      setLoadingSubmit(false);
+    });
+  };
+
+  const Checkout = (order_id: any) => {
+    nav("/user/checkout/" + btoa(order_id));
   };
 
   useEffect(() => {
@@ -542,25 +583,14 @@ export function UserPage() {
                         height: "50px",
                       },
                     }}
-                    // withColumnBorders
-                    // withTableBorder
-                    // scrollAreaProps={{ type: "never" }}
-                    // minHeight={350}
+                    minHeight={200}
                     idAccessor="order_id"
-                    // fetching={LoadingProfile}
                     loaderType="dots"
-                    // noRecordsText="ไม่มีสินค้าในตระกร้า"
-                    // noRecordsIcon={
-                    //   <Box p={4} mb={4} className={classes.noRecordsBox}>
-                    //     <IconMoodSad size={36} strokeWidth={1.5} />
-                    //   </Box>
-                    // }
                     highlightOnHover
                     columns={[
                       {
                         accessor: "id",
                         title: "ลำดับ",
-                        // width: 40,
                         textAlign: "center",
                       },
                       {
@@ -633,7 +663,7 @@ export function UserPage() {
                         accessor: "xx",
                         textAlign: "center",
                         title: "จัดการ",
-                        render: ({ status }) => (
+                        render: ({ status, order_id }) => (
                           <Flex align={"center"} justify={"center"} gap={5}>
                             {status == 1 ? (
                               <>
@@ -643,6 +673,7 @@ export function UserPage() {
                                   leftSection={<IconCash />}
                                   onClick={(e: React.MouseEvent) => {
                                     e.stopPropagation();
+                                    Checkout(order_id);
                                   }}
                                 >
                                   ชำระเงิน
@@ -652,8 +683,11 @@ export function UserPage() {
                                   variant="outline"
                                   color="red"
                                   leftSection={<IconX />}
+                                  loading={LoadingSubmit}
+                                  loaderProps={{ type: "dots" }}
                                   onClick={(e: React.MouseEvent) => {
                                     e.stopPropagation();
+                                    CancelOrder(order_id);
                                   }}
                                 >
                                   ยกเลิก

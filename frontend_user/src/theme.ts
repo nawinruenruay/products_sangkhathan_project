@@ -8,5 +8,6 @@ export const theme: MantineThemeOverride = createTheme({
     xl: "5px 5px 3px rgba(0, 0, 0, .25)",
   },
 
-  fontFamily: "Bai Jamjuree, sans-serif",
+  // fontFamily: "Bai Jamjuree, sans-serif",
+  fontFamily: "Prompt, sans-serif",
 });
