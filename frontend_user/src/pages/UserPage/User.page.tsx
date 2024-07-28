@@ -64,6 +64,12 @@ type DateOptions = {
   day: "numeric" | "2-digit";
 };
 
+interface Items {
+  order_id: any;
+  order_date: any;
+  status: any;
+}
+
 export function UserPage() {
   const nav = useNavigate();
   const { tabsValue } = useParams();
@@ -80,7 +86,7 @@ export function UserPage() {
   const [ModalShoworderbuy, setModalShoworderbuy] = useState<boolean>(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
 
-  const [Datatable, setDatatable] = useState<any[]>([]);
+  const [Table, setTable] = useState<any[]>([]);
   const [Email, setEmail] = useState("");
   const [Phone, setPhone] = useState("");
   const [Birthday, setBirthday] = useState("");
@@ -116,7 +122,7 @@ export function UserPage() {
               ...i,
               id: key + 1,
             }));
-            setDatatable(configData);
+            setTable(configData);
           }
           setLoadingProfile(false);
         });
@@ -252,7 +258,6 @@ export function UserPage() {
   };
 
   const CancelOrder = (order_id: any) => {
-    setLoadingSubmit(true);
     Swal.fire({
       title: "คุณต้องการยกเลิกออเดอร์?",
       showCancelButton: true,
@@ -269,7 +274,6 @@ export function UserPage() {
           })
           .then((res) => {
             if (res.data === 200) {
-              setLoadingSubmit(false);
               Notifications.show({
                 title: "ยกเลิกออเดอร์สำเร็จ",
                 message: "คุณได้ยกเลิกออเดอร์เรียบร้อยแล้ว",
@@ -281,7 +285,6 @@ export function UserPage() {
             }
           });
       }
-      setLoadingSubmit(false);
     });
   };
 
@@ -298,6 +301,22 @@ export function UserPage() {
     }
     window.scrollTo(0, 0);
   }, []);
+
+  const PAGE_SIZES = [5, 10, 15];
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(PAGE_SIZES[0]);
+  const [record, setRecord] = useState<Items[]>([]);
+
+  useEffect(() => {
+    const from = (page - 1) * pageSize;
+    const to = from + pageSize;
+    setRecord(
+      Table.slice(from, to).map((i: any, key: any) => ({
+        ...i,
+        id: from + key + 1,
+      }))
+    );
+  }, [page, pageSize, Table]);
 
   return (
     <>
@@ -622,7 +641,7 @@ export function UserPage() {
                                 OpenModalShoworderbuy(order_id);
                               }}
                             >
-                              ดูรายการสินค้าที่สั่งซื้อ
+                              คลิกเพื่อดูรายการสินค้าที่สั่งซื้อ
                             </Button>
                           </>
                         ),
@@ -706,7 +725,17 @@ export function UserPage() {
                         ),
                       },
                     ]}
-                    records={Datatable}
+                    totalRecords={Table.length}
+                    recordsPerPage={pageSize}
+                    page={page}
+                    records={record}
+                    onPageChange={setPage}
+                    recordsPerPageOptions={PAGE_SIZES}
+                    onRecordsPerPageChange={setPageSize}
+                    paginationText={({ from, to, totalRecords }) =>
+                      `แสดง ${from} ถึง ${to} ของ ${totalRecords} รายการ`
+                    }
+                    recordsPerPageLabel="แสดงรายการ"
                   />
                 </Box>
               </Paper>
