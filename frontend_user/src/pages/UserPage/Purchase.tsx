@@ -23,12 +23,12 @@ import {
   IconMoodSad,
   IconChevronRight,
 } from "@tabler/icons-react";
-import clsx from "clsx";
 
 import { DataTable } from "mantine-datatable";
 import Swal from "sweetalert2";
-import classes from "./User.module.css";
 import { Showorderbuy } from "./Showorderbuy";
+import clsx from "clsx";
+import classes from "./User.module.css";
 
 type DateOptions = {
   year: "numeric" | "2-digit";
@@ -176,14 +176,15 @@ export function Purchase() {
             columns={[
               {
                 accessor: "id",
-                title: "ลำดับ",
+                title: "รายการ",
                 textAlign: "center",
-                render: ({ id }) => (
+                render: ({ order_id, id }) => (
                   <>
-                    <Group>
+                    <Group wrap={"nowrap"}>
                       <IconChevronRight
-                        className={clsx(classes.icon, classes.expandIcon, {
-                          [classes.expandIconRotated]: Expanded.includes(id),
+                        className={clsx(classes.expandIcon, {
+                          [classes.expandIconRotated]:
+                            Expanded.includes(order_id),
                         })}
                         size={20}
                       />
@@ -318,7 +319,7 @@ export function Purchase() {
               </Box>
             }
             rowExpansion={{
-              allowMultiple: true,
+              allowMultiple: false,
               expanded: {
                 recordIds: Expanded,
                 onRecordIdsChange: setExpanded,

@@ -171,7 +171,7 @@ export function Profile() {
             });
         });
       }
-    }, 5000);
+    }, 2000);
   };
 
   useEffect(() => {
