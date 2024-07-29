@@ -15,7 +15,7 @@ import {
 } from "@mantine/core";
 
 import { Notifications } from "@mantine/notifications";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   IconCheck,
   IconX,
@@ -25,10 +25,34 @@ import {
 } from "@tabler/icons-react";
 
 import Swal from "sweetalert2";
-import clsx from "clsx";
-import classes from "./User.module.css";
 
 export function Checkout() {
+  const { v } = useParams<{ v: any }>();
+  const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
+  const [Loadingdata, setLoadingdata] = useState(false);
+
+  const Fetchdata = () => {
+    setLoadingdata(true);
+    axios
+      .post(Api + "User/Showorderbuydetail/", {
+        userid: atob(id),
+        order_id: v,
+      })
+      .then((res) => {
+        const data = res.data;
+        console.log(data);
+        if (data.length !== 0) {
+        }
+        setLoadingdata(false);
+      });
+  };
+
+  useEffect(() => {
+    if (v && id) {
+      Fetchdata();
+    }
+  }, []);
+
   return (
     <>
       <Paper shadow="sm" py={25} mih={400} pos={"relative"}>

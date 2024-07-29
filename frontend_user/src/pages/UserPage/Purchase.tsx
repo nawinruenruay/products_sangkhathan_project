@@ -47,8 +47,10 @@ export function Purchase() {
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const [LoadingProfile, setLoadingProfile] = useState(false);
   const [Expanded, setExpanded] = useState<any[]>([]);
-
   const [Table, setTable] = useState<any[]>([]);
+  const [ExpandedData, setExpandedData] = useState<{ [key: string]: any[] }>(
+    {}
+  );
 
   const LoadDatatable = () => {
     setLoadingProfile(true);
@@ -71,10 +73,6 @@ export function Purchase() {
         });
     }
   };
-
-  const [ExpandedData, setExpandedData] = useState<{ [key: string]: any[] }>(
-    {}
-  );
 
   const Loaddata2 = async (order_id: any) => {
     if (!ExpandedData[order_id]) {
@@ -151,7 +149,7 @@ export function Purchase() {
             }
           });
         } else {
-          nav("/user/account/checkout/" + btoa(order_id));
+          nav("/user/account/checkout/" + order_id);
         }
       });
   };
