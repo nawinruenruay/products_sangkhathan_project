@@ -9,3 +9,18 @@
     var(--mantine-colors-dark-6)
   );
 }
+
+.icon {
+  width: 16px;
+  height: auto;
+  vertical-align: -1px;
+  margin-right: 8px;
+}
+
+.expandIcon {
+  transition: transform 0.2s;
+}
+
+.expandIconRotated {
+  transform: rotate(90deg);
+}

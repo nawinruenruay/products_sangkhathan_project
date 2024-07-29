@@ -16,7 +16,14 @@ import {
 
 import { Notifications } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
-import { IconCheck, IconX, IconCash, IconMoodSad } from "@tabler/icons-react";
+import {
+  IconCheck,
+  IconX,
+  IconCash,
+  IconMoodSad,
+  IconChevronRight,
+} from "@tabler/icons-react";
+import clsx from "clsx";
 
 import { DataTable } from "mantine-datatable";
 import Swal from "sweetalert2";
@@ -30,6 +37,7 @@ type DateOptions = {
 };
 
 interface Items {
+  id: any;
   order_id: any;
   order_date: any;
   status: any;
@@ -39,7 +47,7 @@ export function Purchase() {
   const nav = useNavigate();
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const [LoadingProfile, setLoadingProfile] = useState(false);
-
+  const [Expanded, setExpanded] = useState<any[]>([]);
   const [ModalShoworderbuy, setModalShoworderbuy] = useState<boolean>(false);
   const [selectedOrderId, setSelectedOrderId] = useState(null);
 
@@ -161,6 +169,7 @@ export function Purchase() {
               },
             }}
             minHeight={300}
+            // height={300}
             idAccessor="order_id"
             loaderType="dots"
             highlightOnHover
@@ -169,6 +178,19 @@ export function Purchase() {
                 accessor: "id",
                 title: "ลำดับ",
                 textAlign: "center",
+                render: ({ id }) => (
+                  <>
+                    <Group>
+                      <IconChevronRight
+                        className={clsx(classes.icon, classes.expandIcon, {
+                          [classes.expandIconRotated]: Expanded.includes(id),
+                        })}
+                        size={20}
+                      />
+                      <Text>{id}</Text>
+                    </Group>
+                  </>
+                ),
               },
               {
                 accessor: "order_date",
@@ -180,27 +202,27 @@ export function Purchase() {
                   </>
                 ),
               },
-              {
-                accessor: "order",
-                textAlign: "center",
-                title: "รายการสินค้าที่สั่งซื้อ",
-                render: ({ order_id }) => (
-                  <>
-                    <Button
-                      h={30}
-                      variant="outline"
-                      radius="md"
-                      color="blue"
-                      onClick={(e: React.MouseEvent) => {
-                        e.stopPropagation();
-                        OpenModalShoworderbuy(order_id);
-                      }}
-                    >
-                      คลิกเพื่อดูรายการสินค้าที่สั่งซื้อ
-                    </Button>
-                  </>
-                ),
-              },
+              // {
+              //   accessor: "order",
+              //   textAlign: "center",
+              //   title: "รายการสินค้าที่สั่งซื้อ",
+              //   render: ({ order_id }) => (
+              //     <>
+              //       <Button
+              //         h={30}
+              //         variant="outline"
+              //         radius="md"
+              //         color="blue"
+              //         onClick={(e: React.MouseEvent) => {
+              //           e.stopPropagation();
+              //           OpenModalShoworderbuy(order_id);
+              //         }}
+              //       >
+              //         คลิกเพื่อดูรายการสินค้าที่สั่งซื้อ
+              //       </Button>
+              //     </>
+              //   ),
+              // },
               {
                 accessor: "status",
                 textAlign: "center",
@@ -295,6 +317,30 @@ export function Purchase() {
                 <IconMoodSad size={36} strokeWidth={1.5} />
               </Box>
             }
+            rowExpansion={{
+              allowMultiple: true,
+              expanded: {
+                recordIds: Expanded,
+                onRecordIdsChange: setExpanded,
+              },
+              content: () => (
+                <DataTable
+                  noHeader
+                  columns={[
+                    {
+                      accessor: "test",
+                      title: "test",
+                      render: ({}) => (
+                        <Box component="span" ml={25}>
+                          <span>Test</span>
+                        </Box>
+                      ),
+                    },
+                  ]}
+                  records={Table}
+                />
+              ),
+            }}
           />
         </Box>
       </Paper>
