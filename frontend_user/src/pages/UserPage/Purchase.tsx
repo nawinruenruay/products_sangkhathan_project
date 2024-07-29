@@ -346,7 +346,6 @@ export function Purchase() {
                 const details = ExpandedData[order_id] || [];
                 return (
                   <DataTable
-                    // noHeader
                     striped
                     columns={[
                       {
