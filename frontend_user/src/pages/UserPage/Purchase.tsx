@@ -195,7 +195,7 @@ export function Purchase() {
             การซื้อของฉัน
           </Text>
         </Group>
-        <Divider my="md" />
+        <Divider mt="md" />
         <Box>
           <DataTable
             styles={{
@@ -209,24 +209,27 @@ export function Purchase() {
             highlightOnHover
             columns={[
               {
+                accessor: "order_id",
+                title: "",
+                render: ({ order_id }) => (
+                  <>
+                    <IconChevronRight
+                      className={clsx(classes.expandIcon, {
+                        [classes.expandIconRotated]:
+                          Expanded.includes(order_id),
+                      })}
+                      stroke={1}
+                    />
+                  </>
+                ),
+              },
+              {
                 accessor: "order_date",
                 textAlign: "center",
                 title: "วันที่สั่งซื้อ",
-                render: ({ order_date, order_id }) => (
+                render: ({ order_date }) => (
                   <>
-                    <Group wrap={"nowrap"}>
-                      <IconChevronRight
-                        className={clsx(classes.expandIcon, {
-                          [classes.expandIconRotated]:
-                            Expanded.includes(order_id),
-                        })}
-                        stroke={1}
-                      />
-                      {new Date(order_date).toLocaleDateString(
-                        "TH-th",
-                        options2
-                      )}
-                    </Group>
+                    {new Date(order_date).toLocaleDateString("TH-th", options2)}
                   </>
                 ),
               },
@@ -343,7 +346,7 @@ export function Purchase() {
                 const details = ExpandedData[order_id] || [];
                 return (
                   <DataTable
-                    noHeader
+                    // noHeader
                     striped
                     columns={[
                       {
@@ -351,7 +354,7 @@ export function Purchase() {
                         title: "รายการ",
                         render: ({ pname, img }) => (
                           <>
-                            <Group ml={50}>
+                            <Group ml={30}>
                               <Image src={Api + img} w={30} />
                               <Text>{pname}</Text>
                             </Group>
@@ -360,11 +363,12 @@ export function Purchase() {
                       },
                       {
                         accessor: "qty",
-                        title: "จำนวน",
+                        title: "จำนวน (ชิ้น)",
+                        textAlign: "center",
                         render: ({ qty }) => (
                           <>
                             <Box component="span">
-                              <span>จำนวน {qty} ชิ้น</span>
+                              <span> {qty}</span>
                             </Box>
                           </>
                         ),
@@ -372,10 +376,11 @@ export function Purchase() {
                       {
                         accessor: "price",
                         title: "ราคา (บาท)",
+                        textAlign: "center",
                         render: ({ total }) => (
                           <>
                             <Box component="span">
-                              <span>ราคา {total.toLocaleString()} บาท</span>
+                              <span>{total.toLocaleString()}</span>
                             </Box>
                           </>
                         ),
