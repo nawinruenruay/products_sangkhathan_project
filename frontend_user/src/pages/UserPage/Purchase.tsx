@@ -160,7 +160,7 @@ export function Purchase() {
                 height: "50px",
               },
             }}
-            minHeight={200}
+            minHeight={300}
             idAccessor="order_id"
             loaderType="dots"
             highlightOnHover
@@ -289,6 +289,7 @@ export function Purchase() {
               `แสดง ${from} ถึง ${to} ของ ${totalRecords} รายการ`
             }
             recordsPerPageLabel="แสดงรายการ"
+            noRecordsText="ไม่พบรายการ"
           />
         </Box>
       </Paper>
