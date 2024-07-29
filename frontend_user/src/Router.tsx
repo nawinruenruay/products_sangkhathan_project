@@ -12,7 +12,6 @@ import { GalleryDetailPage } from "./pages/GalleryPage/GalleryDetail.page";
 import { ContactPage } from "./pages/ContactPage/Contact.page";
 import { UserPage } from "./pages/UserPage/User.page";
 import { CartPage } from "./pages/CartPage/Cart.page";
-import { CheckoutPage } from "./pages/CheckoutPage/Checkout.page";
 
 // AUTH
 import { Register } from "./auth/Register";
@@ -60,11 +59,11 @@ const router = createBrowserRouter([
         element: <CartPage />,
       },
       {
-        path: "/checkout/:v",
-        element: <CheckoutPage />,
+        path: "/user/account/:tabsValue",
+        element: <UserPage />,
       },
       {
-        path: "/user/account/:tabsValue",
+        path: "/user/account/:tabsValue/:v",
         element: <UserPage />,
       },
     ],

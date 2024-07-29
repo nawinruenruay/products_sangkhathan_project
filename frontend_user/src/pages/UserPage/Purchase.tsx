@@ -151,7 +151,7 @@ export function Purchase() {
             }
           });
         } else {
-          nav("/user/checkout/" + btoa(order_id));
+          nav("/user/account/checkout/" + btoa(order_id));
         }
       });
   };

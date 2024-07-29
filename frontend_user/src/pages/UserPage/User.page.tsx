@@ -11,6 +11,7 @@ import { useMediaQuery } from "@mantine/hooks";
 import { Profile } from "./Profile";
 import { Address } from "./Address";
 import { Purchase } from "./Purchase";
+import { Checkout } from "./Checkout";
 
 export function UserPage() {
   const nav = useNavigate();
@@ -74,6 +75,10 @@ export function UserPage() {
 
             <Tabs.Panel value="password">
               <Paper shadow="sm" px={30} py={25} mih={400}></Paper>
+            </Tabs.Panel>
+
+            <Tabs.Panel value="checkout">
+              <Checkout />
             </Tabs.Panel>
           </Grid.Col>
         </Grid>
