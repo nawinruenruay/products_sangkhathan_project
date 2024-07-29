@@ -333,7 +333,7 @@ export function Profile() {
                 )}
               </FileButton>
               <Text c={"#999999"} fz={"14px"}>
-                ขนาดไฟล์: สูงสุด 1 MB ไฟล์ที่รองรับ: .JPEG, .PNG
+                ขนาดไฟล์: สูงสุด 1 MB ไฟล์ที่รองรับ: JPEG,JPG,PNG
               </Text>
             </Flex>
             <Button
