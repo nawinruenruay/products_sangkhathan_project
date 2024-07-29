@@ -131,12 +131,41 @@ export function Purchase() {
   };
 
   const Checkout = (order_id: any) => {
-    nav("/user/checkout/" + btoa(order_id));
+    axios
+      .post(Api + "/User/Showuser", {
+        userid: atob(id),
+      })
+      .then((res) => {
+        const data = res.data;
+        if (data[0].address === "") {
+          Swal.fire({
+            title: "คุณยังไม่ได้กรอกที่อยู่?",
+            text: "กรุณากรอกที่อยู่ก่อนทำการชำระเงิน!",
+            icon: "warning",
+            showCancelButton: false,
+            confirmButtonText: "ตกลง",
+            confirmButtonColor: "#40C057",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              nav("/user/account/address");
+            }
+          });
+        } else {
+          nav("/user/checkout/" + btoa(order_id));
+        }
+      });
   };
 
   useEffect(() => {
     if (id) {
       LoadDatatable();
+      // Swal.fire({
+      //   title: "อย่าลืม!!",
+      //   text: "ตรวจสอบที่อยู่ให้ถูกต้องก่อนทำการชำระเงิน",
+      //   timer: 3000,
+      //   timerProgressBar: true,
+      //   showConfirmButton: false,
+      // });
     } else {
       nav("/login");
     }
@@ -198,7 +227,7 @@ export function Purchase() {
                           [classes.expandIconRotated]:
                             Expanded.includes(order_id),
                         })}
-                        size={20}
+                        stroke={1}
                       />
                       {new Date(order_date).toLocaleDateString(
                         "TH-th",
@@ -329,7 +358,7 @@ export function Purchase() {
                         title: "รายการ",
                         render: ({ pname, img }) => (
                           <>
-                            <Group ml={25}>
+                            <Group ml={30}>
                               <Image src={Api + img} w={30} />
                               <Text>{pname}</Text>
                             </Group>
