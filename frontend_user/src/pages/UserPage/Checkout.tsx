@@ -226,8 +226,6 @@ export function Checkout({ closeWithSuccess, order_id }: ItemsProps) {
               ? Api + "/public/uploadimg/noimage.png"
               : form.values.img_preview
           }
-          // w={200}
-          // h={500}
           mb={10}
         />
         <FileButton onChange={handleFileChange} accept="image/png,image/jpeg">
