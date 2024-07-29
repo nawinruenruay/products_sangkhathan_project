@@ -16,11 +16,11 @@ import {
 
 import { Notifications } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
-import { IconCheck, IconX, IconCash } from "@tabler/icons-react";
+import { IconCheck, IconX, IconCash, IconMoodSad } from "@tabler/icons-react";
 
 import { DataTable } from "mantine-datatable";
 import Swal from "sweetalert2";
-
+import classes from "./User.module.css";
 import { Showorderbuy } from "./Showorderbuy";
 
 type DateOptions = {
@@ -289,7 +289,12 @@ export function Purchase() {
               `แสดง ${from} ถึง ${to} ของ ${totalRecords} รายการ`
             }
             recordsPerPageLabel="แสดงรายการ"
-            noRecordsText="ไม่พบรายการ"
+            noRecordsText="ไม่พบรายการสินค้า"
+            noRecordsIcon={
+              <Box p={4} mb={4} className={classes.noRecordsBox}>
+                <IconMoodSad size={36} strokeWidth={1.5} />
+              </Box>
+            }
           />
         </Box>
       </Paper>
