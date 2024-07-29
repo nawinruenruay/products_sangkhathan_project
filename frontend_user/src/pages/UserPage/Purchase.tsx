@@ -182,16 +182,15 @@ export function Purchase() {
               },
             }}
             minHeight={300}
-            // height={300}
             idAccessor="order_id"
             loaderType="dots"
             highlightOnHover
             columns={[
               {
-                accessor: "id",
-                title: "รายการ",
+                accessor: "order_date",
                 textAlign: "center",
-                render: ({ order_id, id }) => (
+                title: "วันที่สั่งซื้อ",
+                render: ({ order_date, order_id }) => (
                   <>
                     <Group wrap={"nowrap"}>
                       <IconChevronRight
@@ -201,18 +200,11 @@ export function Purchase() {
                         })}
                         size={20}
                       />
-                      <Text>{id}</Text>
+                      {new Date(order_date).toLocaleDateString(
+                        "TH-th",
+                        options2
+                      )}
                     </Group>
-                  </>
-                ),
-              },
-              {
-                accessor: "order_date",
-                textAlign: "center",
-                title: "วันที่สั่งซื้อ",
-                render: ({ order_date }) => (
-                  <>
-                    {new Date(order_date).toLocaleDateString("TH-th", options2)}
                   </>
                 ),
               },
@@ -330,15 +322,15 @@ export function Purchase() {
                 return (
                   <DataTable
                     noHeader
+                    striped
                     columns={[
                       {
                         accessor: "name",
                         title: "รายการ",
-
                         render: ({ pname, img }) => (
                           <>
                             <Group ml={25}>
-                              <Image src={Api + img} w={35} />
+                              <Image src={Api + img} w={30} />
                               <Text>{pname}</Text>
                             </Group>
                           </>
@@ -347,7 +339,6 @@ export function Purchase() {
                       {
                         accessor: "qty",
                         title: "จำนวน",
-
                         render: ({ qty }) => (
                           <>
                             <Text>{qty} ชิ้น</Text>
@@ -357,7 +348,6 @@ export function Purchase() {
                       {
                         accessor: "price",
                         title: "ราคา (บาท)",
-
                         render: ({ total }) => (
                           <>
                             <Text>{total.toLocaleString()} บาท</Text>
