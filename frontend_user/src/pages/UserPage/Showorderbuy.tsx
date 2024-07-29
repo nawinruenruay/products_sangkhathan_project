@@ -1,4 +1,4 @@
-import { Flex, Paper, Image, Text } from "@mantine/core";
+import { Flex, Image, Text } from "@mantine/core";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Api } from "../../Api";
@@ -40,70 +40,68 @@ export function Showorderbuy({ order }: ItemsProps) {
 
   return (
     <>
-      <Paper shadow="xs">
-        <DataTable
-          styles={{
-            header: {
-              height: "50px",
-            },
-          }}
-          idAccessor="id"
-          minHeight={350}
-          fetching={LoadingData}
-          loaderType="dots"
-          highlightOnHover
-          columns={[
-            {
-              accessor: "id",
-              title: "ลำดับ",
-              textAlign: "center",
-            },
-            {
-              accessor: "name",
-              title: "รายการ",
-              render: ({ pname, img }) => (
-                <>
-                  <Flex align={"center"}>
-                    <Image src={Api + img} w={45} />
-                    <Text ml={15}>{pname}</Text>
-                  </Flex>
-                </>
-              ),
-            },
-            {
-              accessor: "qty",
-              title: "จำนวน",
-              textAlign: "center",
-              render: ({ qty }) => (
-                <>
-                  <Text>{qty} ชิ้น</Text>
-                </>
-              ),
-            },
-            {
-              accessor: "price",
-              title: "ราคา (บาท)",
-              textAlign: "center",
-              render: ({ total }) => (
-                <>
-                  <Text>{total.toLocaleString()}</Text>
-                </>
-              ),
-            },
-          ]}
-          records={Data}
-        />
-        <Flex justify={"right"} p={25}>
-          <Text
-            fz={"h3"}
-            variant="gradient"
-            gradient={{ from: "teal", to: "lime", deg: 90 }}
-            fw={"bold"}
-          >
-            ราคารวม {totalAmount.toLocaleString()} บาท
-          </Text>
-        </Flex>
-      </Paper>
+      <DataTable
+        styles={{
+          header: {
+            height: "50px",
+          },
+        }}
+        idAccessor="id"
+        minHeight={350}
+        fetching={LoadingData}
+        loaderType="dots"
+        highlightOnHover
+        columns={[
+          {
+            accessor: "id",
+            title: "ลำดับ",
+            textAlign: "center",
+          },
+          {
+            accessor: "name",
+            title: "รายการ",
+            render: ({ pname, img }) => (
+              <>
+                <Flex align={"center"}>
+                  <Image src={Api + img} w={45} />
+                  <Text ml={15}>{pname}</Text>
+                </Flex>
+              </>
+            ),
+          },
+          {
+            accessor: "qty",
+            title: "จำนวน",
+            textAlign: "center",
+            render: ({ qty }) => (
+              <>
+                <Text>{qty} ชิ้น</Text>
+              </>
+            ),
+          },
+          {
+            accessor: "price",
+            title: "ราคา (บาท)",
+            textAlign: "center",
+            render: ({ total }) => (
+              <>
+                <Text>{total.toLocaleString()}</Text>
+              </>
+            ),
+          },
+        ]}
+        records={Data}
+      />
+      <Flex justify={"right"} p={25}>
+        <Text
+          fz={"h3"}
+          variant="gradient"
+          gradient={{ from: "teal", to: "lime", deg: 90 }}
+          fw={"bold"}
+        >
+          ราคารวม {totalAmount.toLocaleString()} บาท
+        </Text>
+      </Flex>
     </>
   );
 }
