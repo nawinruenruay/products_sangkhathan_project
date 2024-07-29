@@ -351,7 +351,7 @@ export function Purchase() {
                         title: "รายการ",
                         render: ({ pname, img }) => (
                           <>
-                            <Group ml={30}>
+                            <Group ml={50}>
                               <Image src={Api + img} w={30} />
                               <Text>{pname}</Text>
                             </Group>
@@ -363,7 +363,9 @@ export function Purchase() {
                         title: "จำนวน",
                         render: ({ qty }) => (
                           <>
-                            <Text>{qty} ชิ้น</Text>
+                            <Box component="span">
+                              <span>จำนวน {qty} ชิ้น</span>
+                            </Box>
                           </>
                         ),
                       },
@@ -372,7 +374,9 @@ export function Purchase() {
                         title: "ราคา (บาท)",
                         render: ({ total }) => (
                           <>
-                            <Text>{total.toLocaleString()} บาท</Text>
+                            <Box component="span">
+                              <span>ราคา {total.toLocaleString()} บาท</span>
+                            </Box>
                           </>
                         ),
                       },
