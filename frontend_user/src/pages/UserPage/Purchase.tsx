@@ -329,25 +329,25 @@ export function Purchase() {
                 const details = ExpandedData[order_id] || [];
                 return (
                   <DataTable
-                    // noHeader
+                    noHeader
                     columns={[
                       {
                         accessor: "name",
                         title: "รายการ",
-                        width: 200,
+
                         render: ({ pname, img }) => (
                           <>
-                            <Flex align={"center"} ml={25}>
+                            <Group ml={25}>
                               <Image src={Api + img} w={35} />
                               <Text>{pname}</Text>
-                            </Flex>
+                            </Group>
                           </>
                         ),
                       },
                       {
                         accessor: "qty",
                         title: "จำนวน",
-                        width: 200,
+
                         render: ({ qty }) => (
                           <>
                             <Text>{qty} ชิ้น</Text>
@@ -357,7 +357,7 @@ export function Purchase() {
                       {
                         accessor: "price",
                         title: "ราคา (บาท)",
-                        width: 200,
+
                         render: ({ total }) => (
                           <>
                             <Text>{total.toLocaleString()} บาท</Text>
