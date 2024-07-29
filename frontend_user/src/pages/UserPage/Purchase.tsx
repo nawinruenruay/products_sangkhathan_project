@@ -8,10 +8,10 @@ import {
   Group,
   Button,
   Divider,
-  Modal,
   LoadingOverlay,
   Badge,
   Box,
+  Image,
 } from "@mantine/core";
 
 import { Notifications } from "@mantine/notifications";
@@ -26,7 +26,6 @@ import {
 
 import { DataTable } from "mantine-datatable";
 import Swal from "sweetalert2";
-import { Showorderbuy } from "./Showorderbuy";
 import clsx from "clsx";
 import classes from "./User.module.css";
 
@@ -48,8 +47,6 @@ export function Purchase() {
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const [LoadingProfile, setLoadingProfile] = useState(false);
   const [Expanded, setExpanded] = useState<any[]>([]);
-  const [ModalShoworderbuy, setModalShoworderbuy] = useState<boolean>(false);
-  const [selectedOrderId, setSelectedOrderId] = useState(null);
 
   const [Table, setTable] = useState<any[]>([]);
 
@@ -75,15 +72,31 @@ export function Purchase() {
     }
   };
 
+  const [ExpandedData, setExpandedData] = useState<{ [key: string]: any[] }>(
+    {}
+  );
+
+  const Loaddata2 = async (order_id: any) => {
+    if (!ExpandedData[order_id]) {
+      const res = await axios.post(Api + "/User/Showorderbuydetail", {
+        userid: atob(id),
+        order_id: order_id,
+      });
+      const data = res.data;
+      if (data.length !== 0) {
+        const configData = data.map((i: any, key: any) => ({
+          ...i,
+          id: key + 1,
+        }));
+        setExpandedData((prev) => ({ ...prev, [order_id]: configData }));
+      }
+    }
+  };
+
   const options2: DateOptions = {
     year: "numeric",
     month: "short",
     day: "numeric",
-  };
-
-  const OpenModalShoworderbuy = (order_id: any) => {
-    setSelectedOrderId(order_id);
-    setModalShoworderbuy(true);
   };
 
   const CancelOrder = (order_id: any) => {
@@ -203,27 +216,6 @@ export function Purchase() {
                   </>
                 ),
               },
-              // {
-              //   accessor: "order",
-              //   textAlign: "center",
-              //   title: "รายการสินค้าที่สั่งซื้อ",
-              //   render: ({ order_id }) => (
-              //     <>
-              //       <Button
-              //         h={30}
-              //         variant="outline"
-              //         radius="md"
-              //         color="blue"
-              //         onClick={(e: React.MouseEvent) => {
-              //           e.stopPropagation();
-              //           OpenModalShoworderbuy(order_id);
-              //         }}
-              //       >
-              //         คลิกเพื่อดูรายการสินค้าที่สั่งซื้อ
-              //       </Button>
-              //     </>
-              //   ),
-              // },
               {
                 accessor: "status",
                 textAlign: "center",
@@ -322,42 +314,65 @@ export function Purchase() {
               allowMultiple: false,
               expanded: {
                 recordIds: Expanded,
-                onRecordIdsChange: setExpanded,
+                onRecordIdsChange: async (newExpanded: any) => {
+                  setExpanded(newExpanded);
+                  if (newExpanded.length > 0) {
+                    const order_id = newExpanded[0];
+                    if (!ExpandedData[order_id]) {
+                      await Loaddata2(order_id);
+                    }
+                  }
+                },
               },
-              content: () => (
-                <DataTable
-                  noHeader
-                  columns={[
-                    {
-                      accessor: "test",
-                      title: "test",
-                      render: ({}) => (
-                        <Box component="span" ml={25}>
-                          <span>Test</span>
-                        </Box>
-                      ),
-                    },
-                  ]}
-                  records={Table}
-                />
-              ),
+              content: ({ record }) => {
+                const order_id = record.order_id;
+                const details = ExpandedData[order_id] || [];
+                return (
+                  <DataTable
+                    // noHeader
+                    columns={[
+                      {
+                        accessor: "name",
+                        title: "รายการ",
+                        width: 200,
+                        render: ({ pname, img }) => (
+                          <>
+                            <Flex align={"center"} ml={25}>
+                              <Image src={Api + img} w={35} />
+                              <Text>{pname}</Text>
+                            </Flex>
+                          </>
+                        ),
+                      },
+                      {
+                        accessor: "qty",
+                        title: "จำนวน",
+                        width: 200,
+                        render: ({ qty }) => (
+                          <>
+                            <Text>{qty} ชิ้น</Text>
+                          </>
+                        ),
+                      },
+                      {
+                        accessor: "price",
+                        title: "ราคา (บาท)",
+                        width: 200,
+                        render: ({ total }) => (
+                          <>
+                            <Text>{total.toLocaleString()} บาท</Text>
+                          </>
+                        ),
+                      },
+                    ]}
+                    records={details}
+                  />
+                );
+              },
             }}
           />
         </Box>
       </Paper>
-      <Modal
-        title="รายการสินค้าที่สั่งซื้อ"
-        opened={ModalShoworderbuy}
-        onClose={() => {
-          setModalShoworderbuy(false);
-          setSelectedOrderId(null);
-        }}
-        size={"lg"}
-        centered
-        overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
-      >
-        <Showorderbuy order={selectedOrderId} />
-      </Modal>
     </>
   );
 }
