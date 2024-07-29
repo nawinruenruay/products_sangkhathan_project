@@ -159,13 +159,6 @@ export function Purchase() {
   useEffect(() => {
     if (id) {
       LoadDatatable();
-      // Swal.fire({
-      //   title: "อย่าลืม!!",
-      //   text: "ตรวจสอบที่อยู่ให้ถูกต้องก่อนทำการชำระเงิน",
-      //   timer: 3000,
-      //   timerProgressBar: true,
-      //   showConfirmButton: false,
-      // });
     } else {
       nav("/login");
     }
