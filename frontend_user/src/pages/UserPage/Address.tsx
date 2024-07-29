@@ -15,7 +15,7 @@ import { Notifications } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
 import { IconCheck, IconPlus } from "@tabler/icons-react";
 
-import { AddAddress } from "./AddAndUpdateDATAUSER";
+import { AddAddress } from "./AddItems";
 
 export function Address() {
   const nav = useNavigate();

@@ -23,7 +23,7 @@ import { Notifications } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
 import { IconCheck, IconCamera } from "@tabler/icons-react";
 
-import { AddEmail, Addphone, AddBirthday } from "./AddAndUpdateDATAUSER";
+import { AddEmail, Addphone, AddBirthday } from "./AddItems";
 
 type FormValues = {
   name: string;
