@@ -86,7 +86,7 @@ export function ProductPage() {
         mt={30}
         mb={50}
       >
-        <Tabs.List>
+        <Tabs.List grow>
           <Tabs.Tab
             value="p1"
             leftSection={<IconBrandProducthunt style={iconStyle} />}
