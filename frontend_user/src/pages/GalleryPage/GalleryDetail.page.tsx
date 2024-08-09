@@ -35,7 +35,7 @@ export function GalleryDetailPage() {
     setLoadingData(true);
     axios
       .post(Api + "Activity/postShowactivity/", {
-        act_id: atob(v1),
+        act_id: v1,
       })
       .then((res) => {
         const data = res.data;

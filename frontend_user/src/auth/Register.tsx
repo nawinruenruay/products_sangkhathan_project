@@ -117,7 +117,7 @@ export function Register() {
       <Notifications zIndex={1000} />
       <Container size={"lg"}>
         <Group justify={"space-between"} h={90}>
-          <UnstyledButton onClick={() => nav("/home")}>
+          <UnstyledButton onClick={() => nav("/")}>
             <Group gap={0}>
               <Image radius="md" src={LOGO} w={60} />
               <Text size={"md"} c={"#7EA236"}>

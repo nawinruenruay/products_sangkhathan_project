@@ -61,7 +61,7 @@ export function GalleryPage() {
   };
 
   const ViewGalley = (v1: string, v2: string) => {
-    nav("/gallery/" + btoa(v1) + "/" + v2);
+    nav("/gallery/" + v1 + "/" + v2);
   };
 
   useEffect(() => {

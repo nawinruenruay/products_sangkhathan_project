@@ -51,8 +51,8 @@ export function ProductPage() {
     setShowIMG(true);
   };
 
-  const ProductDetail = (v1: string, v2: string) => {
-    nav("/product/" + btoa(v1) + "/" + v2);
+  const ProductDetail = (productName: string, productId: string) => {
+    nav("/product/" + productName + "/" + productId);
   };
 
   useEffect(() => {
@@ -62,7 +62,7 @@ export function ProductPage() {
 
   return (
     <>
-      <Paper radius={8} shadow="sm">
+      {/* <Paper radius={8} shadow="sm">
         <Carousel
           withIndicators
           plugins={[autoplay.current]}
@@ -77,31 +77,31 @@ export function ProductPage() {
             <Image src={p2} radius={8} />
           </Carousel.Slide>
         </Carousel>
-      </Paper>
+      </Paper> */}
 
       <Tabs
-        defaultValue="p1"
+        defaultValue="สินค้าผลิตภัณฑ์-cat.1"
         value={tabsValue}
         onChange={(tabsValue) => nav(`/product/${tabsValue}`)}
-        mt={30}
+        // mt={30}
         mb={50}
       >
         <Tabs.List grow>
           <Tabs.Tab
-            value="p1"
+            value="สินค้าผลิตภัณฑ์-cat.1"
             leftSection={<IconBrandProducthunt style={iconStyle} />}
           >
             สินค้าผลิตภัณฑ์
           </Tabs.Tab>
           <Tabs.Tab
-            value="p2"
+            value="สังฆฑานออนไลน์-cat.2"
             leftSection={<IconBrandProducthunt style={iconStyle} />}
           >
             สังฆฑานออนไลน์
           </Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="p1">
+        <Tabs.Panel value="สินค้าผลิตภัณฑ์-cat.1">
           {LoadingData === true ? (
             <>
               <Paper radius={8} shadow="sm" p={10}>
@@ -126,7 +126,7 @@ export function ProductPage() {
                       className={classes.card}
                       h={"100%"}
                       onClick={() => {
-                        ProductDetail(i.pid, i.pname);
+                        ProductDetail(i.pname, i.pid);
                       }}
                     >
                       <Card.Section
@@ -159,7 +159,7 @@ export function ProductPage() {
                         mt="md"
                         radius="md"
                         onClick={() => {
-                          ProductDetail(i.pid, i.pname);
+                          ProductDetail(i.pname, i.pid);
                         }}
                       >
                         รายละเอียดสินค้า
@@ -172,7 +172,7 @@ export function ProductPage() {
           )}
         </Tabs.Panel>
 
-        <Tabs.Panel value="p2">
+        <Tabs.Panel value="สังฆฑานออนไลน์-cat.2">
           {LoadingData === true ? (
             <>
               <Paper radius={8} shadow="sm" p={10}>
@@ -196,7 +196,7 @@ export function ProductPage() {
                       withBorder
                       className={classes.card}
                       onClick={() => {
-                        ProductDetail(i.pid, i.pname);
+                        ProductDetail(i.pname, i.pid);
                       }}
                     >
                       <Card.Section
@@ -230,7 +230,7 @@ export function ProductPage() {
                         mt="md"
                         radius="md"
                         onClick={() => {
-                          ProductDetail(i.pid, i.pname);
+                          ProductDetail(i.pname, i.pid);
                         }}
                       >
                         รายละเอียดสินค้า

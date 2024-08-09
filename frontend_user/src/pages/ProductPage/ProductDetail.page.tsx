@@ -32,7 +32,11 @@ import Swal from "sweetalert2";
 
 export function ProductDetailPage() {
   const nav = useNavigate();
-  const { v1, v2 } = useParams<{ v1: any; v2: any }>();
+  const { productName, productId } = useParams<{
+    productName: string;
+    productId: string;
+  }>();
+
   const [LoadingData, setLoadingData] = useState(false);
   const [Data, setData] = useState([]);
   const [ShowIMG, setShowIMG] = useState(false);
@@ -43,11 +47,11 @@ export function ProductDetailPage() {
   const { fetchCartsum } = useCartsum();
   const [LoadingSubmit, setLoadingSubmit] = useState(false);
 
-  const LoadData = (v1: any) => {
+  const LoadData = (productId: any) => {
     setLoadingData(true);
     axios
       .post(Api + "Product/postShowproduct/", {
-        pid: atob(v1),
+        pid: productId,
       })
       .then((res) => {
         const data = res.data;
@@ -70,7 +74,7 @@ export function ProductDetailPage() {
           .post(Api + "Cart/Addcart", {
             qty: Qty,
             price: Price,
-            pid: atob(v1),
+            pid: productId,
             userid: atob(id),
           })
           .then((res) => {
@@ -107,7 +111,7 @@ export function ProductDetailPage() {
 
   const items = [
     { title: "สินค้า", href: "/product" },
-    { title: v2, href: "" },
+    { title: productName, href: "" },
   ].map((item, index) => (
     <Anchor key={index} component={Nl} to={item.href} fz={"h5"}>
       {item.title}
@@ -115,9 +119,8 @@ export function ProductDetailPage() {
   ));
 
   useEffect(() => {
-    LoadData(v1);
-    window.scrollTo(0, 0);
-  }, [v1]);
+    LoadData(productId);
+  }, [productId]);
 
   return (
     <>

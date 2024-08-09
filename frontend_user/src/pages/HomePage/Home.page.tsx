@@ -69,7 +69,7 @@ export function HomePage() {
     <>
       {LoadingData === true ? (
         <>
-          <Paper radius={8} shadow="sm">
+          <Paper radius={8} shadow="sm" mb={20}>
             <Flex direction={"column"} gap={10}>
               <Skeleton w={"100%"} h={450} />
             </Flex>
@@ -77,7 +77,7 @@ export function HomePage() {
         </>
       ) : (
         <>
-          <Paper radius={8} shadow="sm">
+          <Paper radius={8} shadow="sm" mb={20}>
             <Carousel
               withIndicators
               plugins={[autoplay.current]}
@@ -96,7 +96,7 @@ export function HomePage() {
         </>
       )}
 
-      {LoadingData === true ? (
+      {/* {LoadingData === true ? (
         <>
           <Paper radius={8} shadow="sm" mt={20} mb={20}>
             <Flex direction={"row"} gap={10}>
@@ -160,7 +160,7 @@ export function HomePage() {
             ))}
           </Grid>
         </>
-      )}
+      )} */}
 
       <Modal
         onClose={() => {
