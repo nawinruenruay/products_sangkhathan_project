@@ -120,6 +120,7 @@ export function ProductDetailPage() {
 
   useEffect(() => {
     LoadData(productId);
+    window.scrollTo(0, 0);
   }, [productId]);
 
   return (
