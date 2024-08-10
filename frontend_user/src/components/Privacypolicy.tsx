@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Cookies from "js-cookie";
-import { Box, Group } from "@mantine/core";
+import { Box, Group, Button, Text, UnstyledButton } from "@mantine/core";
 
 export function Privacypolicy() {
   const [isVisible, setIsVisible] = useState(!Cookies.get("acceptPolicy"));
@@ -20,28 +20,16 @@ export function Privacypolicy() {
         c={"#fff"}
         p={"10px"}
       >
-        <Group align={"center"} justify={"center"}>
-          <p>
-            เว็บไซต์ของเราใช้คุกกี้เพื่อเพิ่มประสิทธิภาพในการใช้งานเว็บไซต์{" "}
-            <a
-              href="/privacy-policy"
-              style={{ color: "#fff", textDecoration: "underline" }}
-            >
+        <Group align={"center"} justify={"center"} gap={10}>
+          <Text>
+            เว็บไซต์ของเราใช้คุกกี้เพื่อเพิ่มประสิทธิภาพในการใช้งานเว็บไซต์
+          </Text>
+          <UnstyledButton>
+            <Text td="underline">
               อ่านนโยบายข้อมูลส่วนบุคคล (PDPA) และ ข้อกำหนดในการให้บริการ
-            </a>
-          </p>
-          <button
-            onClick={handleAccept}
-            style={{
-              backgroundColor: "#4CAF50",
-              color: "#fff",
-              border: "none",
-              padding: "10px 20px",
-              cursor: "pointer",
-            }}
-          >
-            ยอมรับ
-          </button>
+            </Text>
+          </UnstyledButton>
+          <Button onClick={handleAccept}>ยอมรับ</Button>
         </Group>
       </Box>
     )
