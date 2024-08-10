@@ -6,7 +6,7 @@ export function Privacypolicy() {
   const [isVisible, setIsVisible] = useState(!Cookies.get("acceptPolicy"));
 
   const handleAccept = () => {
-    Cookies.set("acceptPolicy", "true", { expires: 365 });
+    Cookies.set("acceptPolicy", "accepted", { expires: 365 });
     setIsVisible(false);
   };
 
@@ -18,9 +18,9 @@ export function Privacypolicy() {
         w={"100%"}
         bg={"rgba(51, 51, 51, 0.8)"}
         c={"#fff"}
-        p={"10px"}
+        p={"15px"}
       >
-        <Group align={"center"} justify={"center"} gap={10}>
+        <Group justify={"center"} align={"center"} gap={10}>
           <Text>
             เว็บไซต์ของเราใช้คุกกี้เพื่อเพิ่มประสิทธิภาพในการใช้งานเว็บไซต์
           </Text>
