@@ -88,7 +88,7 @@ export function HomePage() {
               {Array.isArray(Banner) &&
                 Banner.map((img: any, key) => (
                   <Carousel.Slide key={key}>
-                    <Image src={Api + img.banner_pic} radius={8} />
+                    <Image src={Api + img.banner_pic} radius={8} h={"100%"} />
                   </Carousel.Slide>
                 ))}
             </Carousel>
