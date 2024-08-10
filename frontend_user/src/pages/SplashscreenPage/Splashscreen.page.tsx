@@ -12,7 +12,7 @@ export function SplashscreenPage() {
       <Group justify={"center"} align={"center"} mt={40} gap={10}>
         <button
           className={classes.button_82_pushable}
-          onClick={() => nav("product/สินค้าผลิตภัณฑ์-cat.1")}
+          onClick={() => nav("product/สินค้าผลิตภัณฑ์")}
         >
           <span className={classes.button_82_shadow}></span>
           <span className={classes.button_82_edge}></span>
@@ -21,7 +21,7 @@ export function SplashscreenPage() {
 
         <button
           className={classes.button_82_pushable}
-          onClick={() => nav("product/สังฆฑานออนไลน์-cat.2")}
+          onClick={() => nav("product/สังฆฑานออนไลน์")}
         >
           <span className={classes.button_82_shadow}></span>
           <span className={classes.button_82_edge}></span>

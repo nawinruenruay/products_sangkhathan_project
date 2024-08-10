@@ -15,6 +15,7 @@ import {
   Breadcrumbs,
   TextInput,
   LoadingOverlay,
+  Center,
 } from "@mantine/core";
 import { useParams, NavLink as Nl, useNavigate } from "react-router-dom";
 import { Notifications } from "@mantine/notifications";
@@ -32,33 +33,41 @@ import { useCartsum } from "../../components/CartContext";
 import Swal from "sweetalert2";
 
 export function ProductDetailPage() {
-  const nav = useNavigate();
-  const { productName, productId, tabsValue } = useParams<{
-    productName: string;
-    productId: string;
+  const { productId, tabsValue } = useParams<{
+    productId: any;
     tabsValue: any;
   }>();
-
+  const nav = useNavigate();
   const [LoadingData, setLoadingData] = useState(false);
   const [Data, setData] = useState([]);
   const [ShowIMG, setShowIMG] = useState(false);
   const [ImagePath, setImagePath] = useState("");
+  const [ProductName, setProductName] = useState("");
   const [Price, setPrice] = useState("");
   const [Qty, setQty] = useState(1);
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const { fetchCartsum } = useCartsum();
   const [LoadingSubmit, setLoadingSubmit] = useState(false);
 
-  const LoadData = (productId: any) => {
+  const base64UrlDecode = (str: string): string => {
+    str = str.replace(/-/g, "+").replace(/_/g, "/");
+    const padding = "=".repeat((4 - (str.length % 4)) % 4);
+    str += padding;
+    return atob(str);
+  };
+  const useProductId = base64UrlDecode(productId);
+
+  const LoadData = (useProductId: any) => {
     setLoadingData(true);
     axios
       .post(Api + "Product/postShowproduct/", {
-        pid: productId,
+        pid: useProductId,
       })
       .then((res) => {
         const data = res.data;
         if (data.length !== 0) {
           setData(data);
+          setProductName(data[0].pname);
           setPrice(data[0].price);
         }
         setLoadingData(false);
@@ -83,7 +92,7 @@ export function ProductDetailPage() {
           .post(Api + "Cart/Addcart", {
             qty: Qty,
             price: Price,
-            pid: productId,
+            pid: useProductId,
             userid: atob(id),
           })
           .then((res) => {
@@ -126,7 +135,7 @@ export function ProductDetailPage() {
           : "สังฆฑานออนไลน์",
       href: `/product/${tabsValue}`,
     },
-    { title: productName, href: "" },
+    { title: ProductName, href: "" },
   ].map((item, index) => (
     <Anchor key={index} component={Nl} to={item.href} fz={"h5"}>
       {item.title}
@@ -134,9 +143,9 @@ export function ProductDetailPage() {
   ));
 
   useEffect(() => {
-    LoadData(productId);
+    LoadData(useProductId);
     window.scrollTo(0, 0);
-  }, [productId]);
+  }, [useProductId]);
 
   return (
     <>
@@ -159,7 +168,7 @@ export function ProductDetailPage() {
         </>
       ) : ( */}
       <>
-        <Paper radius={5} shadow="sm" p={15} mb={50} pos={"relative"} mih={500}>
+        <Paper radius={5} shadow="sm" p={15} mb={50} pos={"relative"}>
           <LoadingOverlay
             visible={LoadingData}
             zIndex={100}
@@ -167,23 +176,26 @@ export function ProductDetailPage() {
             loaderProps={{ type: "dots" }}
           />
           {Data.map((i: any, key) => (
-            <Grid key={key} gutter={50}>
+            <Grid key={key} gutter={50} justify="center" align="center">
               <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
-                <Image
-                  radius="md"
-                  src={Api + i.img}
-                  style={{ cursor: "pointer" }}
-                  onClick={() => {
-                    ShowImage(Api + i.img);
-                  }}
-                  className={classes.image}
-                />
+                <Center>
+                  <Image
+                    radius="md"
+                    src={Api + i.img}
+                    style={{ cursor: "pointer" }}
+                    onClick={() => {
+                      ShowImage(Api + i.img);
+                    }}
+                    className={classes.image}
+                    w={400}
+                  />
+                </Center>
               </Grid.Col>
 
               <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
                 <Flex justify="center" direction="column" wrap="wrap">
                   {/* TITLE */}
-                  <Group mt={40}>
+                  <Group>
                     <Badge color={"red"} size={"lg"}>
                       แนะนำ
                     </Badge>

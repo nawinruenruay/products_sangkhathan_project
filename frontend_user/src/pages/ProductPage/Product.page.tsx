@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { Api } from "../../Api";
 import {
   Image,
@@ -17,23 +17,24 @@ import {
   rem,
 } from "@mantine/core";
 import { useNavigate, useParams } from "react-router-dom";
-import { Carousel } from "@mantine/carousel";
-import Autoplay from "embla-carousel-autoplay";
+import { useDocumentTitle } from "@mantine/hooks";
 import { IconBrandProducthunt } from "@tabler/icons-react";
-
-import p1 from "../../assets/img/banner_product1.png";
-import p2 from "../../assets/img/banner_product2.png";
 import classes from "./Product.module.css";
+
+import cartempty from "../../assets/img/cartempty.png";
 
 export function ProductPage() {
   const { tabsValue } = useParams();
-  const autoplay = useRef(Autoplay({ delay: 3000 }));
+
   const iconStyle = { width: rem(12), height: rem(12) };
   const nav = useNavigate();
   const [ShowIMG, setShowIMG] = useState(false);
   const [ImagePath, setImagePath] = useState("");
   const [LoadingData, setLoadingData] = useState(false);
   const [Products, setProducts] = useState([]);
+
+  const [title, setTitle] = useState("สินค้า");
+  useDocumentTitle(title + " | ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน");
 
   const FetchProducts = () => {
     setLoadingData(true);
@@ -51,12 +52,13 @@ export function ProductPage() {
     setShowIMG(true);
   };
 
-  const ProductDetail = (
-    tabsValue: any,
-    productName: string,
-    productId: string
-  ) => {
-    nav("/product/" + tabsValue + "/" + productName + "/" + productId);
+  const base64UrlEncode = (str: string): string => {
+    return btoa(str).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
+  };
+
+  const ProductDetail = (tabsValue: any, productId: string) => {
+    const encodedProductId = base64UrlEncode(productId);
+    nav("/product/" + tabsValue + "/" + encodedProductId);
   };
 
   useEffect(() => {
@@ -66,46 +68,32 @@ export function ProductPage() {
 
   return (
     <>
-      {/* <Paper radius={8} shadow="sm">
-        <Carousel
-          withIndicators
-          plugins={[autoplay.current]}
-          onMouseEnter={autoplay.current.stop}
-          onMouseLeave={autoplay.current.reset}
-          classNames={classes}
-        >
-          <Carousel.Slide>
-            <Image src={p1} radius={8} />
-          </Carousel.Slide>
-          <Carousel.Slide>
-            <Image src={p2} radius={8} />
-          </Carousel.Slide>
-        </Carousel>
-      </Paper> */}
-
       <Tabs
-        // defaultValue="สินค้าผลิตภัณฑ์-cat.1"
+        defaultValue="index"
         value={tabsValue}
-        onChange={(tabsValue) => nav(`/product/${tabsValue}`)}
+        onChange={(tabsValue: any) => {
+          nav(`/product/${tabsValue}`);
+          setTitle(tabsValue);
+        }}
         // mt={30}
         mb={50}
       >
         <Tabs.List grow>
           <Tabs.Tab
-            value="สินค้าผลิตภัณฑ์-cat.1"
+            value="สินค้าผลิตภัณฑ์"
             leftSection={<IconBrandProducthunt style={iconStyle} />}
           >
             สินค้าผลิตภัณฑ์
           </Tabs.Tab>
           <Tabs.Tab
-            value="สังฆฑานออนไลน์-cat.2"
+            value="สังฆฑานออนไลน์"
             leftSection={<IconBrandProducthunt style={iconStyle} />}
           >
             สังฆฑานออนไลน์
           </Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="สินค้าผลิตภัณฑ์-cat.1">
+        <Tabs.Panel value="สินค้าผลิตภัณฑ์">
           {LoadingData === true ? (
             <>
               <Paper radius={8} shadow="sm" p={10}>
@@ -130,7 +118,7 @@ export function ProductPage() {
                       className={classes.card}
                       h={"100%"}
                       onClick={() => {
-                        ProductDetail(tabsValue, i.pname, i.pid);
+                        ProductDetail(tabsValue, i.pid);
                       }}
                     >
                       <Card.Section
@@ -163,7 +151,7 @@ export function ProductPage() {
                         mt="md"
                         radius="md"
                         onClick={() => {
-                          ProductDetail(tabsValue, i.pname, i.pid);
+                          ProductDetail(tabsValue, i.pid);
                         }}
                       >
                         รายละเอียดสินค้า
@@ -176,7 +164,7 @@ export function ProductPage() {
           )}
         </Tabs.Panel>
 
-        <Tabs.Panel value="สังฆฑานออนไลน์-cat.2">
+        <Tabs.Panel value="สังฆฑานออนไลน์">
           {LoadingData === true ? (
             <>
               <Paper radius={8} shadow="sm" p={10}>
@@ -200,7 +188,7 @@ export function ProductPage() {
                       withBorder
                       className={classes.card}
                       onClick={() => {
-                        ProductDetail(tabsValue, i.pname, i.pid);
+                        ProductDetail(tabsValue, i.pid);
                       }}
                     >
                       <Card.Section
@@ -234,7 +222,7 @@ export function ProductPage() {
                         mt="md"
                         radius="md"
                         onClick={() => {
-                          ProductDetail(tabsValue, i.pname, i.pid);
+                          ProductDetail(tabsValue, i.pid);
                         }}
                       >
                         รายละเอียดสินค้า
@@ -245,6 +233,22 @@ export function ProductPage() {
               </Grid>
             </>
           )}
+        </Tabs.Panel>
+
+        <Tabs.Panel value="index">
+          <>
+            <Flex
+              justify={"center"}
+              align={"center"}
+              direction={"column"}
+              wrap={"wrap"}
+              w={"100%"}
+              mt={50}
+            >
+              <Image src={cartempty} w={300} />
+              <Text fw={"bold"}>ตระกร้าสินค้า ว่างอยู่นะ!</Text>
+            </Flex>
+          </>
         </Tabs.Panel>
       </Tabs>
 
