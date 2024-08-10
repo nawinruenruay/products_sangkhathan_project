@@ -1,8 +1,10 @@
 import { useState } from "react";
 import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
 import { Box, Group, Button, Text, UnstyledButton } from "@mantine/core";
 
 export function Privacypolicy() {
+  const nav = useNavigate();
   const [isVisible, setIsVisible] = useState(!Cookies.get("acceptPolicy"));
 
   const handleAccept = () => {
@@ -12,6 +14,7 @@ export function Privacypolicy() {
 
   const handlePDPA = () => {
     console.log("FUCK OFF");
+    nav("/privacypolicy");
   };
 
   return (

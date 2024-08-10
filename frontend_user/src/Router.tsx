@@ -12,6 +12,7 @@ import { GalleryDetailPage } from "./pages/GalleryPage/GalleryDetail.page";
 import { ContactPage } from "./pages/ContactPage/Contact.page";
 import { UserPage } from "./pages/UserPage/User.page";
 import { CartPage } from "./pages/CartPage/Cart.page";
+import { PrivacypolicyPage } from "./pages/PrivacypolicyPage/Privacypolicy.page";
 
 // AUTH
 import { Register } from "./auth/Register";
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
       {
         path: "/user/account/:tabsValue",
         element: <UserPage />,
+      },
+      {
+        path: "/privacypolicy",
+        element: <PrivacypolicyPage />,
       },
     ],
   },
