@@ -24,6 +24,7 @@ import {
   IconMoodSad,
   IconCheck,
   IconChevronRight,
+  IconInfoCircle,
 } from "@tabler/icons-react";
 
 import classes from "./Product.module.css";
@@ -67,6 +68,13 @@ export function ProductDetailPage() {
     setLoadingSubmit(true);
     setTimeout(() => {
       if (!id) {
+        Notifications.show({
+          title: "เพิ่มสินค้าไม่สำเร็จ",
+          message: "คุณต้องเข้าสู่ระบบก่อนสั่งสินค้า",
+          autoClose: 2000,
+          color: "red",
+          icon: <IconInfoCircle />,
+        });
         nav("/login");
       }
       if (id) {
