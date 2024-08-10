@@ -33,9 +33,10 @@ import Swal from "sweetalert2";
 
 export function ProductDetailPage() {
   const nav = useNavigate();
-  const { productName, productId } = useParams<{
+  const { productName, productId, tabsValue } = useParams<{
     productName: string;
     productId: string;
+    tabsValue: any;
   }>();
 
   const [LoadingData, setLoadingData] = useState(false);
@@ -118,7 +119,13 @@ export function ProductDetailPage() {
   };
 
   const items = [
-    { title: "สินค้า", href: "/product" },
+    {
+      title:
+        tabsValue === "สินค้าผลิตภัณฑ์-cat.1"
+          ? "สินค้าผลิตภัณฑ์"
+          : "สังฆฑานออนไลน์",
+      href: `/product/${tabsValue}`,
+    },
     { title: productName, href: "" },
   ].map((item, index) => (
     <Anchor key={index} component={Nl} to={item.href} fz={"h5"}>

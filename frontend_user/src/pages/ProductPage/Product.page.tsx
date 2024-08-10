@@ -84,7 +84,7 @@ export function ProductPage() {
       </Paper> */}
 
       <Tabs
-        defaultValue="สินค้าผลิตภัณฑ์-cat.1"
+        // defaultValue="สินค้าผลิตภัณฑ์-cat.1"
         value={tabsValue}
         onChange={(tabsValue) => nav(`/product/${tabsValue}`)}
         // mt={30}

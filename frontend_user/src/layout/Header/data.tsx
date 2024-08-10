@@ -26,7 +26,7 @@ const data: MenuItem[] = [
   },
   {
     title: "สินค้า",
-    path: "/product/สินค้าผลิตภัณฑ์-cat.1",
+    path: "/product",
     icon: (
       <ThemeIcon variant="light" size={30}>
         <IconUser size={20} />
