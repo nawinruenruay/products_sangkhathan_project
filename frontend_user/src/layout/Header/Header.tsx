@@ -137,7 +137,7 @@ function Header() {
       <header className={classes.header}>
         <Group justify={"space-between"} h="100%">
           <Group gap={5}>
-            <UnstyledButton onClick={() => nav("/home")}>
+            <UnstyledButton onClick={() => nav("/")}>
               <Image radius="md" src={logo} w={60} />
               {/* <Text hiddenFrom="sm">สินค้าผลิตภัณฑ์และสังฆทานออนไลน์</Text> */}
             </UnstyledButton>
