@@ -27,10 +27,6 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/product",
-        element: <ProductPage />,
-      },
-      {
         path: "/product/:tabsValue",
         element: <ProductPage />,
       },

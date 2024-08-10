@@ -51,8 +51,12 @@ export function ProductPage() {
     setShowIMG(true);
   };
 
-  const ProductDetail = (productName: string, productId: string) => {
-    nav("/product/" + productName + "/" + productId);
+  const ProductDetail = (
+    tabsValue: any,
+    productName: string,
+    productId: string
+  ) => {
+    nav("/product/" + tabsValue + "/" + productName + "/" + productId);
   };
 
   useEffect(() => {
@@ -126,7 +130,7 @@ export function ProductPage() {
                       className={classes.card}
                       h={"100%"}
                       onClick={() => {
-                        ProductDetail(i.pname, i.pid);
+                        ProductDetail(tabsValue, i.pname, i.pid);
                       }}
                     >
                       <Card.Section
@@ -159,7 +163,7 @@ export function ProductPage() {
                         mt="md"
                         radius="md"
                         onClick={() => {
-                          ProductDetail(i.pname, i.pid);
+                          ProductDetail(tabsValue, i.pname, i.pid);
                         }}
                       >
                         รายละเอียดสินค้า
@@ -196,7 +200,7 @@ export function ProductPage() {
                       withBorder
                       className={classes.card}
                       onClick={() => {
-                        ProductDetail(i.pname, i.pid);
+                        ProductDetail(tabsValue, i.pname, i.pid);
                       }}
                     >
                       <Card.Section
@@ -230,7 +234,7 @@ export function ProductPage() {
                         mt="md"
                         radius="md"
                         onClick={() => {
-                          ProductDetail(i.pname, i.pid);
+                          ProductDetail(tabsValue, i.pname, i.pid);
                         }}
                       >
                         รายละเอียดสินค้า
