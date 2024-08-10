@@ -12,7 +12,7 @@ import clsx from "clsx";
 import classes from "./Header/Header.module.css";
 import { IconExclamationMark } from "@tabler/icons-react";
 
-import { AcceptPolicy } from "../components/acceptPolicy";
+import { AcceptPolicy } from "../components/AcceptPolicy";
 
 export function LayoutUser() {
   const nav = useNavigate();
