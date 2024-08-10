@@ -4,10 +4,11 @@ import { Api } from "../../Api";
 import { Image, Skeleton, Paper, Flex } from "@mantine/core";
 import { Carousel } from "@mantine/carousel";
 import Autoplay from "embla-carousel-autoplay";
-
+import { useDocumentTitle } from "@mantine/hooks";
 import classes from "./Home.module.css";
 
 export function HomePage() {
+  useDocumentTitle("หน้าหลัก | ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน");
   const autoplay = useRef(Autoplay({ delay: 3000 }));
   const [Banner, setBanner] = useState([]);
   const [LoadingData, setLoadingData] = useState(false);

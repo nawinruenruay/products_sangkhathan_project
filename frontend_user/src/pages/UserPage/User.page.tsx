@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { Paper, Grid, Tabs, rem } from "@mantine/core";
 import { useNavigate, useParams } from "react-router-dom";
 import {
@@ -6,24 +7,50 @@ import {
   IconPassword,
   IconMap2,
 } from "@tabler/icons-react";
-import { useMediaQuery } from "@mantine/hooks";
+import { useMediaQuery, useDocumentTitle } from "@mantine/hooks";
 
 import { Profile } from "./Profile";
 import { Address } from "./Address";
 import { Purchase } from "./Purchase";
 
 export function UserPage() {
+  const [title, setTitle] = useState("บัญชีของฉัน");
   const nav = useNavigate();
   const { tabsValue } = useParams();
   const iconStyle = { width: rem(15), height: rem(15) };
   const isMobile = useMediaQuery("(max-width: 999px)");
+
+  useEffect(() => {
+    switch (tabsValue) {
+      case "profile":
+        setTitle("บัญชีของฉัน");
+        break;
+      case "address":
+        setTitle("ที่อยู่ของฉัน");
+        break;
+      case "purchase":
+        setTitle("การซื้อของฉัน");
+        break;
+      case "password":
+        setTitle("เปลี่ยนรหัสผ่าน");
+        break;
+      default:
+        setTitle("บัญชีของฉัน");
+        break;
+    }
+  }, [tabsValue]);
+
+  useDocumentTitle(title + " | ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน");
 
   return (
     <>
       <Tabs
         defaultValue="profile"
         value={tabsValue}
-        onChange={(tabsValue) => nav(`/user/account/${tabsValue}`)}
+        onChange={(tabsValue: any) => {
+          nav(`/user/account/${tabsValue}`);
+          setTitle(tabsValue);
+        }}
         orientation={isMobile ? "horizontal" : "vertical"}
         variant="outline"
         mt={15}
