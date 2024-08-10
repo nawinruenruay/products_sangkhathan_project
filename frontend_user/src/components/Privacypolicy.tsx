@@ -16,7 +16,7 @@ export function Privacypolicy() {
         pos={"fixed"}
         bottom={0}
         w={"100%"}
-        bg={"#333"}
+        bg={"rgba(51, 51, 51, 0.8)"}
         c={"#fff"}
         p={"10px"}
       >
