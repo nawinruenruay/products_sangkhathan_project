@@ -16,6 +16,7 @@ import {
   TextInput,
   LoadingOverlay,
   Center,
+  Skeleton,
 } from "@mantine/core";
 import { useParams, NavLink as Nl, useNavigate } from "react-router-dom";
 import { Notifications } from "@mantine/notifications";
@@ -158,127 +159,127 @@ export function ProductDetailPage() {
         {items}
       </Breadcrumbs>
 
-      {/* {LoadingData === true ? (
+      {LoadingData === true ? (
         <>
           <Paper radius={8} shadow="sm" p={10}>
             <Flex direction={"column"} gap={10}>
-              <Skeleton w={"100%"} h={500} />
+              <Skeleton w={"100%"} h={400} />
             </Flex>
           </Paper>
         </>
-      ) : ( */}
-      <>
-        <Paper radius={5} shadow="sm" p={15} mb={50} pos={"relative"}>
-          <LoadingOverlay
-            visible={LoadingData}
-            zIndex={100}
-            overlayProps={{ radius: "sm", blur: 2 }}
-            loaderProps={{ type: "dots" }}
-          />
-          {Data.map((i: any, key) => (
-            <Grid key={key} gutter={50} justify="center" align="center">
-              <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
-                <Center>
-                  <Image
-                    radius="md"
-                    src={Api + i.img}
-                    style={{ cursor: "pointer" }}
-                    onClick={() => {
-                      ShowImage(Api + i.img);
-                    }}
-                    className={classes.image}
-                    w={400}
-                  />
-                </Center>
-              </Grid.Col>
+      ) : (
+        <>
+          <Paper radius={5} shadow="sm" p={15} mb={50} pos={"relative"}>
+            <LoadingOverlay
+              visible={LoadingData}
+              zIndex={100}
+              overlayProps={{ radius: "sm", blur: 2 }}
+              loaderProps={{ type: "dots" }}
+            />
+            {Data.map((i: any, key) => (
+              <Grid key={key} gutter={50} justify="center" align="center">
+                <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
+                  <Center>
+                    <Image
+                      radius="md"
+                      src={Api + i.img}
+                      style={{ cursor: "pointer" }}
+                      onClick={() => {
+                        ShowImage(Api + i.img);
+                      }}
+                      className={classes.image}
+                      w={400}
+                    />
+                  </Center>
+                </Grid.Col>
 
-              <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
-                <Flex justify="center" direction="column" wrap="wrap">
-                  {/* TITLE */}
-                  <Group>
-                    <Badge color={"red"} size={"lg"}>
-                      แนะนำ
-                    </Badge>
-                    <Text size={"xl"}>{i.pname}</Text>
-                  </Group>
-                  <Text size={"30px"} mt={20} c={"green"}>
-                    ฿ {i.price.toLocaleString()} บาท
-                  </Text>
+                <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
+                  <Flex justify="center" direction="column" wrap="wrap">
+                    {/* TITLE */}
+                    <Group>
+                      <Badge color={"red"} size={"lg"}>
+                        แนะนำ
+                      </Badge>
+                      <Text size={"xl"}>{i.pname}</Text>
+                    </Group>
+                    <Text size={"30px"} mt={20} c={"green"}>
+                      ฿ {i.price.toLocaleString()} บาท
+                    </Text>
 
-                  {/* DETAIL */}
-                  {i.qty > 0 ? (
-                    <>
-                      <Text mt={40}>มีสินค้าทั้งหมด {i.qty} ชิ้น</Text>
-                    </>
-                  ) : (
-                    <>
-                      <Group gap={5} mt={30}>
-                        <Text c={"red"}>สินค้าหมด</Text>
-                        <IconMoodSad size={30} color={"red"} />
-                      </Group>
-                    </>
-                  )}
-
-                  {/* BUTTON */}
-                  {i.qty > 0 ? (
-                    <>
-                      <Group mt={30}>
-                        <Text>จำนวน </Text>
-                        <Group gap={0} align="center">
-                          <Button
-                            variant="default"
-                            radius={0}
-                            onClick={() => setQty((v) => (v > 1 ? v - 1 : 1))}
-                          >
-                            <IconMinus size={16} />
-                          </Button>
-                          <TextInput
-                            radius={0}
-                            w={70}
-                            value={Qty}
-                            onChange={(e: any) => {
-                              const value = e.currentTarget.value;
-                              if (/^\d*$/.test(value)) {
-                                const newQty = parseInt(value, 10);
-                                if (newQty <= i.qty) {
-                                  setQty(newQty);
-                                }
-                              }
-                            }}
-                            classNames={{ input: classes.textinput }}
-                          />
-                          <Button
-                            variant="default"
-                            radius={0}
-                            onClick={() =>
-                              setQty((v) => (v < i.qty ? v + 1 : v))
-                            }
-                          >
-                            <IconPlus size={16} />
-                          </Button>
+                    {/* DETAIL */}
+                    {i.qty > 0 ? (
+                      <>
+                        <Text mt={40}>มีสินค้าทั้งหมด {i.qty} ชิ้น</Text>
+                      </>
+                    ) : (
+                      <>
+                        <Group gap={5} mt={30}>
+                          <Text c={"red"}>สินค้าหมด</Text>
+                          <IconMoodSad size={30} color={"red"} />
                         </Group>
-                      </Group>
-                      <Flex mt={25} gap={10}>
-                        <Button
-                          w={"100%"}
-                          onClick={Addcart}
-                          loading={LoadingSubmit}
-                          loaderProps={{ type: "dots" }}
-                        >
-                          เพิ่มไปยังตระกร้าสินค้า
-                        </Button>
-                      </Flex>
-                    </>
-                  ) : (
-                    <></>
-                  )}
-                </Flex>
-              </Grid.Col>
-            </Grid>
-          ))}
-        </Paper>
-      </>
-      {/* )} */}
+                      </>
+                    )}
+
+                    {/* BUTTON */}
+                    {i.qty > 0 ? (
+                      <>
+                        <Group mt={30}>
+                          <Text>จำนวน </Text>
+                          <Group gap={0} align="center">
+                            <Button
+                              variant="default"
+                              radius={0}
+                              onClick={() => setQty((v) => (v > 1 ? v - 1 : 1))}
+                            >
+                              <IconMinus size={16} />
+                            </Button>
+                            <TextInput
+                              radius={0}
+                              w={70}
+                              value={Qty}
+                              onChange={(e: any) => {
+                                const value = e.currentTarget.value;
+                                if (/^\d*$/.test(value)) {
+                                  const newQty = parseInt(value, 10);
+                                  if (newQty <= i.qty) {
+                                    setQty(newQty);
+                                  }
+                                }
+                              }}
+                              classNames={{ input: classes.textinput }}
+                            />
+                            <Button
+                              variant="default"
+                              radius={0}
+                              onClick={() =>
+                                setQty((v) => (v < i.qty ? v + 1 : v))
+                              }
+                            >
+                              <IconPlus size={16} />
+                            </Button>
+                          </Group>
+                        </Group>
+                        <Flex mt={25} gap={10}>
+                          <Button
+                            w={"100%"}
+                            onClick={Addcart}
+                            loading={LoadingSubmit}
+                            loaderProps={{ type: "dots" }}
+                          >
+                            เพิ่มไปยังตระกร้าสินค้า
+                          </Button>
+                        </Flex>
+                      </>
+                    ) : (
+                      <></>
+                    )}
+                  </Flex>
+                </Grid.Col>
+              </Grid>
+            ))}
+          </Paper>
+        </>
+      )}
 
       <Modal
         onClose={() => {
