@@ -12,6 +12,8 @@ import clsx from "clsx";
 import classes from "./Header/Header.module.css";
 import { IconExclamationMark } from "@tabler/icons-react";
 
+import { AcceptPolicy } from "../components/acceptPolicy";
+
 export function LayoutUser() {
   const nav = useNavigate();
   const pinned = useHeadroom({ fixedAt: 120 });
@@ -75,6 +77,8 @@ export function LayoutUser() {
         <AppShell.Footer pos={"static"}>
           <Footer />
         </AppShell.Footer>
+
+        <AcceptPolicy />
       </AppShell>
     </>
   );

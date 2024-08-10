@@ -21,20 +21,15 @@ import { useDocumentTitle } from "@mantine/hooks";
 import { IconBrandProducthunt } from "@tabler/icons-react";
 import classes from "./Product.module.css";
 
-import cartempty from "../../assets/img/cartempty.png";
-
 export function ProductPage() {
+  useDocumentTitle("สินค้า | ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน");
   const { tabsValue } = useParams();
-
   const iconStyle = { width: rem(12), height: rem(12) };
   const nav = useNavigate();
   const [ShowIMG, setShowIMG] = useState(false);
   const [ImagePath, setImagePath] = useState("");
   const [LoadingData, setLoadingData] = useState(false);
   const [Products, setProducts] = useState([]);
-
-  const [title, setTitle] = useState("สินค้า");
-  useDocumentTitle(title + " | ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน");
 
   const FetchProducts = () => {
     setLoadingData(true);
@@ -69,31 +64,30 @@ export function ProductPage() {
   return (
     <>
       <Tabs
-        defaultValue="index"
+        // defaultValue="สินค้าผลิตภัณฑ์-cat.1"
         value={tabsValue}
         onChange={(tabsValue: any) => {
           nav(`/product/${tabsValue}`);
-          setTitle(tabsValue);
         }}
         // mt={30}
         mb={50}
       >
         <Tabs.List grow>
           <Tabs.Tab
-            value="สินค้าผลิตภัณฑ์"
+            value="สินค้าผลิตภัณฑ์-cat.1"
             leftSection={<IconBrandProducthunt style={iconStyle} />}
           >
             สินค้าผลิตภัณฑ์
           </Tabs.Tab>
           <Tabs.Tab
-            value="สังฆฑานออนไลน์"
+            value="สังฆฑานออนไลน์-cat.2"
             leftSection={<IconBrandProducthunt style={iconStyle} />}
           >
             สังฆฑานออนไลน์
           </Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="สินค้าผลิตภัณฑ์">
+        <Tabs.Panel value="สินค้าผลิตภัณฑ์-cat.1">
           {LoadingData === true ? (
             <>
               <Paper radius={8} shadow="sm" p={10}>
@@ -164,7 +158,7 @@ export function ProductPage() {
           )}
         </Tabs.Panel>
 
-        <Tabs.Panel value="สังฆฑานออนไลน์">
+        <Tabs.Panel value="สังฆฑานออนไลน์-cat.2">
           {LoadingData === true ? (
             <>
               <Paper radius={8} shadow="sm" p={10}>
@@ -233,22 +227,6 @@ export function ProductPage() {
               </Grid>
             </>
           )}
-        </Tabs.Panel>
-
-        <Tabs.Panel value="index">
-          <>
-            <Flex
-              justify={"center"}
-              align={"center"}
-              direction={"column"}
-              wrap={"wrap"}
-              w={"100%"}
-              mt={50}
-            >
-              <Image src={cartempty} w={300} />
-              <Text fw={"bold"}>ตระกร้าสินค้า ว่างอยู่นะ!</Text>
-            </Flex>
-          </>
         </Tabs.Panel>
       </Tabs>
 

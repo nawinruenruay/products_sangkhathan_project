@@ -25,7 +25,7 @@ import {
   IconMoodSad,
   IconCheck,
   IconChevronRight,
-  IconInfoCircle,
+  IconExclamationMark,
 } from "@tabler/icons-react";
 
 import classes from "./Product.module.css";
@@ -83,7 +83,7 @@ export function ProductDetailPage() {
           message: "คุณต้องเข้าสู่ระบบก่อนสั่งสินค้า",
           autoClose: 2000,
           color: "red",
-          icon: <IconInfoCircle />,
+          icon: <IconExclamationMark />,
         });
         nav("/login");
       }

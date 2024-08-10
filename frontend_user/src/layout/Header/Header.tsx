@@ -84,7 +84,6 @@ function Header() {
       });
   };
 
-  // FUCK OFF
   const Link = (item: MenuItem[], path: string = ""): JSX.Element[] => {
     return item.map((i, key) => {
       const fullPath = path ? `${path}${i.path}` : i.path;
