@@ -10,6 +10,10 @@ export function Privacypolicy() {
     setIsVisible(false);
   };
 
+  const handlePDPA = () => {
+    console.log("FUCK OFF");
+  };
+
   return (
     isVisible && (
       <Box
@@ -24,7 +28,7 @@ export function Privacypolicy() {
           <Text>
             เว็บไซต์ของเราใช้คุกกี้เพื่อเพิ่มประสิทธิภาพในการใช้งานเว็บไซต์
           </Text>
-          <UnstyledButton>
+          <UnstyledButton onClick={handlePDPA}>
             <Text td="underline">
               อ่านนโยบายข้อมูลส่วนบุคคล (PDPA) และ ข้อกำหนดในการให้บริการ
             </Text>
