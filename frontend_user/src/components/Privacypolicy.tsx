@@ -2,7 +2,7 @@ import { useState } from "react";
 import Cookies from "js-cookie";
 import { Box, Group } from "@mantine/core";
 
-export function AcceptPolicy() {
+export function Privacypolicy() {
   const [isVisible, setIsVisible] = useState(!Cookies.get("acceptPolicy"));
 
   const handleAccept = () => {

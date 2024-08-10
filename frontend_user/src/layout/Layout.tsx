@@ -11,8 +11,7 @@ import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import classes from "./Header/Header.module.css";
 import { IconExclamationMark } from "@tabler/icons-react";
-
-import { AcceptPolicy } from "../components/AcceptPolicy";
+import { Privacypolicy } from "../components/Privacypolicy";
 
 export function LayoutUser() {
   const nav = useNavigate();
@@ -78,7 +77,7 @@ export function LayoutUser() {
           <Footer />
         </AppShell.Footer>
 
-        <AcceptPolicy />
+        <Privacypolicy />
       </AppShell>
     </>
   );
