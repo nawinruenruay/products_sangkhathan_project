@@ -154,22 +154,21 @@ export function CheckoutPage() {
 
   const Fetchdata = () => {
     setLoadingdata(true);
-    axios
-      .post(Api + "User/Showorderbuydetail/", {
-        userid: atob(id),
-        order_id: order_id,
-      })
-      .then((res) => {
-        const data = res.data;
-        console.log(data);
-        if (data.length !== 0) {
-          // form.setValues({
-          //   email: data[0].email,
-          // });
-          setData(data);
-        }
-        setLoadingdata(false);
-      });
+    setTimeout(() => {
+      axios
+        .post(Api + "User/Showorderbuydetail/", {
+          userid: atob(id),
+          order_id: order_id,
+        })
+        .then((res) => {
+          const data = res.data;
+          console.log(data);
+          if (data.length !== 0) {
+            setData(data);
+          }
+          setLoadingdata(false);
+        });
+    }, 1000);
   };
 
   const handleFileChange = (files: any) => {
@@ -227,7 +226,6 @@ export function CheckoutPage() {
                   src={
                     "https://i.pinimg.com/564x/c6/ad/81/c6ad815f01a76c92634b751bd67db271.jpg"
                   }
-                  w={500}
                   mb={10}
                 />
               </Center>
@@ -235,104 +233,103 @@ export function CheckoutPage() {
           </Grid.Col>
 
           <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
-            <Flex justify="center" direction="column" wrap="wrap">
-              <form
-                onSubmit={form.onSubmit((v: any) => {
-                  Submit(v);
-                })}
-              >
-                <LoadingOverlay
-                  visible={Loadingdata}
-                  zIndex={100}
-                  overlayProps={{ radius: "sm", blur: 2 }}
-                  loaderProps={{ type: "dots" }}
+            <form
+              onSubmit={form.onSubmit((v: any) => {
+                Submit(v);
+              })}
+            >
+              <LoadingOverlay
+                visible={Loadingdata}
+                zIndex={100}
+                overlayProps={{ radius: "sm", blur: 2 }}
+                loaderProps={{ type: "dots" }}
+              />
+              <Text fz={"h3"}>
+                ยอดเงินที่ต้องชำระ {totalAmount.toLocaleString()} บาท
+              </Text>
+              <SimpleGrid cols={3}>
+                <Select
+                  allowDeselect={false}
+                  label="วัน"
+                  data={Day}
+                  searchable
+                  clearable
+                  withAsterisk
                 />
-                <Text fz={"h3"}>
-                  ยอดเงินที่ต้องชำระ {totalAmount.toLocaleString()} บาท
-                </Text>
-                <SimpleGrid cols={3}>
-                  <Select
-                    allowDeselect={false}
-                    label="วัน"
-                    data={Day}
-                    searchable
-                    clearable
-                    withAsterisk
-                  />
-                  <Select
-                    allowDeselect={false}
-                    label="เดือน"
-                    data={Month}
-                    searchable
-                    clearable
-                    withAsterisk
-                  />
-                  <Select
-                    allowDeselect={false}
-                    label="ปี"
-                    data={Year}
-                    searchable
-                    clearable
-                    withAsterisk
-                  />
-                </SimpleGrid>
-                <SimpleGrid cols={2}>
-                  <Select
-                    allowDeselect={false}
-                    label="ชั่วโมง"
-                    data={Hour}
-                    searchable
-                    clearable
-                    withAsterisk
-                  />
-                  <Select
-                    allowDeselect={false}
-                    label="นาที"
-                    data={Minute}
-                    searchable
-                    clearable
-                    withAsterisk
-                  />
-                </SimpleGrid>
-                <Center mt={10}>
-                  <Image
-                    src={
-                      form.values.img_preview === null
-                        ? Api + "/public/uploadimg/noimage.png"
-                        : form.values.img_preview
-                    }
-                    w={250}
-                    mb={10}
-                  />
-                </Center>
-                <FileButton
-                  onChange={handleFileChange}
-                  accept="image/png,image/jpeg"
-                >
-                  {(props) => (
-                    <Button variant="outline" {...props} w={"100%"}>
-                      แนบหลักฐานการโอนเงิน
-                    </Button>
-                  )}
-                </FileButton>
-                <Text c={"#999999"} fz={"14px"}>
-                  ขนาดไฟล์: สูงสุด 1 MB ไฟล์ที่รองรับ: JPEG,JPG,PNG
-                </Text>
-                <Flex pt={10} justify={"flex-start"} gap={5} pos={"relative"}>
-                  <Button
-                    loading={LoadingSubmit}
-                    loaderProps={{ type: "dots" }}
-                    type="submit"
-                    fw={400}
-                    color="green"
-                    leftSection={<IconCash />}
-                    w={"100%"}
-                  >
-                    ชำระเงิน
+                <Select
+                  allowDeselect={false}
+                  label="เดือน"
+                  data={Month}
+                  searchable
+                  clearable
+                  withAsterisk
+                />
+                <Select
+                  allowDeselect={false}
+                  label="ปี"
+                  data={Year}
+                  searchable
+                  clearable
+                  withAsterisk
+                />
+              </SimpleGrid>
+              <SimpleGrid cols={2}>
+                <Select
+                  allowDeselect={false}
+                  label="ชั่วโมง"
+                  data={Hour}
+                  searchable
+                  clearable
+                  withAsterisk
+                />
+                <Select
+                  allowDeselect={false}
+                  label="นาที"
+                  data={Minute}
+                  searchable
+                  clearable
+                  withAsterisk
+                />
+              </SimpleGrid>
+              <Center mt={10}>
+                <Image
+                  src={
+                    form.values.img_preview === null
+                      ? Api + "/public/uploadimg/noimage.png"
+                      : form.values.img_preview
+                  }
+                  w={250}
+                  h={250}
+                  mb={10}
+                />
+              </Center>
+              <FileButton
+                onChange={handleFileChange}
+                accept="image/png,image/jpeg"
+              >
+                {(props) => (
+                  <Button variant="outline" {...props} w={"100%"}>
+                    แนบหลักฐานการโอนเงิน
                   </Button>
-                </Flex>
-              </form>
-            </Flex>
+                )}
+              </FileButton>
+              <Text c={"#999999"} fz={"14px"}>
+                ขนาดไฟล์: สูงสุด 1 MB ไฟล์ที่รองรับ: JPEG,JPG,PNG
+              </Text>
+              <Flex pt={10} justify={"flex-start"} gap={5} pos={"relative"}>
+                <Button
+                  loading={LoadingSubmit}
+                  loaderProps={{ type: "dots" }}
+                  type="submit"
+                  fw={400}
+                  color="green"
+                  leftSection={<IconCash />}
+                  w={"100%"}
+                >
+                  ชำระเงิน
+                </Button>
+              </Flex>
+            </form>
           </Grid.Col>
         </Grid>
       </Paper>

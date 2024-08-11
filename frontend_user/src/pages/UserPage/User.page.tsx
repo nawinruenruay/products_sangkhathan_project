@@ -1,12 +1,7 @@
 import { useState, useEffect } from "react";
 import { Paper, Grid, Tabs, rem } from "@mantine/core";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  IconUserCircle,
-  IconShoppingBag,
-  IconPassword,
-  IconMap2,
-} from "@tabler/icons-react";
+import { IconUserCircle, IconShoppingBag, IconMap2 } from "@tabler/icons-react";
 import { useMediaQuery, useDocumentTitle } from "@mantine/hooks";
 
 import { Profile } from "./Profile";
