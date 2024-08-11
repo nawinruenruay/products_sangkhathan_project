@@ -77,12 +77,12 @@ export function UserPage() {
               >
                 การซื้อของฉัน
               </Tabs.Tab>
-              <Tabs.Tab
+              {/* <Tabs.Tab
                 value="password"
                 leftSection={<IconPassword style={iconStyle} />}
               >
                 เปลี่ยนรหัสผ่าน
-              </Tabs.Tab>
+              </Tabs.Tab> */}
             </Tabs.List>
           </Grid.Col>
 

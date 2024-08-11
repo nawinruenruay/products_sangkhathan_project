@@ -12,7 +12,6 @@ import {
   Badge,
   Box,
   Image,
-  Modal,
 } from "@mantine/core";
 
 import { Notifications } from "@mantine/notifications";
@@ -29,7 +28,6 @@ import { DataTable } from "mantine-datatable";
 import Swal from "sweetalert2";
 import clsx from "clsx";
 import classes from "./User.module.css";
-import { Checkout } from "./Checkout";
 
 type DateOptions = {
   year: "numeric" | "2-digit";
@@ -48,13 +46,11 @@ export function Purchase() {
   const nav = useNavigate();
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const [LoadingProfile, setLoadingProfile] = useState(false);
-  const [ModalCheckout, setModalCheckout] = useState(false);
   const [Expanded, setExpanded] = useState<any[]>([]);
   const [Table, setTable] = useState<any[]>([]);
   const [ExpandedData, setExpandedData] = useState<{ [key: string]: any[] }>(
     {}
   );
-  const [Order_id, setOrder_id] = useState<string>("");
 
   const LoadDatatable = () => {
     setLoadingProfile(true);
@@ -153,8 +149,7 @@ export function Purchase() {
             }
           });
         } else {
-          setModalCheckout(true);
-          setOrder_id(order_id);
+          nav("/checkout", { state: { order_id } });
         }
       });
   };
@@ -396,24 +391,6 @@ export function Purchase() {
           />
         </Box>
       </Paper>
-
-      <Modal
-        title="ชำระเงิน (กรุณาตรวจสอบเลขบัญชีให้ถูกต้องก่อนทำการโอนเงิน)"
-        opened={ModalCheckout}
-        onClose={() => {
-          setModalCheckout(false);
-        }}
-        size={"lg"}
-        centered
-        overlayProps={{ backgroundOpacity: 0.5, blur: 4 }}
-      >
-        <Checkout
-          closeWithSuccess={() => {
-            setModalCheckout(false);
-          }}
-          order_id={Order_id}
-        />
-      </Modal>
     </>
   );
 }
