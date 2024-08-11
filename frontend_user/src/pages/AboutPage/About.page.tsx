@@ -1,14 +1,10 @@
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Image, Text, Paper } from "@mantine/core";
-import { Carousel } from "@mantine/carousel";
-import Autoplay from "embla-carousel-autoplay";
 import banner from "../../assets/img/banner-about.png";
-import classes from "./About.module.css";
 import { useDocumentTitle } from "@mantine/hooks";
 
 export function AboutPage() {
   useDocumentTitle("ประวัติ | ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน");
-  const autoplay = useRef(Autoplay({ delay: 3000 }));
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -17,17 +13,7 @@ export function AboutPage() {
   return (
     <>
       <Paper radius={8} shadow="sm">
-        <Carousel
-          withIndicators
-          plugins={[autoplay.current]}
-          onMouseEnter={autoplay.current.stop}
-          onMouseLeave={autoplay.current.reset}
-          classNames={classes}
-        >
-          <Carousel.Slide>
-            <Image src={banner} radius={8} />
-          </Carousel.Slide>
-        </Carousel>
+        <Image src={banner} radius={8} h={350} />
       </Paper>
 
       <Text mt={30} mb={50}>
