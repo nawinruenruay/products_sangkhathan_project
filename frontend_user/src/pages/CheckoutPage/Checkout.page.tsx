@@ -218,10 +218,10 @@ export function CheckoutPage() {
       axios.post(Api + "Buy/UploadIMG", Update).then(() => {
         axios
           .post(Api + "Buy/Checkout", {
-            userid: atob(id),
             order_id: order_id,
             pay_date: YearSelect - 543 + "-" + MonthSelect + "-" + DaySelect,
             pay_time: HourSelect + ":" + MinuteSelect,
+            pay_total: totalAmount,
             typeadd: "checkout",
           })
           .then((res) => {
