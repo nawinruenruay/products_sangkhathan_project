@@ -101,7 +101,7 @@ export function GalleryPage() {
         <>
           <Grid gutter="md" mt={20} m={5} mb={50}>
             {Gallery.map((i: any) => (
-              <Grid.Col span={{ base: 12, md: 6, lg: 3 }} key={i.act_id}>
+              <Grid.Col span={{ base: 6, md: 6, lg: 3 }} key={i.act_id}>
                 <Card
                   shadow="sm"
                   withBorder
