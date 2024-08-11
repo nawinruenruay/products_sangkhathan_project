@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, /*useRef,*/ useState } from "react";
 import axios from "axios";
 import { Api } from "../../Api";
 import {
@@ -12,8 +12,8 @@ import {
   Skeleton,
 } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
-import { Carousel } from "@mantine/carousel";
-import Autoplay from "embla-carousel-autoplay";
+// import { Carousel } from "@mantine/carousel";
+// import Autoplay from "embla-carousel-autoplay";
 import { IconCalendarMonth } from "@tabler/icons-react";
 import { useDocumentTitle } from "@mantine/hooks";
 import banner from "../../assets/img/banner-gallery.png";
@@ -22,7 +22,7 @@ import classes from "./Gallery.module.css";
 export function GalleryPage() {
   useDocumentTitle("ภาพกิจกรรม | ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน");
   const nav = useNavigate();
-  const autoplay = useRef(Autoplay({ delay: 3000 }));
+  // const autoplay = useRef(Autoplay({ delay: 3000 }));
   const [Gallery, setGallery] = useState([]);
   const [LoadingData, setLoadingData] = useState(false);
 
@@ -73,17 +73,17 @@ export function GalleryPage() {
   return (
     <>
       <Paper radius={8} shadow="sm">
-        <Carousel
+        {/* <Carousel
           withIndicators
           plugins={[autoplay.current]}
           onMouseEnter={autoplay.current.stop}
           onMouseLeave={autoplay.current.reset}
           classNames={classes}
         >
-          <Carousel.Slide>
-            <Image src={banner} radius={8} />
-          </Carousel.Slide>
-        </Carousel>
+          <Carousel.Slide> */}
+        <Image src={banner} radius={8} h={350} />
+        {/* </Carousel.Slide>
+        </Carousel> */}
       </Paper>
 
       {LoadingData === true ? (
