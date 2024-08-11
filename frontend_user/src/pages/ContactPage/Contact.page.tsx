@@ -13,7 +13,7 @@ export function ContactPage() {
   return (
     <>
       <Paper radius={8} shadow="sm">
-        <Image src={banner} radius={8} h={350} />
+        <Image src={banner} radius={8} />
       </Paper>
       <Grid gutter="md" mt={20}>
         <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>

@@ -13,7 +13,7 @@ export function AboutPage() {
   return (
     <>
       <Paper radius={8} shadow="sm">
-        <Image src={banner} radius={8} h={350} />
+        <Image src={banner} radius={8} />
       </Paper>
 
       <Text mt={30} mb={50}>
