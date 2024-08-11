@@ -6,7 +6,6 @@ import {
   Text,
   Flex,
   Button,
-  LoadingOverlay,
   Image,
   Select,
   SimpleGrid,
@@ -14,9 +13,11 @@ import {
   Grid,
   Paper,
   Center,
+  Skeleton,
 } from "@mantine/core";
+import { Notifications } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
-import { IconCash } from "@tabler/icons-react";
+import { IconCash, IconCheck, IconExclamationMark } from "@tabler/icons-react";
 import { useDocumentTitle } from "@mantine/hooks";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -40,8 +41,16 @@ export function CheckoutPage() {
   const [Day, setDay] = useState<any[]>([]);
   const [Month, setMonth] = useState<any[]>([]);
   const [Year, setYear] = useState<any[]>([]);
+  const [Hour, setHour] = useState<any[]>([]);
+  const [Minute, setMinute] = useState<any[]>([]);
   const [Data, setData] = useState<any[]>([]);
   const totalAmount = Data.reduce((sum: any, i: any) => sum + i.total, 0);
+
+  const [DaySelect, setDaySelect] = useState<any>("");
+  const [MonthSelect, setMonthSelect] = useState<any>("");
+  const [YearSelect, setYearSelect] = useState<any>("");
+  const [HourSelect, setHourSelect] = useState<any>("");
+  const [MinuteSelect, setMinuteSelect] = useState<any>("");
 
   const form = useForm<FormValues>({
     initialValues: {
@@ -149,26 +158,22 @@ export function CheckoutPage() {
     }
     setMinute(minute);
   };
-  const [Hour, setHour] = useState<any[]>([]);
-  const [Minute, setMinute] = useState<any[]>([]);
 
   const Fetchdata = () => {
     setLoadingdata(true);
-    setTimeout(() => {
-      axios
-        .post(Api + "User/Showorderbuydetail/", {
-          userid: atob(id),
-          order_id: order_id,
-        })
-        .then((res) => {
-          const data = res.data;
-          console.log(data);
-          if (data.length !== 0) {
-            setData(data);
-          }
-          setLoadingdata(false);
-        });
-    }, 1000);
+    axios
+      .post(Api + "User/Showorderbuydetail/", {
+        userid: atob(id),
+        order_id: order_id,
+      })
+      .then((res) => {
+        const data = res.data;
+        console.log(data);
+        if (data.length !== 0) {
+          setData(data);
+        }
+        setLoadingdata(false);
+      });
   };
 
   const handleFileChange = (files: any) => {
@@ -192,17 +197,58 @@ export function CheckoutPage() {
 
   const Submit = (v: any) => {
     setLoadingSubmit(true);
-    // axios
-    //   .post(Api + "User/Updatedata", {
-    //     userid: atob(id),
-    //     email: v.email,
-    //     typeadd: "email",
-    //   })
-    //   .then((res) => {
-    //     if (res.data === 200) {
-    //       setLoadingSubmit(false);
-    //     }
-    //   });
+    if (
+      v.img_file &&
+      order_id &&
+      YearSelect &&
+      MonthSelect &&
+      DaySelect &&
+      HourSelect &&
+      MinuteSelect
+    ) {
+      setLoadingSubmit(false);
+      console.log(v);
+      console.log(order_id);
+      console.log(YearSelect - 543 + "-" + MonthSelect + "-" + DaySelect);
+      console.log(HourSelect + ":" + MinuteSelect);
+      const Update = new FormData();
+      Update.append("order_id", order_id);
+      Update.append("file", v.img_file);
+      Update.append("typeimg", "update");
+      axios.post(Api + "Buy/UploadIMG", Update).then(() => {
+        axios
+          .post(Api + "Buy/Checkout", {
+            userid: atob(id),
+            order_id: order_id,
+            pay_date: YearSelect - 543 + "-" + MonthSelect + "-" + DaySelect,
+            pay_time: HourSelect + ":" + MinuteSelect,
+            typeadd: "checkout",
+          })
+          .then((res) => {
+            if (res.data === 200) {
+              setLoadingSubmit(false);
+              Notifications.show({
+                title: "บันทึกข้อมูลสำเร็จ",
+                message: "คุณได้เพิ่มข้อมูลเรียบร้อยแล้ว",
+                autoClose: 2000,
+                color: "green",
+                icon: <IconCheck />,
+              });
+            } else {
+              console.log("error");
+            }
+          });
+      });
+    } else {
+      setLoadingSubmit(false);
+      Notifications.show({
+        title: "ชำระเงินไม่สำเร็จ",
+        message: "กรุณากรอกข้อมูลให้ครบถ้วน",
+        autoClose: 2000,
+        color: "red",
+        icon: <IconExclamationMark />,
+      });
+    }
   };
 
   useEffect(() => {
@@ -217,122 +263,136 @@ export function CheckoutPage() {
 
   return (
     <>
-      <Paper radius={5} shadow="sm" p={15} mb={50} pos={"relative"}>
-        <Grid gutter={50} justify="center" align="center">
-          <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
-            <Flex justify="center" direction="column" wrap="wrap">
-              <Center>
-                <Image
-                  src={
-                    "https://i.pinimg.com/564x/c6/ad/81/c6ad815f01a76c92634b751bd67db271.jpg"
-                  }
-                  mb={10}
-                />
-              </Center>
-            </Flex>
-          </Grid.Col>
+      {Loadingdata === true ? (
+        <>
+          <Paper radius={8} shadow="sm" p={10}>
+            <Skeleton w={"100%"} h={450} />
+          </Paper>
+        </>
+      ) : (
+        <>
+          <form
+            onSubmit={form.onSubmit((v) => {
+              Submit(v);
+            })}
+          >
+            <Paper radius={5} shadow="sm" p={15} mb={50} pos={"relative"}>
+              <Grid gutter={50} justify="center" align="center">
+                <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
+                  <Flex justify="center" direction="column" wrap="wrap">
+                    <Center>
+                      <Image
+                        src={
+                          "https://i.pinimg.com/564x/c6/ad/81/c6ad815f01a76c92634b751bd67db271.jpg"
+                        }
+                        mb={10}
+                      />
+                    </Center>
+                  </Flex>
+                </Grid.Col>
 
-          <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
-            <form
-              onSubmit={form.onSubmit((v: any) => {
-                Submit(v);
-              })}
-            >
-              <LoadingOverlay
-                visible={Loadingdata}
-                zIndex={100}
-                overlayProps={{ radius: "sm", blur: 2 }}
-                loaderProps={{ type: "dots" }}
-              />
-              <Text fz={"h3"}>
-                ยอดเงินที่ต้องชำระ {totalAmount.toLocaleString()} บาท
-              </Text>
-              <SimpleGrid cols={3}>
-                <Select
-                  allowDeselect={false}
-                  label="วัน"
-                  data={Day}
-                  searchable
-                  clearable
-                  withAsterisk
-                />
-                <Select
-                  allowDeselect={false}
-                  label="เดือน"
-                  data={Month}
-                  searchable
-                  clearable
-                  withAsterisk
-                />
-                <Select
-                  allowDeselect={false}
-                  label="ปี"
-                  data={Year}
-                  searchable
-                  clearable
-                  withAsterisk
-                />
-              </SimpleGrid>
-              <SimpleGrid cols={2}>
-                <Select
-                  allowDeselect={false}
-                  label="ชั่วโมง"
-                  data={Hour}
-                  searchable
-                  clearable
-                  withAsterisk
-                />
-                <Select
-                  allowDeselect={false}
-                  label="นาที"
-                  data={Minute}
-                  searchable
-                  clearable
-                  withAsterisk
-                />
-              </SimpleGrid>
-              <Center mt={10}>
-                <Image
-                  src={
-                    form.values.img_preview === null
-                      ? Api + "/public/uploadimg/noimage.png"
-                      : form.values.img_preview
-                  }
-                  w={250}
-                  h={250}
-                  mb={10}
-                />
-              </Center>
-              <FileButton
-                onChange={handleFileChange}
-                accept="image/png,image/jpeg"
-              >
-                {(props) => (
-                  <Button variant="outline" {...props} w={"100%"}>
-                    แนบหลักฐานการโอนเงิน
-                  </Button>
-                )}
-              </FileButton>
-              <Text c={"#999999"} fz={"14px"}>
-                ขนาดไฟล์: สูงสุด 1 MB ไฟล์ที่รองรับ: JPEG,JPG,PNG
-              </Text>
-              <Flex pt={10} justify={"flex-start"} gap={5} pos={"relative"}>
-                <Button
-                  loading={LoadingSubmit}
-                  loaderProps={{ type: "dots" }}
-                  type="submit"
-                  fw={400}
-                  color="green"
-                  leftSection={<IconCash />}
-                  w={"100%"}
-                >
-                  ชำระเงิน
-                </Button>
-              </Flex>
-            </form>
-          </Grid.Col>
-        </Grid>
-      </Paper>
+                <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
+                  <Text fz={"h3"}>
+                    ยอดเงินที่ต้องชำระ {totalAmount.toLocaleString()} บาท
+                  </Text>
+                  <SimpleGrid cols={3}>
+                    <Select
+                      allowDeselect={false}
+                      label="วัน"
+                      data={Day}
+                      onChange={setDaySelect}
+                      value={DaySelect}
+                      searchable
+                      clearable
+                      withAsterisk
+                    />
+                    <Select
+                      allowDeselect={false}
+                      label="เดือน"
+                      data={Month}
+                      onChange={setMonthSelect}
+                      value={MonthSelect}
+                      searchable
+                      clearable
+                      withAsterisk
+                    />
+                    <Select
+                      allowDeselect={false}
+                      label="ปี"
+                      data={Year}
+                      onChange={setYearSelect}
+                      value={YearSelect}
+                      searchable
+                      clearable
+                      withAsterisk
+                    />
+                  </SimpleGrid>
+                  <SimpleGrid cols={2}>
+                    <Select
+                      allowDeselect={false}
+                      label="ชั่วโมง"
+                      data={Hour}
+                      onChange={setHourSelect}
+                      value={HourSelect}
+                      searchable
+                      clearable
+                      withAsterisk
+                    />
+                    <Select
+                      allowDeselect={false}
+                      label="นาที"
+                      data={Minute}
+                      onChange={setMinuteSelect}
+                      value={MinuteSelect}
+                      searchable
+                      clearable
+                      withAsterisk
+                    />
+                  </SimpleGrid>
+                  <Center mt={10}>
+                    <Image
+                      src={
+                        form.values.img_preview === null
+                          ? Api + "/public/uploadimg/noimage.png"
+                          : form.values.img_preview
+                      }
+                      w={250}
+                      h={250}
+                      mb={10}
+                    />
+                  </Center>
+                  <FileButton
+                    onChange={handleFileChange}
+                    accept="image/png,image/jpeg"
+                  >
+                    {(props) => (
+                      <Button variant="outline" {...props} w={"100%"}>
+                        แนบหลักฐานการโอนเงิน
+                      </Button>
+                    )}
+                  </FileButton>
+                  <Text c={"#999999"} fz={"14px"}>
+                    ขนาดไฟล์: สูงสุด 1 MB ไฟล์ที่รองรับ: JPEG,JPG,PNG
+                  </Text>
+                  <Flex pt={10} justify={"flex-start"} gap={5} pos={"relative"}>
+                    <Button
+                      loading={LoadingSubmit}
+                      loaderProps={{ type: "dots" }}
+                      fw={400}
+                      color="green"
+                      type="submit"
+                      leftSection={<IconCash />}
+                      w={"100%"}
+                    >
+                      ชำระเงิน
+                    </Button>
+                  </Flex>
+                </Grid.Col>
+              </Grid>
+            </Paper>
+          </form>
+        </>
+      )}
     </>
   );
 }
