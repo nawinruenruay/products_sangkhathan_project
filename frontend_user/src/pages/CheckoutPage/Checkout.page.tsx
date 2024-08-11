@@ -358,7 +358,7 @@ export function CheckoutPage() {
                   </Center>
                   <FileButton
                     onChange={handleFileChange}
-                    accept="image/png,image/jpeg"
+                    accept="image/png, image/jpeg, image/jpg"
                   >
                     {(props) => (
                       <Button variant="outline" {...props} w={"100%"}>
