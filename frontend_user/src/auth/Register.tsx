@@ -34,6 +34,7 @@ import LOGO from "../assets/icon/LOGO.png";
 import Footer from "../layout/Footer/Footer";
 
 export function Register() {
+  const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme("light", {
     getInitialValueInEffect: true,
@@ -109,6 +110,9 @@ export function Register() {
   };
 
   useEffect(() => {
+    if (id) {
+      nav("/");
+    }
     window.scrollTo(0, 0);
   }, []);
 

@@ -106,10 +106,10 @@ export function Login() {
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
     if (id) {
       nav("/");
     }
+    window.scrollTo(0, 0);
   }, []);
 
   return (
