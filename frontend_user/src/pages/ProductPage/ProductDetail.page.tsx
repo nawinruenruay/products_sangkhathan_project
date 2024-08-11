@@ -34,16 +34,15 @@ import { useCartsum } from "../../components/CartContext";
 import Swal from "sweetalert2";
 
 export function ProductDetailPage() {
-  const { productId, tabsValue } = useParams<{
+  const { productId, productName } = useParams<{
     productId: any;
-    tabsValue: any;
+    productName: any;
   }>();
   const nav = useNavigate();
   const [LoadingData, setLoadingData] = useState(false);
   const [Data, setData] = useState([]);
   const [ShowIMG, setShowIMG] = useState(false);
   const [ImagePath, setImagePath] = useState("");
-  const [ProductName, setProductName] = useState("");
   const [Price, setPrice] = useState("");
   const [Qty, setQty] = useState(1);
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
@@ -68,7 +67,6 @@ export function ProductDetailPage() {
         const data = res.data;
         if (data.length !== 0) {
           setData(data);
-          setProductName(data[0].pname);
           setPrice(data[0].price);
         }
         setLoadingData(false);
@@ -130,13 +128,10 @@ export function ProductDetailPage() {
 
   const items = [
     {
-      title:
-        tabsValue === "สินค้าผลิตภัณฑ์-cat.1"
-          ? "สินค้าผลิตภัณฑ์"
-          : "สังฆฑานออนไลน์",
-      href: `/product/${tabsValue}`,
+      title: "สินค้า",
+      href: `/product`,
     },
-    { title: ProductName, href: "" },
+    { title: productName, href: "" },
   ].map((item, index) => (
     <Anchor key={index} component={Nl} to={item.href} fz={"h5"}>
       {item.title}

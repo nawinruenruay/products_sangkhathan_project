@@ -51,9 +51,9 @@ export function ProductPage() {
     return btoa(str).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
   };
 
-  const ProductDetail = (tabsValue: any, productId: string) => {
+  const ProductDetail = (productId: string, productName: string) => {
     const encodedProductId = base64UrlEncode(productId);
-    nav("/product/" + tabsValue + "/" + encodedProductId);
+    nav("/product/" + encodedProductId + "/" + productName);
   };
 
   useEffect(() => {
@@ -64,12 +64,11 @@ export function ProductPage() {
   return (
     <>
       <Tabs
-        // defaultValue="สินค้าผลิตภัณฑ์-cat.1"
+        defaultValue="สินค้าผลิตภัณฑ์-cat.1"
         value={tabsValue}
         onChange={(tabsValue: any) => {
           nav(`/product/${tabsValue}`);
         }}
-        // mt={30}
         mb={50}
       >
         <Tabs.List grow>
@@ -112,7 +111,7 @@ export function ProductPage() {
                       className={classes.card}
                       h={"100%"}
                       onClick={() => {
-                        ProductDetail(tabsValue, i.pid);
+                        ProductDetail(i.pid, i.pname);
                       }}
                     >
                       <Card.Section
@@ -145,7 +144,7 @@ export function ProductPage() {
                         mt="md"
                         radius="md"
                         onClick={() => {
-                          ProductDetail(tabsValue, i.pid);
+                          ProductDetail(i.pid, i.pname);
                         }}
                       >
                         รายละเอียดสินค้า
@@ -182,7 +181,7 @@ export function ProductPage() {
                       withBorder
                       className={classes.card}
                       onClick={() => {
-                        ProductDetail(tabsValue, i.pid);
+                        ProductDetail(i.pid, i.pname);
                       }}
                     >
                       <Card.Section
@@ -216,7 +215,7 @@ export function ProductPage() {
                         mt="md"
                         radius="md"
                         onClick={() => {
-                          ProductDetail(tabsValue, i.pid);
+                          ProductDetail(i.pid, i.pname);
                         }}
                       >
                         รายละเอียดสินค้า
