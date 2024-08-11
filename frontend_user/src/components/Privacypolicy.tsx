@@ -13,7 +13,6 @@ export function Privacypolicy() {
   };
 
   const handlePDPA = () => {
-    console.log("FUCK OFF");
     nav("/privacypolicy");
   };
 
