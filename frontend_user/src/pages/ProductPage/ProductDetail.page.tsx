@@ -85,8 +85,7 @@ export function ProductDetailPage() {
           icon: <IconExclamationMark />,
         });
         nav("/login");
-      }
-      if (id) {
+      } else {
         axios
           .post(Api + "Cart/Addcart", {
             qty: Qty,
