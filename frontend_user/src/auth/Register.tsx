@@ -29,11 +29,12 @@ import { useForm } from "@mantine/form";
 import axios from "axios";
 import { Api } from "../Api";
 import { useDisclosure } from "@mantine/hooks";
-
+import { useDocumentTitle } from "@mantine/hooks";
 import LOGO from "../assets/icon/LOGO.png";
 import Footer from "../layout/Footer/Footer";
 
 export function Register() {
+  useDocumentTitle("สมัครสมาชิก | ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน");
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const { setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme("light", {
