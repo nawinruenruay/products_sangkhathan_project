@@ -168,7 +168,7 @@ export function CheckoutPage() {
       })
       .then((res) => {
         const data = res.data;
-        console.log(data);
+        // console.log(data);
         if (data.length !== 0) {
           setData(data);
         }
@@ -207,10 +207,6 @@ export function CheckoutPage() {
       MinuteSelect
     ) {
       setLoadingSubmit(false);
-      console.log(v);
-      console.log(order_id);
-      console.log(YearSelect - 543 + "-" + MonthSelect + "-" + DaySelect);
-      console.log(HourSelect + ":" + MinuteSelect);
       const Update = new FormData();
       Update.append("order_id", order_id);
       Update.append("file", v.img_file);
@@ -228,14 +224,13 @@ export function CheckoutPage() {
             if (res.data === 200) {
               setLoadingSubmit(false);
               Notifications.show({
-                title: "บันทึกข้อมูลสำเร็จ",
-                message: "คุณได้เพิ่มข้อมูลเรียบร้อยแล้ว",
+                title: "ชำระเงินสำเร็จ",
+                message: "คุณได้ชำระเงินเรียบร้อยแล้ว",
                 autoClose: 2000,
                 color: "green",
                 icon: <IconCheck />,
               });
-            } else {
-              console.log("error");
+              nav("/user/account/purchase");
             }
           });
       });
