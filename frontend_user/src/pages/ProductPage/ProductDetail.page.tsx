@@ -28,7 +28,7 @@ import {
   IconChevronRight,
   IconExclamationMark,
 } from "@tabler/icons-react";
-
+import { useDocumentTitle } from "@mantine/hooks";
 import classes from "./Product.module.css";
 import { useCartsum } from "../../components/CartContext";
 import Swal from "sweetalert2";
@@ -38,6 +38,7 @@ export function ProductDetailPage() {
     productId: any;
     productName: any;
   }>();
+  useDocumentTitle(productName + " | ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน");
   const nav = useNavigate();
   const [LoadingData, setLoadingData] = useState(false);
   const [Data, setData] = useState([]);
