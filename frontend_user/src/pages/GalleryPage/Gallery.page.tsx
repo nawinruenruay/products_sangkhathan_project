@@ -103,7 +103,11 @@ export function GalleryPage() {
                       justifyContent: "center",
                     }}
                   >
-                    <Image src={Api + i.act_pic} className={classes.image} />
+                    <Image
+                      src={Api + i.act_pic}
+                      className={classes.image}
+                      h={200}
+                    />
                   </Card.Section>
 
                   <Group justify="space-between" mt="md" mb="xs">

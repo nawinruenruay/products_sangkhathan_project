@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Image, Text, Paper } from "@mantine/core";
+import { Image, Text, Paper, Group } from "@mantine/core";
 import banner from "../../assets/img/banner-about.png";
 import { useDocumentTitle } from "@mantine/hooks";
 
@@ -15,20 +15,48 @@ export function AboutPage() {
       <Paper radius={8} shadow="sm">
         <Image src={banner} radius={8} />
       </Paper>
+      <Group gap={3}>
+        <Text mt={30}>
+          <Text ml={20} display="inline" fw={"bold"}>
+            ชมรมผู้สูงอายุ ศูนย์ร่มโพธิ์ร่มไทร วัยดอกลำดวน{" "}
+          </Text>
+          มีประวัติการก่อตั้งกลุ่ม ก่อตั้งมาได้ 12 ปี เริ่มขึ้นเมื่อปี พ.ศ. 2554
+          จนถึงปัจจุบัน เข้าสู่ปีที่ 13 เดิมมีสมาชิกทั้ง 70 คน
+          แต่ด้วยสถานการณ์โควิดจึงทำให้มีจำนวนสมาชิกลดลงในปี 2564 มีจำนวน 60 คน
+          อาชีพส่วนใหญ่เป็นเกษตรกรจึงทำให้มีเวลาว่างผู้สูงอายุบางราย
+          สมาชิกบางคนมีเรื่องเครียดบ้าง
+          เหงาบ้างจึงมารวมตัวกันทำกิจกรรมกลุ่มและสร้างอาชีพให้กับตนเองให้มีรายได้เสริมเพิ่มขึ้น
+          ได้ทำกิจกรรมบำบัด สร้างเสริมทักษะและการดูแลตัวเอง
+          ปัจจุบันมีสมาชิกชมรมมีทั้งสิ้น 30 คน โดยก่อตั้งที่แรก ณ
+          องค์การบริการส่วนตำบลนครชุม ในช่วง 7 – 8 ปีแรก
+          และทำการย้ายสถานที่มาตั้งอยู่วัดทุ่งเศรษฐี จนถึงปันจุบัน
+          และกำหนดทำกิจกรรมร่วมกันในชมรมทุกวันศุกร์ เวลา 08.00 น. – 15.00 น.
+        </Text>
 
-      <Text mt={30} mb={50}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Atque tempora,
-        ipsa, culpa iusto vitae velit provident aperiam saepe iste, dolores
-        officia maxime veniam inventore veritatis exercitationem. Hic officia
-        harum sint vitae. Distinctio molestias minima, necessitatibus natus
-        incidunt ullam voluptatem quod itaque porro earum, quae, rerum eos
-        suscipit officiis deserunt reiciendis nam. A impedit reprehenderit
-        veniam eius perferendis illum repellat optio odio incidunt aspernatur
-        ullam rem tempora itaque repellendus rerum nemo id, dolores maxime
-        beatae expedita! Molestiae numquam optio aperiam officia nesciunt
-        assumenda debitis repellendus, nulla mollitia aut et. Eum necessitatibus
-        perspiciatis maiores at vero amet optio odit laborum, molestiae maxime.
-      </Text>
+        <Text>
+          <Text ml={20} display="inline" fw={"bold"}>
+            รายชื่อผู้ก่อตั้ง{" "}
+          </Text>
+          ประธานชมรมคนที่หนึ่ง คือ แม่ส่ง , ประธานชมรมคนที่สอง คือ แม่สำลี,
+          รองประธานชมรมคนแรก คือ พ่อแพง , พ่อแนน หัวหน้าชมรม คือ คุณชฎาพร
+          ทองธรรมชาติ
+        </Text>
+
+        <Text>
+          <Text ml={20} display="inline" fw={"bold"}>
+            ความหมายของชื่อศูนย์{" "}
+          </Text>
+          ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวนมีที่มาจากดอกลำดวนซึ่งเป็นสัญลักษณ์ของผู้สูงอายุที่มีสีผมคล้ายดอกลำดวนและเป็นร่มโพธิ์ร่มไทรของลูกหลานมีอายุยืนยาวตามความหมายของดอกลำดวน
+          การได้รับรางวัล ได้รับรางวัลพระปกเกล้าเจ้าอยู่หัวในปีพ.ศ. 2564
+        </Text>
+
+        <Text>
+          <Text ml={20} display="inline" fw={"bold"}>
+            การได้รับรางวัล{" "}
+          </Text>
+          ได้รับรางวัลพระปกเกล้าเจ้าอยู่หัวในปีพ.ศ. 2564
+        </Text>
+      </Group>
     </>
   );
 }
