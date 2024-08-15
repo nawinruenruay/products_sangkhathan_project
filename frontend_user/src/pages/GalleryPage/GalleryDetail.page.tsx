@@ -26,7 +26,7 @@ import classes from "./Gallery.module.css";
 export function GalleryDetailPage() {
   const { v1, v2 } = useParams<{ v1: any; v2: any }>();
   const icon = <IconInfoCircle />;
-  const [loadingData, setLoadingData] = useState(false);
+  const [loadingData, setLoadingData] = useState(true);
   const [data, setData] = useState<any[]>([]);
   const [imagesLoaded, setImagesLoaded] = useState(false);
 
@@ -125,13 +125,13 @@ export function GalleryDetailPage() {
 
   return (
     <Container size={"1200px"}>
-      {loadingData ? (
+      {loadingData || !imagesLoaded ? (
         <Paper radius={8} shadow="sm" p={10}>
           <Skeleton height={20} width="50%" mb={20} ml={20} />
           <Skeleton height={40} width="70%" mb={10} ml={20} />
           <Skeleton height={20} width="60%" mb={30} ml={20} />
           <Grid gutter="md" mt={50} mb={50}>
-            {Array.from({ length: 4 }).map((_, index) => (
+            {Array.from({ length: data.length }).map((_, index) => (
               <Grid.Col span={{ base: 6, md: 6, lg: 3 }} key={index}>
                 <Card shadow="sm" withBorder>
                   <Card.Section
