@@ -131,9 +131,9 @@ export function GalleryDetailPage() {
     <Container size={"1200px"}>
       {loadingData || !imagesLoaded ? (
         <Paper radius={8} shadow="sm" p={10}>
-          <Skeleton height={20} width="50%" mb={20} ml={20} />
-          <Skeleton height={40} width="70%" mb={10} ml={20} />
-          <Skeleton height={20} width="60%" mb={30} ml={20} />
+          <Skeleton height={20} width="50%" mb={20} />
+          <Skeleton height={40} width="70%" mb={10} />
+          <Skeleton height={20} width="60%" mb={30} />
           <Grid gutter="md" mt={50} mb={50}>
             {Array.from({ length: data.length || 4 }).map((_, index) => (
               <Grid.Col span={{ base: 6, md: 6, lg: 3 }} key={index}>
