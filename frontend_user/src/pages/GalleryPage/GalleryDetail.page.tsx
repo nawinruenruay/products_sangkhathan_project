@@ -22,11 +22,13 @@ import {
   IconChevronRight,
   IconDownload,
 } from "@tabler/icons-react";
+import { useDocumentTitle } from "@mantine/hooks";
 import { Fancybox } from "@fancyapps/ui";
 import classes from "./Gallery.module.css";
 
 export function GalleryDetailPage() {
   const { v1, v2 } = useParams<{ v1: any; v2: any }>();
+  useDocumentTitle(v2 + " | ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน");
   const icon = <IconInfoCircle />;
   const [loadingData, setLoadingData] = useState(true);
   const [data, setData] = useState<any[]>([]);
