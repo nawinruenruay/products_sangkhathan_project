@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Image, Text, Paper, Group } from "@mantine/core";
+import { Image, Text, Paper, Flex } from "@mantine/core";
 import banner from "../../assets/img/banner-about.png";
 import { useDocumentTitle } from "@mantine/hooks";
 
@@ -12,12 +12,13 @@ export function AboutPage() {
 
   return (
     <>
-      <Paper radius={8} shadow="sm">
+      <Paper radius={8} shadow="sm" p="md">
         <Image src={banner} radius={8} />
       </Paper>
-      <Group gap={3}>
-        <Text mt={30}>
-          <Text ml={20} display="inline" fw={"bold"}>
+
+      <Flex direction="column" gap={5} mt="lg">
+        <Text>
+          <Text ml={20} component="span" fw={700}>
             ชมรมผู้สูงอายุ ศูนย์ร่มโพธิ์ร่มไทร วัยดอกลำดวน{" "}
           </Text>
           มีประวัติการก่อตั้งกลุ่ม ก่อตั้งมาได้ 12 ปี เริ่มขึ้นเมื่อปี พ.ศ. 2554
@@ -29,12 +30,12 @@ export function AboutPage() {
           ได้ทำกิจกรรมบำบัด สร้างเสริมทักษะและการดูแลตัวเอง
           ปัจจุบันมีสมาชิกชมรมมีทั้งสิ้น 30 คน โดยก่อตั้งที่แรก ณ
           องค์การบริการส่วนตำบลนครชุม ในช่วง 7 – 8 ปีแรก
-          และทำการย้ายสถานที่มาตั้งอยู่วัดทุ่งเศรษฐี จนถึงปันจุบัน
+          และทำการย้ายสถานที่มาตั้งอยู่วัดทุ่งเศรษฐี จนถึงปัจจุบัน
           และกำหนดทำกิจกรรมร่วมกันในชมรมทุกวันศุกร์ เวลา 08.00 น. – 15.00 น.
         </Text>
 
         <Text>
-          <Text ml={20} display="inline" fw={"bold"}>
+          <Text ml={20} component="span" fw={700}>
             รายชื่อผู้ก่อตั้ง{" "}
           </Text>
           ประธานชมรมคนที่หนึ่ง คือ แม่ส่ง , ประธานชมรมคนที่สอง คือ แม่สำลี,
@@ -43,7 +44,7 @@ export function AboutPage() {
         </Text>
 
         <Text>
-          <Text ml={20} display="inline" fw={"bold"}>
+          <Text ml={20} component="span" fw={700}>
             ความหมายของชื่อศูนย์{" "}
           </Text>
           ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวนมีที่มาจากดอกลำดวนซึ่งเป็นสัญลักษณ์ของผู้สูงอายุที่มีสีผมคล้ายดอกลำดวนและเป็นร่มโพธิ์ร่มไทรของลูกหลานมีอายุยืนยาวตามความหมายของดอกลำดวน
@@ -51,12 +52,12 @@ export function AboutPage() {
         </Text>
 
         <Text>
-          <Text ml={20} display="inline" fw={"bold"}>
+          <Text ml={20} component="span" fw={700}>
             การได้รับรางวัล{" "}
           </Text>
           ได้รับรางวัลพระปกเกล้าเจ้าอยู่หัวในปีพ.ศ. 2564
         </Text>
-      </Group>
+      </Flex>
     </>
   );
 }

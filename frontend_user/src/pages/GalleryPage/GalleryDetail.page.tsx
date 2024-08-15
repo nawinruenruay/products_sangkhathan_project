@@ -13,12 +13,14 @@ import {
   Blockquote,
   Anchor,
   Breadcrumbs,
+  UnstyledButton,
 } from "@mantine/core";
 import { NavLink as Nl, useParams } from "react-router-dom";
 import {
   IconInfoCircle,
   IconCalendarMonth,
   IconChevronRight,
+  IconDownload,
 } from "@tabler/icons-react";
 import { Fancybox } from "@fancyapps/ui";
 import classes from "./Gallery.module.css";
@@ -179,16 +181,25 @@ export function GalleryDetailPage() {
             {data.map((i, key) => (
               <Grid.Col span={{ base: 6, md: 6, lg: 3 }} key={key}>
                 <Card shadow="sm" withBorder>
-                  <Card.Section
-                    style={{ display: "flex", justifyContent: "center" }}
-                  >
-                    <a data-fancybox="gallery" href={Api + i.gal_pic}>
+                  <Card.Section style={{ position: "relative" }}>
+                    <UnstyledButton
+                      component="a"
+                      data-fancybox="gallery"
+                      href={Api + i.gal_pic}
+                    >
                       <MantineIMG
                         src={Api + i.gal_pic}
                         loading="lazy"
                         className={classes.image}
                         alt="Gallery Image"
                       />
+                    </UnstyledButton>
+                    <a
+                      download
+                      href={Api + i.gal_pic}
+                      className={classes.downloadButton}
+                    >
+                      <IconDownload size={24} />
                     </a>
                   </Card.Section>
                 </Card>
