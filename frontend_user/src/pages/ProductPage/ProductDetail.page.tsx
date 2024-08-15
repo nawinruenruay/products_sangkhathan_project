@@ -183,6 +183,7 @@ export function ProductDetailPage() {
                       }}
                       className={classes.image}
                       w={400}
+                      h={400}
                     />
                   </Center>
                 </Grid.Col>
