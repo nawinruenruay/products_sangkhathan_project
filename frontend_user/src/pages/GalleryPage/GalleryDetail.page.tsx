@@ -44,7 +44,7 @@ export function GalleryDetailPage() {
         preloadImages(result.map((i: any) => Api + i.gal_pic));
       }
     } catch (error) {
-      console.error("Error loading data:", error);
+      console.error("Error", error);
     } finally {
       setLoadingData(false);
     }
