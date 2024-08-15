@@ -1,7 +1,9 @@
 import { useEffect } from "react";
 import { Image, Text, Paper, Flex } from "@mantine/core";
-import banner from "../../assets/img/banner-about.png";
 import { useDocumentTitle } from "@mantine/hooks";
+
+import banner from "../../assets/img/banner-about.png";
+import member from "../../assets/img/member.png";
 
 export function AboutPage() {
   useDocumentTitle("ประวัติ | ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน");
@@ -57,6 +59,8 @@ export function AboutPage() {
           </Text>
           ได้รับรางวัลพระปกเกล้าเจ้าอยู่หัวในปีพ.ศ. 2564
         </Text>
+
+        <Image src={member} radius={8} mt={20} />
       </Flex>
     </>
   );
