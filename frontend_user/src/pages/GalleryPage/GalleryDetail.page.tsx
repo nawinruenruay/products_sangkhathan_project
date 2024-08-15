@@ -131,7 +131,7 @@ export function GalleryDetailPage() {
           <Skeleton height={40} width="70%" mb={10} ml={20} />
           <Skeleton height={20} width="60%" mb={30} ml={20} />
           <Grid gutter="md" mt={50} mb={50}>
-            {Array.from({ length: data.length }).map((_, index) => (
+            {Array.from({ length: data.length || 4 }).map((_, index) => (
               <Grid.Col span={{ base: 6, md: 6, lg: 3 }} key={index}>
                 <Card shadow="sm" withBorder>
                   <Card.Section
