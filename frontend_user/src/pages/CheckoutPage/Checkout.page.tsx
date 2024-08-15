@@ -21,8 +21,6 @@ import { IconCash, IconCheck, IconExclamationMark } from "@tabler/icons-react";
 import { useDocumentTitle } from "@mantine/hooks";
 import { useNavigate, useLocation } from "react-router-dom";
 
-// import classes from "./Checkout.module.css";
-
 type FormValues = {
   img: string;
   img_file: File | null;
@@ -168,7 +166,6 @@ export function CheckoutPage() {
       })
       .then((res) => {
         const data = res.data;
-        // console.log(data);
         if (data.length !== 0) {
           setData(data);
         }
