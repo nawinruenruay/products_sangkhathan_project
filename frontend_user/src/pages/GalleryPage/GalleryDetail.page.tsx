@@ -194,13 +194,14 @@ export function GalleryDetailPage() {
                         alt="Gallery Image"
                       />
                     </UnstyledButton>
-                    <a
-                      download
+                    <UnstyledButton
+                      component="a"
+                      target="_blank"
                       href={Api + i.gal_pic}
                       className={classes.downloadButton}
                     >
                       <IconDownload size={24} />
-                    </a>
+                    </UnstyledButton>
                   </Card.Section>
                 </Card>
               </Grid.Col>
