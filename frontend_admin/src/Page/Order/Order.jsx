@@ -115,7 +115,7 @@ function Order() {
                     ) : i.status == 3 ? (
                       <Badge color="green">ชำระเงินเรียบร้อยแล้ว</Badge>
                     ) : (
-                      <Badge color="black">test123</Badge>
+                      <Badge color="black">ยกเลิกการสั่งซื้อ</Badge>
                     )}
                   </Flex>
                 </>
