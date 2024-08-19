@@ -14,7 +14,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { IconCalendarMonth } from "@tabler/icons-react";
 import { useDocumentTitle } from "@mantine/hooks";
-import banner from "../../assets/img/banner-gallery.png";
+import banner from "../../assets/img/banner_gallery.png";
 import classes from "./Gallery.module.css";
 
 export function GalleryPage() {

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { Image, Text, Paper, Grid, Group } from "@mantine/core";
 import { useDocumentTitle } from "@mantine/hooks";
-import banner from "../../assets/img/banner-contact.png";
+import banner from "../../assets/img/banner_contact.png";
 
 export function ContactPage() {
   useDocumentTitle("ติดต่อสอบถาม | ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน");

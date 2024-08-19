@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Image, Text, Paper, Flex } from "@mantine/core";
 import { useDocumentTitle } from "@mantine/hooks";
 
-import banner from "../../assets/img/banner-about.png";
+import banner from "../../assets/img/banner_about.png";
 import member from "../../assets/img/member.png";
 
 export function AboutPage() {
