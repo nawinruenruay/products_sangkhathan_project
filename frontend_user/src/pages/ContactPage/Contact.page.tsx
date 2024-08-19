@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Image, Text, Paper, Grid, Group } from "@mantine/core";
 import { useDocumentTitle } from "@mantine/hooks";
+import { IconBrandFacebook } from "@tabler/icons-react";
 import banner from "../../assets/img/banner_contact.png";
 
 export function ContactPage() {
@@ -21,11 +22,11 @@ export function ContactPage() {
             <Text ta={"center"} size={"20px"} mb={20}>
               ติดต่อเรา
             </Text>
-            <Text mb={10}>มหาวิทยาลัยราชภัฏกำแพงเพชร</Text>
-            <Text>69 หมู่ 1 ต.นครชุม อ.เมือง จ.กำแพงเพชร 62000</Text>
-            <Text>โทรศัพท์ : 055-706-555</Text>
-            <Text>โทรสาร : 055-706-518</Text>
-            <Text>อีเมล : kpru@kpru.ac.th</Text>
+            <Text mb={10}>ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน</Text>
+            <Text>
+              202/16 หมู่ที่ 3 ตำบลนครชุม อำเภอเมือง จังหวัดกำแพงเพชร 62000
+            </Text>
+            <Text>โทรศัพท์ : 081-0435031 , 098-9745553</Text>
           </Paper>
         </Grid.Col>
         <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
@@ -33,11 +34,9 @@ export function ContactPage() {
             <Text ta={"center"} size={"20px"} mb={20}>
               โซเชียล
             </Text>
-            <Text>
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem
-              suscipit vitae laboriosam nemo ad sed? Commodi non doloremque modi
-              dolorem.
-            </Text>
+            <Group mt={30}>
+              <IconBrandFacebook /> <Text>ชฎาพร ทองธรรมชาติ</Text>
+            </Group>
           </Paper>
         </Grid.Col>
       </Grid>
