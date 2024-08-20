@@ -64,7 +64,7 @@ export function ProductPage() {
   return (
     <>
       <Tabs
-        defaultValue="สินค้าผลิตภัณฑ์-cat.1"
+        defaultValue="สินค้าผลิตภัณฑ์"
         value={tabsValue}
         onChange={(tabsValue: any) => {
           nav(`/product/${tabsValue}`);
