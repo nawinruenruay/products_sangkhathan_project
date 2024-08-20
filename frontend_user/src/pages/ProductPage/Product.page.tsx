@@ -73,20 +73,20 @@ export function ProductPage() {
       >
         <Tabs.List grow>
           <Tabs.Tab
-            value="สินค้าผลิตภัณฑ์-cat.1"
+            value="สินค้าผลิตภัณฑ์"
             leftSection={<IconBrandProducthunt style={iconStyle} />}
           >
             สินค้าผลิตภัณฑ์
           </Tabs.Tab>
           <Tabs.Tab
-            value="สังฆฑานออนไลน์-cat.2"
+            value="สังฆฑานออนไลน์"
             leftSection={<IconBrandProducthunt style={iconStyle} />}
           >
             สังฆฑานออนไลน์
           </Tabs.Tab>
         </Tabs.List>
 
-        <Tabs.Panel value="สินค้าผลิตภัณฑ์-cat.1">
+        <Tabs.Panel value="สินค้าผลิตภัณฑ์">
           {LoadingData === true ? (
             <>
               <Paper radius={8} shadow="sm" p={10}>
@@ -157,7 +157,7 @@ export function ProductPage() {
           )}
         </Tabs.Panel>
 
-        <Tabs.Panel value="สังฆฑานออนไลน์-cat.2">
+        <Tabs.Panel value="สังฆฑานออนไลน์">
           {LoadingData === true ? (
             <>
               <Paper radius={8} shadow="sm" p={10}>
