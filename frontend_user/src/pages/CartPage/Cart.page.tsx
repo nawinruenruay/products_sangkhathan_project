@@ -113,7 +113,7 @@ export function CartPage() {
   };
 
   const items = [
-    { title: "สินค้า / สังฆทาน", href: "/web" },
+    { title: "สินค้า / สังฆทาน", href: "/product" },
     { title: "ตระกร้า", href: "/cart" },
   ].map((item, index) => (
     <Anchor key={index} component={Nl} to={item.href} fz={"h5"}>
