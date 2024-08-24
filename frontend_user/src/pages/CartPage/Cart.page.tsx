@@ -253,7 +253,7 @@ export function CartPage() {
               <Image src={cartempty} w={300} />
               <Text fw={"bold"}>ตระกร้าสินค้า ว่างอยู่นะ!</Text>
               <Button onClick={() => nav("/web")} mt={20}>
-                เลือกสินค้าได้เลย
+                เลือกสินค้า / สังฆทานได้เลย
               </Button>
             </Flex>
           </>
