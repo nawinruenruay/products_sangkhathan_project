@@ -107,12 +107,12 @@ function Header() {
   };
 
   const UserProfile = () => {
-    nav("/user/account/profile");
+    nav("/user/account/?v=profile");
     closeDrawer();
   };
 
   const Userpurchase = () => {
-    nav("/user/account/purchase");
+    nav("/user/account/?v=purchase");
     closeDrawer();
   };
 

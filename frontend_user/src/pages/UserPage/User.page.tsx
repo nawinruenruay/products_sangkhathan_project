@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Paper, Grid, Tabs, rem } from "@mantine/core";
-import { useNavigate, useParams } from "react-router-dom";
+import { useSearchParams } from "react-router-dom";
 import { IconUserCircle, IconShoppingBag, IconMap2 } from "@tabler/icons-react";
 import { useMediaQuery, useDocumentTitle } from "@mantine/hooks";
 
@@ -10,8 +10,8 @@ import { Purchase } from "./Purchase";
 
 export function UserPage() {
   const [title, setTitle] = useState("บัญชีของฉัน");
-  const nav = useNavigate();
-  const { tabsValue } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tabsValue = searchParams.get("v") || "profile";
   const iconStyle = { width: rem(15), height: rem(15) };
   const isMobile = useMediaQuery("(max-width: 999px)");
 
@@ -42,9 +42,8 @@ export function UserPage() {
       <Tabs
         defaultValue="profile"
         value={tabsValue}
-        onChange={(tabsValue: any) => {
-          nav(`/user/account/${tabsValue}`);
-          setTitle(tabsValue);
+        onChange={(value: any) => {
+          setSearchParams({ v: value });
         }}
         orientation={isMobile ? "horizontal" : "vertical"}
         variant="outline"
