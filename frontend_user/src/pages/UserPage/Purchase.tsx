@@ -28,6 +28,7 @@ import { DataTable } from "mantine-datatable";
 import Swal from "sweetalert2";
 import clsx from "clsx";
 import classes from "./User.module.css";
+import { useUser } from "../../components/UserContext";
 
 type DateOptions = {
   year: "numeric" | "2-digit";
@@ -44,6 +45,7 @@ interface Items {
 
 export function Purchase() {
   const nav = useNavigate();
+  const { FetchUser } = useUser();
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const [LoadingProfile, setLoadingProfile] = useState(false);
   const [Expanded, setExpanded] = useState<any[]>([]);
@@ -128,30 +130,25 @@ export function Purchase() {
     });
   };
 
-  const Checkoutt = (order_id: any) => {
-    axios
-      .post(Api + "user/index", {
-        userid: atob(id),
-      })
-      .then((res) => {
-        const data = res.data;
-        if (data[0].address === "") {
-          Swal.fire({
-            title: "คุณยังไม่ได้กรอกที่อยู่?",
-            text: "กรุณากรอกที่อยู่ก่อนทำการชำระเงิน!",
-            icon: "warning",
-            showCancelButton: false,
-            confirmButtonText: "ตกลง",
-            confirmButtonColor: "#40C057",
-          }).then((result) => {
-            if (result.isConfirmed) {
-              nav("/user/account/address");
-            }
-          });
-        } else {
-          nav("/checkout", { state: { order_id } });
+  const Checkoutt = async (order_id: any) => {
+    const data = await FetchUser(id);
+    const userData = data.data.data[0];
+    if (userData.address === "") {
+      Swal.fire({
+        title: "คุณยังไม่ได้กรอกที่อยู่?",
+        text: "กรุณากรอกที่อยู่ก่อนทำการชำระเงิน!",
+        icon: "warning",
+        showCancelButton: false,
+        confirmButtonText: "ตกลง",
+        confirmButtonColor: "#40C057",
+      }).then((result) => {
+        if (result.isConfirmed) {
+          nav("/user/account/?v=address");
         }
       });
+    } else {
+      nav("/checkout", { state: { order_id } });
+    }
   };
 
   useEffect(() => {
