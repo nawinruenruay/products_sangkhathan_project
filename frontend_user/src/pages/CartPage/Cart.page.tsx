@@ -10,7 +10,6 @@ import {
   Anchor,
   Box,
   Breadcrumbs,
-  UnstyledButton,
   Tooltip,
   ActionIcon,
   TextInput,
@@ -37,7 +36,6 @@ import { useCartsum } from "../../components/CartContext";
 export function CartPage() {
   const { cartsum, fetchCartsum } = useCartsum();
   const nav = useNavigate();
-  // const dataUser = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const [LoadingData, setLoadingData] = useState(false);
   const [Data, setData] = useState<any[]>([]);
@@ -218,17 +216,11 @@ export function CartPage() {
                   {
                     accessor: "pname",
                     title: "สินค้า",
-                    render: ({ pname, img, pid }) => (
-                      <UnstyledButton
-                        onClick={() =>
-                          nav("/product/" + btoa(pid) + "/" + pname)
-                        }
-                      >
-                        <Flex align={"center"}>
-                          <Image src={Api + img} w={45} />
-                          <Text ml={15}>{pname}</Text>
-                        </Flex>
-                      </UnstyledButton>
+                    render: ({ pname, img }) => (
+                      <Flex align={"center"}>
+                        <Image src={Api + img} w={45} />
+                        <Text ml={15}>{pname}</Text>
+                      </Flex>
                     ),
                   },
                   {
