@@ -25,9 +25,9 @@ export function GalleryPage() {
 
   const FetchGellery = () => {
     setLoadingData(true);
-    axios.get(Api + "/Activity/ShowActivity").then((res) => {
-      const data = res.data;
-      if (data.length !== 0) {
+    axios.get(Api + "activity/index").then((res) => {
+      const data = res.data.data.data;
+      if (res.data.status === 200) {
         setGallery(data);
       }
       setLoadingData(false);

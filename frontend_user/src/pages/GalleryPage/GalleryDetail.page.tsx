@@ -39,13 +39,13 @@ export function GalleryDetailPage() {
   const loadData = useCallback(async (v1: string) => {
     setLoadingData(true);
     try {
-      const response = await axios.post(Api + "Activity/postShowactivity/", {
+      const res = await axios.post(Api + "activity/index", {
         act_id: v1,
       });
-      const result = response.data;
-      if (result.length !== 0) {
-        setData(result);
-        preloadImages(result.map((i: any) => Api + i.gal_pic));
+      if (res.data.status === 200) {
+        const data = res.data.data.data;
+        setData(data);
+        preloadImages(data.map((i: any) => Api + i.gal_pic));
       }
     } catch (error) {
       console.error("Error", error);

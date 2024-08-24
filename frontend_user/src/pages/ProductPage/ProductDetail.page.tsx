@@ -67,14 +67,18 @@ export function ProductDetailPage() {
 
   const LoadData = useCallback((useProductId: any) => {
     setLoadingData(true);
-    axios.post(Api + "product/index/" + useProductId).then((res) => {
-      if (res.data.status === 200) {
-        const data = res.data.data.data;
-        setData(data);
-        setPrice(data[0].price);
-      }
-      setLoadingData(false);
-    });
+    axios
+      .post(Api + "product/index/", {
+        pid: useProductId,
+      })
+      .then((res) => {
+        if (res.data.status === 200) {
+          const data = res.data.data.data;
+          setData(data);
+          setPrice(data[0].price);
+        }
+        setLoadingData(false);
+      });
   }, []);
 
   const Addcart = () => {
@@ -151,7 +155,7 @@ export function ProductDetailPage() {
   useEffect(() => {
     LoadData(useProductId);
     window.scrollTo(0, 0);
-  }, [useProductId]);
+  }, []);
 
   return (
     <>
