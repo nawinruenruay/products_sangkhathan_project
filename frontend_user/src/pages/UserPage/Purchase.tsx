@@ -232,6 +232,7 @@ export function Purchase() {
                 accessor: "status",
                 textAlign: "center",
                 title: "สถานะ",
+                width: 200,
                 render: ({ status }) => (
                   <>
                     <Flex align={"center"} justify={"center"}>
@@ -265,7 +266,12 @@ export function Purchase() {
                 textAlign: "center",
                 title: "จัดการ",
                 render: ({ status, order_id }) => (
-                  <Flex align={"center"} justify={"center"} gap={5}>
+                  <Flex
+                    align={"center"}
+                    justify={"center"}
+                    gap={5}
+                    wrap={"wrap"}
+                  >
                     {status == 1 ? (
                       <>
                         <Button

@@ -2,7 +2,6 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Api } from "../../Api";
 import {
-  Avatar,
   Text,
   Paper,
   Flex,
@@ -11,17 +10,15 @@ import {
   TextInput,
   Divider,
   Radio,
-  Center,
   UnstyledButton,
   Modal,
   LoadingOverlay,
   CheckIcon,
-  FileButton,
 } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { Notifications } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
-import { IconCheck, IconCamera } from "@tabler/icons-react";
+import { IconCheck } from "@tabler/icons-react";
 import { useUser } from "../../components/UserContext";
 
 import { AddEmail, Addphone, AddBirthday } from "./AddItems";
@@ -97,25 +94,6 @@ export function Profile() {
   const formatBirthday = (birthday: string) => {
     const [year, month] = birthday.split("-");
     return `**/${month}/${year.slice(0, 2)}**`;
-  };
-
-  const handleFileChange = (files: any) => {
-    form.setValues({
-      img_file: null,
-      img_preview: null,
-    });
-    if (files) {
-      form.setValues({
-        img_file: files,
-      });
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        form.setValues({
-          img_preview: reader.result,
-        });
-      };
-      reader.readAsDataURL(files);
-    }
   };
 
   const Submit = (val: any) => {
@@ -311,32 +289,6 @@ export function Profile() {
                   </UnstyledButton>
                 )}
               </Group>
-            </Flex>
-            <Flex direction={"column"} gap={10}>
-              <Center>
-                <Avatar
-                  src={
-                    form.values.img_preview === null
-                      ? Api + form.values.img
-                      : form.values.img_preview
-                  }
-                  size={100}
-                  color={"green"}
-                />
-              </Center>
-              <FileButton
-                onChange={handleFileChange}
-                accept="image/png,image/jpeg"
-              >
-                {(props) => (
-                  <Button variant="outline" {...props}>
-                    <IconCamera />
-                  </Button>
-                )}
-              </FileButton>
-              <Text c={"#999999"} fz={"14px"}>
-                ขนาดไฟล์: สูงสุด 1 MB ไฟล์ที่รองรับ: JPEG,JPG,PNG
-              </Text>
             </Flex>
             <Button
               w={"100%"}
