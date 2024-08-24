@@ -130,7 +130,7 @@ export function Purchase() {
 
   const Checkoutt = (order_id: any) => {
     axios
-      .post(Api + "/User/Showuser", {
+      .post(Api + "user/index", {
         userid: atob(id),
       })
       .then((res) => {
