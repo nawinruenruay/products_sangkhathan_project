@@ -136,7 +136,10 @@ export function ProductDetailPage() {
           title: productType,
           href: "/web?t=" + productType,
         },
-        { title: productName, href: "" },
+        {
+          title: productName,
+          href: "/" + productName + "?v=" + productId + "&t=" + productType,
+        },
       ].map((item, index) => (
         <Anchor key={index} component={Nl} to={item.href}>
           {item.title}
