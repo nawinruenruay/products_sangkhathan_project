@@ -52,19 +52,6 @@ export function GalleryDetailPage() {
     }
   }, []);
 
-  useEffect(() => {
-    if (imagesLoaded) {
-      Fancybox.bind('[data-fancybox="gallery"]');
-    }
-  }, [imagesLoaded]);
-
-  useEffect(() => {
-    if (v1) {
-      loadData(v1);
-    }
-    window.scrollTo(0, 0);
-  }, [v1, loadData]);
-
   const formatDateThai = (dateStr: string) => {
     const months = [
       "มกราคม",
@@ -126,6 +113,27 @@ export function GalleryDetailPage() {
       img.onerror = onLoad;
     });
   };
+
+  useEffect(() => {
+    if (!loadingData && !imagesLoaded) {
+      preloadImages(data.map((i: any) => Api + i.gal_pic));
+    }
+  }, [loadingData, imagesLoaded, data]);
+
+  useEffect(() => {
+    if (imagesLoaded) {
+      Fancybox.bind('[data-fancybox="gallery"]');
+    }
+  }, [imagesLoaded]);
+
+  useEffect(() => {
+    if (v1) {
+      loadData(v1).catch((error) => {
+        console.error("Error loading data", error);
+      });
+    }
+    window.scrollTo(0, 0);
+  }, [v1, loadData]);
 
   return (
     <Container size={"1200px"}>
