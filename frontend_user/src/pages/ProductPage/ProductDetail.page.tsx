@@ -272,7 +272,7 @@ export function ProductDetailPage() {
                             loading={LoadingSubmit}
                             loaderProps={{ type: "dots" }}
                           >
-                            เพิ่มไปยังตระกร้าสินค้า
+                            เพิ่มไปยังตระกร้า
                           </Button>
                         </Flex>
                       </>
