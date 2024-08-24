@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { Api } from "../../Api";
 import {
   Image,
@@ -129,17 +129,21 @@ export function ProductDetailPage() {
     setShowIMG(true);
   };
 
-  const items = [
-    {
-      title: productType,
-      href: "/web?t=" + productType,
-    },
-    { title: productName, href: "" },
-  ].map((item, index) => (
-    <Anchor key={index} component={Nl} to={item.href} fz={"h5"}>
-      {item.title}
-    </Anchor>
-  ));
+  const items = useMemo(
+    () =>
+      [
+        {
+          title: productType,
+          href: "/web?t=" + productType,
+        },
+        { title: productName, href: "" },
+      ].map((item, index) => (
+        <Anchor key={index} component={Nl} to={item.href}>
+          {item.title}
+        </Anchor>
+      )),
+    []
+  );
 
   useEffect(() => {
     LoadData(useProductId);
