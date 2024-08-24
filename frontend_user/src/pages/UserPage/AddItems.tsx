@@ -13,6 +13,7 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { Api } from "../../Api";
 import { Notifications } from "@mantine/notifications";
+import { useUser } from "../../components/UserContext";
 
 interface AddItemsProps {
   closeWithSuccess: () => void;
@@ -28,6 +29,7 @@ interface Items {
 export function AddEmail({ closeWithSuccess, close }: AddItemsProps) {
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const [LoadingSubmit, setLoadingSubmit] = useState(false);
+  const { FetchUser } = useUser();
 
   const form = useForm({
     initialValues: {
@@ -39,19 +41,18 @@ export function AddEmail({ closeWithSuccess, close }: AddItemsProps) {
     },
   });
 
-  const FetchData = () => {
-    axios
-      .post(Api + "/User/Showuser", {
-        userid: atob(id),
-      })
-      .then((res) => {
-        const data = res.data;
-        if (data.length !== 0) {
-          form.setValues({
-            email: data[0].email,
-          });
-        }
-      });
+  const FetchData = async () => {
+    try {
+      const data = await FetchUser(id);
+      if (data.status === 200) {
+        const userData = data.data.data[0];
+        form.setValues({
+          email: userData.email,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   const Submit = (v: any) => {
@@ -117,6 +118,7 @@ export function AddEmail({ closeWithSuccess, close }: AddItemsProps) {
 export function Addphone({ closeWithSuccess, close }: AddItemsProps) {
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const [LoadingSubmit, setLoadingSubmit] = useState(false);
+  const { FetchUser } = useUser();
 
   const form = useForm({
     initialValues: {
@@ -137,19 +139,18 @@ export function Addphone({ closeWithSuccess, close }: AddItemsProps) {
     },
   });
 
-  const FetchData = () => {
-    axios
-      .post(Api + "/User/Showuser", {
-        userid: atob(id),
-      })
-      .then((res) => {
-        const data = res.data;
-        if (data.length !== 0) {
-          form.setValues({
-            phone: data[0].phone,
-          });
-        }
-      });
+  const FetchData = async () => {
+    try {
+      const data = await FetchUser(id);
+      if (data.status === 200) {
+        const userData = data.data.data[0];
+        form.setValues({
+          phone: userData.phone,
+        });
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   const Submit = (v: any) => {
@@ -213,6 +214,7 @@ export function Addphone({ closeWithSuccess, close }: AddItemsProps) {
 
 // วันเกิด
 export function AddBirthday({ closeWithSuccess, close }: AddItemsProps) {
+  const { FetchUser } = useUser();
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const [Day, setDay] = useState<any[]>([]);
   const [Month, setMonth] = useState<any[]>([]);
@@ -299,22 +301,21 @@ export function AddBirthday({ closeWithSuccess, close }: AddItemsProps) {
     setYear(year);
   };
 
-  const FetchData = () => {
-    axios
-      .post(Api + "/User/Showuser", {
-        userid: atob(id),
-      })
-      .then((res) => {
-        const data = res.data;
-        if (data.length !== 0) {
-          const b = data[0].birthday;
-          setBD_day(b.split("-")[2]);
-          const bm1 = b.split("-")[1].split(0)[1];
-          const bm2 = b.split("-")[1].split(0)[0];
-          setBD_month(bm1 !== undefined ? bm1 : bm2);
-          setBD_year((parseInt(b.split("-")[0]) + 543).toString());
-        }
-      });
+  const FetchData = async () => {
+    try {
+      const data = await FetchUser(id);
+      if (data.status === 200) {
+        const userData = data.data.data[0];
+        const b = userData.birthday;
+        setBD_day(b.split("-")[2]);
+        const bm1 = b.split("-")[1].split(0)[1];
+        const bm2 = b.split("-")[1].split(0)[0];
+        setBD_month(bm1 !== undefined ? bm1 : bm2);
+        setBD_year((parseInt(b.split("-")[0]) + 543).toString());
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
   };
 
   const Submit = () => {

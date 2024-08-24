@@ -22,6 +22,7 @@ import { useForm } from "@mantine/form";
 import { Notifications } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
 import { IconCheck, IconCamera } from "@tabler/icons-react";
+import { useUser } from "../../components/UserContext";
 
 import { AddEmail, Addphone, AddBirthday } from "./AddItems";
 
@@ -35,6 +36,7 @@ type FormValues = {
 
 export function Profile() {
   const nav = useNavigate();
+  const { FetchUser } = useUser();
   const [ModalAddEmail, setModalAddEmail] = useState<boolean>(false);
   const [ModalAddPhone, setModalAddPhone] = useState<boolean>(false);
   const [ModalAddBirthday, setModalAddBirthday] = useState<boolean>(false);
@@ -59,26 +61,26 @@ export function Profile() {
     },
   });
 
-  const FetchData = () => {
+  const FetchData = async () => {
     setLoadingProfile(true);
-    axios
-      .post(Api + "/User/Showuser", {
-        userid: atob(id),
-      })
-      .then((res) => {
-        const data = res.data;
-        if (data.length !== 0) {
-          form.setValues({
-            name: data[0].name,
-            sex: data[0].sex,
-            img: data[0].img,
-          });
-          setEmail(data[0].email);
-          setPhone(data[0].phone);
-          setBirthday(data[0].birthday);
-        }
-        setLoadingProfile(false);
-      });
+    try {
+      const data = await FetchUser(id);
+      if (data.status === 200) {
+        const userData = data.data.data[0];
+        form.setValues({
+          name: userData.name,
+          sex: userData.sex,
+          img: userData.img,
+        });
+        setEmail(userData.email);
+        setPhone(userData.phone);
+        setBirthday(userData.birthday);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoadingProfile(false);
+    }
   };
 
   const formatPhoneNumber = (number: string) => {

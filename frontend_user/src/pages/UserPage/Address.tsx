@@ -1,6 +1,4 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-import { Api } from "../../Api";
 import {
   Text,
   Paper,
@@ -14,31 +12,33 @@ import {
 import { Notifications } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
 import { IconCheck, IconPlus } from "@tabler/icons-react";
+import { useUser } from "../../components/UserContext";
 
 import { AddAddress } from "./AddItems";
 
 export function Address() {
   const nav = useNavigate();
+  const { FetchUser } = useUser();
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
   const [LoadingProfile, setLoadingProfile] = useState(false);
   const [ModalAddAddress, setModalAddAddress] = useState<boolean>(false);
   const [IsAddress, setIsAddress] = useState("");
   const [DataAddress, setDataAddress] = useState<any[]>([]);
 
-  const FetchData = () => {
+  const FetchData = async () => {
     setLoadingProfile(true);
-    axios
-      .post(Api + "/User/Showuser", {
-        userid: atob(id),
-      })
-      .then((res) => {
-        const data = res.data;
-        if (data.length !== 0) {
-          setIsAddress(data[0].address);
-          setDataAddress(data);
-        }
-        setLoadingProfile(false);
-      });
+    try {
+      const data = await FetchUser(id);
+      if (data.status === 200) {
+        const userData = data.data.data[0];
+        setIsAddress(userData.address);
+        setDataAddress(data.data.data);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoadingProfile(false);
+    }
   };
 
   useEffect(() => {

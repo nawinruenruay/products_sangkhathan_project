@@ -8,12 +8,15 @@ import { MantineProvider } from "@mantine/core";
 import { Router } from "./Router";
 import { theme } from "./theme";
 import { CartsumProvider } from "./components/CartContext";
+import { UserProvider } from "./components/UserContext";
 
 export default function App() {
   return (
     <MantineProvider theme={theme}>
       <CartsumProvider>
-        <Router />
+        <UserProvider>
+          <Router />
+        </UserProvider>
       </CartsumProvider>
     </MantineProvider>
   );

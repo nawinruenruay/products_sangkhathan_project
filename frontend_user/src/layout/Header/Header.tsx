@@ -21,7 +21,6 @@ import {
   Avatar,
   Skeleton,
 } from "@mantine/core";
-import axios from "axios";
 import { useDisclosure } from "@mantine/hooks";
 import {
   IconMoon,
@@ -37,6 +36,7 @@ import { NavLink as Nl, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import data from "./data";
 import { Api } from "../../Api";
+import { useUser } from "../../components/UserContext";
 
 interface MenuItem {
   title: string;
@@ -50,6 +50,7 @@ import logo from "../../assets/icon/LOGO.png";
 import { useCartsum } from "../../components/CartContext";
 
 function Header() {
+  const { FetchUser } = useUser();
   const { cartsum, fetchCartsum } = useCartsum();
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] =
     useDisclosure(false);
@@ -67,21 +68,20 @@ function Header() {
   const [Name, setName] = useState("");
   const [LoadingData, setLoadingData] = useState(false);
 
-  const FetchData = () => {
+  const FetchData = async () => {
     setLoadingData(true);
-    axios
-      .post(Api + "/User/Showuser", {
-        userid: atob(id),
-      })
-      .then((res) => {
-        const data = res.data;
-        // console.log(data);
-        if (data.length !== 0) {
-          setName(data[0].name);
-          setImg(data[0].img);
-        }
-        setLoadingData(false);
-      });
+    try {
+      const data = await FetchUser(id);
+      if (data.status === 200) {
+        const userData = data.data.data[0];
+        setName(userData.name);
+        setImg(userData.img);
+      }
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    } finally {
+      setLoadingData(false);
+    }
   };
 
   const Link = (item: MenuItem[], path: string = ""): JSX.Element[] => {
