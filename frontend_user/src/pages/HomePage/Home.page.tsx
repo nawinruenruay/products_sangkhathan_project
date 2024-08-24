@@ -20,7 +20,6 @@ export function HomePage() {
         (i: any) => i.banner_status === "T"
       );
       if (res.data.status === 200) {
-        console.log(data);
         setBanner(data);
       }
       setLoadingData(false);
