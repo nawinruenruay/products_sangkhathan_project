@@ -59,7 +59,7 @@ export function GalleryPage() {
   };
 
   const ViewGalley = (v1: string, v2: string) => {
-    nav("/gallery/" + v1 + "/" + v2);
+    nav("/gallery/" + v2 + "?v=" + v1);
   };
 
   useEffect(() => {

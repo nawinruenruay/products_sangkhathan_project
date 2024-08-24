@@ -15,7 +15,7 @@ import {
   Breadcrumbs,
   UnstyledButton,
 } from "@mantine/core";
-import { NavLink as Nl, useParams } from "react-router-dom";
+import { NavLink as Nl, useParams, useSearchParams } from "react-router-dom";
 import {
   IconInfoCircle,
   IconCalendarMonth,
@@ -27,8 +27,10 @@ import { Fancybox } from "@fancyapps/ui";
 import classes from "./Gallery.module.css";
 
 export function GalleryDetailPage() {
-  const { v1, v2 } = useParams<{ v1: any; v2: any }>();
-  useDocumentTitle(v2 + " | ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน");
+  const [searchParams] = useSearchParams();
+  const v1: any = searchParams.get("v");
+  const { galleryName } = useParams<{ galleryName: any }>();
+  useDocumentTitle(galleryName + " | ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน");
   const icon = <IconInfoCircle />;
   const [loadingData, setLoadingData] = useState(true);
   const [data, setData] = useState<any[]>([]);
@@ -85,7 +87,7 @@ export function GalleryDetailPage() {
       [
         { title: "ภาพกิจกรรม", href: "/gallery" },
         {
-          title: <>{truncateText(v2, 15)}</>,
+          title: <>{truncateText(galleryName, 15)}</>,
           href: "",
         },
       ].map((item, index) => (
@@ -93,7 +95,7 @@ export function GalleryDetailPage() {
           {item.title}
         </Anchor>
       )),
-    [v2]
+    [galleryName]
   );
 
   const preloadImages = (urls: string[]) => {
@@ -183,7 +185,7 @@ export function GalleryDetailPage() {
                 icon={icon}
                 key={i.act_id}
               >
-                <Text size={"25px"}> {v2} </Text>
+                <Text size={"25px"}> {galleryName} </Text>
                 <Text mt={15}>{i.act_detail}</Text>
               </Blockquote>
             ))}
