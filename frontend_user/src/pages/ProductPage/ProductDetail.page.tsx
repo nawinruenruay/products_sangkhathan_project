@@ -68,7 +68,7 @@ export function ProductDetailPage() {
   const LoadData = useCallback((useProductId: any) => {
     setLoadingData(true);
     axios
-      .post(Api + "product/index/", {
+      .post(Api + "product/index", {
         pid: useProductId,
       })
       .then((res) => {
