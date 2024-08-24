@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { Api } from "../../Api";
 import {
   Image,
@@ -65,7 +65,7 @@ export function ProductDetailPage() {
   };
   const useProductId = base64UrlDecode(productId);
 
-  const LoadData = (useProductId: any) => {
+  const LoadData = useCallback((useProductId: any) => {
     setLoadingData(true);
     axios.post(Api + "product/index/" + useProductId).then((res) => {
       if (res.data.status === 200) {
@@ -75,7 +75,7 @@ export function ProductDetailPage() {
       }
       setLoadingData(false);
     });
-  };
+  }, []);
 
   const Addcart = () => {
     setLoadingSubmit(true);
