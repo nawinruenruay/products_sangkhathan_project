@@ -26,7 +26,6 @@ import { Notifications } from "@mantine/notifications";
 import { useDocumentTitle } from "@mantine/hooks";
 import classes from "./Card.module.css";
 import cartempty from "../../assets/img/cartempty.png";
-
 import { useCartsum } from "../../components/CartContext";
 
 export function CartPage() {
