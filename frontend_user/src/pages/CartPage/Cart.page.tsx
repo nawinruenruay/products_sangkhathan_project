@@ -12,20 +12,16 @@ import {
   Breadcrumbs,
   Tooltip,
   ActionIcon,
-  TextInput,
 } from "@mantine/core";
 import { NavLink as Nl, useNavigate } from "react-router-dom";
 import {
   IconMoodSad,
   IconX,
   IconChevronRight,
-  IconMinus,
-  IconPlus,
   IconCheck,
   IconInfoCircle,
 } from "@tabler/icons-react";
 import { DataTable } from "mantine-datatable";
-import Swal from "sweetalert2";
 import { Notifications } from "@mantine/notifications";
 
 import classes from "./Card.module.css";
@@ -115,55 +111,9 @@ export function CartPage() {
     }
   };
 
-  const Plus = (pid: string, qty: number) => {
-    if (id && pid) {
-      axios
-        .post(Api + "Cart/Plus", {
-          userid: atob(id),
-          pid: pid,
-          qty: qty,
-        })
-        .then((res) => {
-          if (res.data === 200) {
-            fetchCartsum(atob(id));
-            LoadData(atob(id));
-          } else if (res.data.status === 400) {
-            Swal.fire({
-              icon: "info",
-              iconColor: "red",
-              text: res.data.message,
-              timer: 2000,
-              timerProgressBar: true,
-              showConfirmButton: false,
-            });
-          }
-        });
-    }
-  };
-
-  const Minus = (pid: string, qty: number) => {
-    if (qty <= 1) {
-      return;
-    }
-    if (id && pid) {
-      axios
-        .post(Api + "Cart/Minus", {
-          userid: atob(id),
-          pid: pid,
-          qty: qty,
-        })
-        .then((res) => {
-          if (res.data === 200) {
-            fetchCartsum(atob(id));
-            LoadData(atob(id));
-          }
-        });
-    }
-  };
-
   const items = [
-    { title: "สินค้า", href: "/product" },
-    { title: "ตระกร้าสินค้า", href: "/cart" },
+    { title: "สินค้า / สังฆทาน", href: "/web" },
+    { title: "ตระกร้า", href: "/cart" },
   ].map((item, index) => (
     <Anchor key={index} component={Nl} to={item.href} fz={"h5"}>
       {item.title}
@@ -215,7 +165,7 @@ export function CartPage() {
                 columns={[
                   {
                     accessor: "pname",
-                    title: "สินค้า",
+                    title: "สินค้า / สังฆทาน",
                     render: ({ pname, img }) => (
                       <Flex align={"center"}>
                         <Image src={Api + img} w={45} />
@@ -235,31 +185,10 @@ export function CartPage() {
                     accessor: "qty",
                     textAlign: "center",
                     title: "จำนวน",
-                    render: ({ qty, pid }) => (
+                    render: ({ qty }) => (
                       <>
                         <Flex justify={"center"}>
-                          <Button
-                            variant="default"
-                            radius={0}
-                            onClick={() => Minus(pid, qty)}
-                            disabled={qty === 1}
-                          >
-                            <IconMinus size={16} />
-                          </Button>
-                          <TextInput
-                            radius={0}
-                            w={70}
-                            value={qty}
-                            onChange={() => {}}
-                            classNames={{ input: classes.textinput }}
-                          />
-                          <Button
-                            variant="default"
-                            radius={0}
-                            onClick={() => Plus(pid, qty)}
-                          >
-                            <IconPlus size={16} />
-                          </Button>
+                          <Text>{qty}</Text>
                         </Flex>
                       </>
                     ),
@@ -306,20 +235,10 @@ export function CartPage() {
               </Flex>
               <Flex justify={"flex-end"} mt={20}>
                 <Button w={"100%"} onClick={Buy}>
-                  สั่งซื้อสินค้า
+                  สั่งซื้อสินค้า/สังฆทาน
                 </Button>
               </Flex>
             </Paper>
-            {/* <Paper shadow="xs">
-              <Flex gap={15} justify={"space-between"} align={"center"} p={15}>
-                <Text fw={"bold"}>
-                  รวม ({cartsum} ชิ้น) : ฿{totalAmount} บาท
-                </Text>
-                <Button w={150} onClick={Buy}>
-                  สั่งสินค้า
-                </Button>
-              </Flex>
-            </Paper> */}
           </>
         ) : (
           <>
@@ -332,7 +251,7 @@ export function CartPage() {
             >
               <Image src={cartempty} w={300} />
               <Text fw={"bold"}>ตระกร้าสินค้า ว่างอยู่นะ!</Text>
-              <Button onClick={() => nav("/product")} mt={20}>
+              <Button onClick={() => nav("/web")} mt={20}>
                 เลือกสินค้าได้เลย
               </Button>
             </Flex>

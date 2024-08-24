@@ -251,7 +251,7 @@ function Header() {
                     </Menu.Item>
                   </Menu.Dropdown>
                 </Menu>
-                <Tooltip label={"ตระกร้าสินค้า"}>
+                <Tooltip label={"ตระกร้า"}>
                   <Indicator
                     inline
                     label={cartsum}
@@ -295,7 +295,7 @@ function Header() {
           <Group gap={2} hiddenFrom="md">
             {id && role && (
               <>
-                <Tooltip label={"ตระกร้าสินค้า"}>
+                <Tooltip label={"ตระกร้า"}>
                   <Indicator
                     inline
                     label={cartsum}

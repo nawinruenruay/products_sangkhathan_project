@@ -26,7 +26,7 @@ const data: MenuItem[] = [
   },
   {
     title: "สินค้า & สังฆทาน",
-    path: "/web?t=สินค้าผลิตภัณฑ์",
+    path: "/web",
     icon: (
       <ThemeIcon variant="light" size={30}>
         <IconUser size={20} />
