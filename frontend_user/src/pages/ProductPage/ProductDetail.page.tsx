@@ -18,7 +18,12 @@ import {
   Center,
   Skeleton,
 } from "@mantine/core";
-import { useParams, NavLink as Nl, useNavigate } from "react-router-dom";
+import {
+  useParams,
+  NavLink as Nl,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
 import { Notifications } from "@mantine/notifications";
 import {
   IconMinus,
@@ -34,8 +39,10 @@ import { useCartsum } from "../../components/CartContext";
 import Swal from "sweetalert2";
 
 export function ProductDetailPage() {
-  const { productId, productName } = useParams<{
-    productId: any;
+  const [searchParams] = useSearchParams();
+  const productId: any = searchParams.get("v");
+  const productType = searchParams.get("t");
+  const { productName } = useParams<{
     productName: any;
   }>();
   useDocumentTitle(productName + " | ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน");
@@ -60,18 +67,14 @@ export function ProductDetailPage() {
 
   const LoadData = (useProductId: any) => {
     setLoadingData(true);
-    axios
-      .post(Api + "Product/postShowproduct/", {
-        pid: useProductId,
-      })
-      .then((res) => {
-        const data = res.data;
-        if (data.length !== 0) {
-          setData(data);
-          setPrice(data[0].price);
-        }
-        setLoadingData(false);
-      });
+    axios.post(Api + "/product/index/" + useProductId).then((res) => {
+      if (res.data.status === 200) {
+        const data = res.data.data.data;
+        setData(data);
+        setPrice(data[0].price);
+      }
+      setLoadingData(false);
+    });
   };
 
   const Addcart = () => {
@@ -128,8 +131,8 @@ export function ProductDetailPage() {
 
   const items = [
     {
-      title: "สินค้า",
-      href: `/product`,
+      title: productType,
+      href: "/web?t=" + productType,
     },
     { title: productName, href: "" },
   ].map((item, index) => (

@@ -16,14 +16,15 @@ import {
   Tabs,
   rem,
 } from "@mantine/core";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDocumentTitle } from "@mantine/hooks";
 import { IconBrandProducthunt } from "@tabler/icons-react";
 import classes from "./Product.module.css";
 
 export function ProductPage() {
-  useDocumentTitle("สินค้า | ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน");
-  const { tabsValue } = useParams();
+  useDocumentTitle("สินค้า & สังฆทาน | ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const tabsValue = searchParams.get("t") || "สินค้าผลิตภัณฑ์";
   const iconStyle = { width: rem(12), height: rem(12) };
   const nav = useNavigate();
   const [ShowIMG, setShowIMG] = useState(false);
@@ -31,15 +32,19 @@ export function ProductPage() {
   const [LoadingData, setLoadingData] = useState(false);
   const [Products, setProducts] = useState([]);
 
-  const FetchProducts = () => {
+  const FetchProducts = async () => {
     setLoadingData(true);
-    axios.get(Api + "/Product/ShowProduct").then((res) => {
-      const data = res.data;
-      if (data.length !== 0) {
+    try {
+      const res = await axios.get(Api + "/product/index");
+      if (res.data.status === 200) {
+        const data = res.data.data.data;
         setProducts(data);
       }
+    } catch (err) {
+      console.error("Error", err);
+    } finally {
       setLoadingData(false);
-    });
+    }
   };
 
   const ShowImage = (path: string) => {
@@ -51,9 +56,13 @@ export function ProductPage() {
     return btoa(str).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
   };
 
-  const ProductDetail = (productId: string, productName: string) => {
+  const ProductDetail = (
+    productId: string,
+    productName: string,
+    tabsValue: any
+  ) => {
     const encodedProductId = base64UrlEncode(productId);
-    nav("/product/" + encodedProductId + "/" + productName);
+    nav("/" + productName + "?v=" + encodedProductId + "&t=" + tabsValue);
   };
 
   useEffect(() => {
@@ -64,10 +73,9 @@ export function ProductPage() {
   return (
     <>
       <Tabs
-        defaultValue="สินค้าผลิตภัณฑ์"
         value={tabsValue}
-        onChange={(tabsValue: any) => {
-          nav(`/product/${tabsValue}`);
+        onChange={(value: any) => {
+          setSearchParams({ t: value });
         }}
         mb={50}
       >
@@ -87,144 +95,136 @@ export function ProductPage() {
         </Tabs.List>
 
         <Tabs.Panel value="สินค้าผลิตภัณฑ์">
-          {LoadingData === true ? (
-            <>
-              <Paper radius={8} shadow="sm" p={10}>
-                <Flex direction={"row"} gap={10}>
-                  <Skeleton h={200} w={300} />
-                  <Skeleton h={200} w={300} />
-                  <Skeleton h={200} w={300} />
-                  <Skeleton h={200} w={300} />
-                </Flex>
-              </Paper>
-            </>
+          {LoadingData ? (
+            <Paper radius={8} shadow="sm" p={10}>
+              <Flex direction={"row"} gap={10}>
+                <Skeleton h={200} w={300} />
+                <Skeleton h={200} w={300} />
+                <Skeleton h={200} w={300} />
+                <Skeleton h={200} w={300} />
+              </Flex>
+            </Paper>
           ) : (
-            <>
-              <Grid gutter="md" mt={20}>
-                {Products.filter((i: any) => i.ptid === "1").map((i: any) => (
-                  <Grid.Col span={{ base: 6, md: 6, lg: 3 }} key={i.pid}>
-                    <Card
-                      shadow="sm"
-                      padding="lg"
-                      radius="md"
-                      withBorder
-                      className={classes.card}
-                      h={"100%"}
-                      onClick={() => {
-                        ProductDetail(i.pid, i.pname);
+            <Grid gutter="md" mt={20}>
+              {Products.filter((i: any) => i.ptid === "1").map((i: any) => (
+                <Grid.Col span={{ base: 6, md: 6, lg: 3 }} key={i.pid}>
+                  <Card
+                    shadow="sm"
+                    padding="lg"
+                    radius="md"
+                    withBorder
+                    className={classes.card}
+                    h={"100%"}
+                    onClick={() => {
+                      ProductDetail(i.pid, i.pname, tabsValue);
+                    }}
+                  >
+                    <Card.Section
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
                       }}
                     >
-                      <Card.Section
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Image
-                          src={Api + i.img}
-                          w={200}
-                          h={150}
-                          className={classes.image}
-                          onClick={() => {
-                            ShowImage(Api + i.img);
-                          }}
-                        />
-                      </Card.Section>
-
-                      <Group justify="space-between" mt="md" mb="xs">
-                        <Text fw={500}>{i.pname}</Text>
-                        <Badge color="red">มีสินค้า {i.qty} ชิ้น</Badge>
-                      </Group>
-
-                      <Text size="sm" c="dimmed">
-                        {i.price.toLocaleString()} บาท
-                      </Text>
-                      <Button
-                        fullWidth
-                        mt="md"
-                        radius="md"
+                      <Image
+                        src={Api + i.img}
+                        w={200}
+                        h={150}
+                        className={classes.image}
                         onClick={() => {
-                          ProductDetail(i.pid, i.pname);
+                          ShowImage(Api + i.img);
                         }}
-                      >
-                        รายละเอียดสินค้า
-                      </Button>
-                    </Card>
-                  </Grid.Col>
-                ))}
-              </Grid>
-            </>
+                      />
+                    </Card.Section>
+
+                    <Group justify="space-between" mt="md" mb="xs">
+                      <Text fw={500}>{i.pname}</Text>
+                      <Badge color="red">มีสินค้า {i.qty} ชิ้น</Badge>
+                    </Group>
+
+                    <Text size="sm" c="dimmed">
+                      {i.price.toLocaleString()} บาท
+                    </Text>
+                    <Button
+                      fullWidth
+                      mt="md"
+                      radius="md"
+                      onClick={() => {
+                        ProductDetail(i.pid, i.pname, tabsValue);
+                      }}
+                    >
+                      รายละเอียดสินค้า
+                    </Button>
+                  </Card>
+                </Grid.Col>
+              ))}
+            </Grid>
           )}
         </Tabs.Panel>
 
         <Tabs.Panel value="สังฆฑานออนไลน์">
-          {LoadingData === true ? (
-            <>
-              <Paper radius={8} shadow="sm" p={10}>
-                <Flex direction={"row"} gap={10}>
-                  <Skeleton h={200} w={300} />
-                  <Skeleton h={200} w={300} />
-                  <Skeleton h={200} w={300} />
-                  <Skeleton h={200} w={300} />
-                </Flex>
-              </Paper>
-            </>
+          {LoadingData ? (
+            <Paper radius={8} shadow="sm" p={10}>
+              <Flex direction={"row"} gap={10}>
+                <Skeleton h={200} w={300} />
+                <Skeleton h={200} w={300} />
+                <Skeleton h={200} w={300} />
+                <Skeleton h={200} w={300} />
+              </Flex>
+            </Paper>
           ) : (
-            <>
-              <Grid gutter="md" mt={20}>
-                {Products.filter((i: any) => i.ptid === "2").map((i: any) => (
-                  <Grid.Col span={{ base: 12, md: 6, lg: 3 }} key={i.pid}>
-                    <Card
-                      shadow="sm"
-                      padding="lg"
-                      radius="md"
-                      withBorder
-                      className={classes.card}
-                      onClick={() => {
-                        ProductDetail(i.pid, i.pname);
+            <Grid gutter="md" mt={20}>
+              {Products.filter((i: any) => i.ptid === "2").map((i: any) => (
+                <Grid.Col span={{ base: 12, md: 6, lg: 3 }} key={i.pid}>
+                  <Card
+                    shadow="sm"
+                    padding="lg"
+                    radius="md"
+                    withBorder
+                    className={classes.card}
+                    onClick={() => {
+                      ProductDetail(i.pid, i.pname, tabsValue);
+                    }}
+                  >
+                    <Card.Section
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
                       }}
                     >
-                      <Card.Section
-                        style={{
-                          display: "flex",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Image
-                          src={Api + i.img}
-                          w={200}
-                          h={150}
-                          className={classes.image}
-                          onClick={() => {
-                            ShowImage(Api + i.img);
-                          }}
-                        />
-                      </Card.Section>
-
-                      <Group justify="space-between" mt="md" mb="xs">
-                        <Text fw={500}>{i.pname}</Text>
-                        <Badge color="red">มีสินค้า {i.qty} ชิ้น</Badge>
-                      </Group>
-
-                      <Text size="sm" c="dimmed">
-                        {i.price.toLocaleString()} บาท
-                      </Text>
-
-                      <Button
-                        fullWidth
-                        mt="md"
-                        radius="md"
+                      <Image
+                        src={Api + i.img}
+                        w={200}
+                        h={150}
+                        className={classes.image}
                         onClick={() => {
-                          ProductDetail(i.pid, i.pname);
+                          ShowImage(Api + i.img);
                         }}
-                      >
-                        รายละเอียดสินค้า
-                      </Button>
-                    </Card>
-                  </Grid.Col>
-                ))}
-              </Grid>
-            </>
+                      />
+                    </Card.Section>
+
+                    <Group justify="space-between" mt="md" mb="xs">
+                      <Text fw={500}>{i.pname}</Text>
+                      <Badge color="red">มีสินค้า {i.qty} ชิ้น</Badge>
+                    </Group>
+
+                    <Text size="sm" c="dimmed">
+                      {i.price.toLocaleString()} บาท
+                    </Text>
+
+                    <Button
+                      fullWidth
+                      mt="md"
+                      radius="md"
+                      onClick={() => {
+                        ProductDetail(i.pid, i.pname, tabsValue);
+                      }}
+                    >
+                      รายละเอียดสินค้า
+                    </Button>
+                  </Card>
+                </Grid.Col>
+              ))}
+            </Grid>
           )}
         </Tabs.Panel>
       </Tabs>

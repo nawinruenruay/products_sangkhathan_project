@@ -15,9 +15,12 @@ export function HomePage() {
 
   const FetchBanner = () => {
     setLoadingData(true);
-    axios.get(Api + "/Banner/ShowBanner").then((res) => {
-      const data = res.data.filter((i: any) => i.banner_status === "T");
-      if (data.length !== 0) {
+    axios.get(Api + "/banner/index").then((res) => {
+      const data = res.data.data.data.filter(
+        (i: any) => i.banner_status === "T"
+      );
+      if (res.data.status === 200) {
+        console.log(data);
         setBanner(data);
       }
       setLoadingData(false);

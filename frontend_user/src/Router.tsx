@@ -29,15 +29,11 @@ const router = createBrowserRouter([
         element: <HomePage />,
       },
       {
-        path: "/product",
+        path: "/web",
         element: <ProductPage />,
       },
       {
-        path: "/product/:tabsValue",
-        element: <ProductPage />,
-      },
-      {
-        path: "/product/:productId/:productName",
+        path: "/:productName",
         element: <ProductDetailPage />,
       },
       {
