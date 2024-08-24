@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Api } from "../../Api";
 import {
   Image,
@@ -32,7 +32,7 @@ export function ProductPage() {
   const [LoadingData, setLoadingData] = useState(false);
   const [Products, setProducts] = useState([]);
 
-  const FetchProducts = async () => {
+  const FetchProducts = useCallback(async () => {
     setLoadingData(true);
     try {
       const res = await axios.get(Api + "product/index");
@@ -45,7 +45,7 @@ export function ProductPage() {
     } finally {
       setLoadingData(false);
     }
-  };
+  }, []);
 
   const ShowImage = (path: string) => {
     setImagePath(path);
