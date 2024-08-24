@@ -35,7 +35,6 @@ import {
 import { NavLink as Nl, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import data from "./data";
-import { Api } from "../../Api";
 import { useUser } from "../../components/UserContext";
 
 interface MenuItem {
@@ -64,7 +63,6 @@ function Header() {
   const location = useLocation();
   const nav = useNavigate();
   const [activePath, setActivePath] = useState<string>(location.pathname);
-  const [Img, setImg] = useState("");
   const [Name, setName] = useState("");
   const [LoadingData, setLoadingData] = useState(false);
 
@@ -75,7 +73,6 @@ function Header() {
       if (data.status === 200) {
         const userData = data.data.data[0];
         setName(userData.name);
-        setImg(userData.img);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -189,22 +186,12 @@ function Header() {
                               withBorder
                               processing
                             >
-                              {Img ? (
-                                <Avatar
-                                  size="45"
-                                  radius="xl"
-                                  color="green"
-                                  variant="light"
-                                  src={Api + Img}
-                                />
-                              ) : (
-                                <Avatar
-                                  size="45"
-                                  radius="xl"
-                                  color="green"
-                                  variant="light"
-                                />
-                              )}
+                              <Avatar
+                                size="45"
+                                radius="xl"
+                                color="green"
+                                variant="light"
+                              />
                             </Indicator>
                             <Flex direction="column" wrap="wrap">
                               <Text size="sm" fw={500}>
@@ -389,22 +376,7 @@ function Header() {
                   withBorder
                   processing
                 >
-                  {Img ? (
-                    <Avatar
-                      size="45"
-                      radius="xl"
-                      color="green"
-                      variant="light"
-                      src={Api + Img}
-                    />
-                  ) : (
-                    <Avatar
-                      size="45"
-                      radius="xl"
-                      color="green"
-                      variant="light"
-                    />
-                  )}
+                  <Avatar size="45" radius="xl" color="green" variant="light" />
                 </Indicator>
                 <Text size="sm" fw={500}>
                   {Name}
