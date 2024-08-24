@@ -67,7 +67,7 @@ export function ProductDetailPage() {
 
   const LoadData = (useProductId: any) => {
     setLoadingData(true);
-    axios.post(Api + "/product/index/" + useProductId).then((res) => {
+    axios.post(Api + "product/index/" + useProductId).then((res) => {
       if (res.data.status === 200) {
         const data = res.data.data.data;
         setData(data);

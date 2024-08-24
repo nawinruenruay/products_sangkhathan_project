@@ -35,7 +35,7 @@ export function ProductPage() {
   const FetchProducts = async () => {
     setLoadingData(true);
     try {
-      const res = await axios.get(Api + "/product/index");
+      const res = await axios.get(Api + "product/index");
       if (res.data.status === 200) {
         const data = res.data.data.data;
         setProducts(data);

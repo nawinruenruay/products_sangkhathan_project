@@ -15,7 +15,7 @@ export function HomePage() {
 
   const FetchBanner = () => {
     setLoadingData(true);
-    axios.get(Api + "/banner/index").then((res) => {
+    axios.get(Api + "banner/index").then((res) => {
       const data = res.data.data.data.filter(
         (i: any) => i.banner_status === "T"
       );
