@@ -138,7 +138,7 @@ export function ProductDetailPage() {
       [
         {
           title: productType,
-          href: "/web?t=" + productType,
+          href: "/product?t=" + productType,
         },
         {
           title: productName,
