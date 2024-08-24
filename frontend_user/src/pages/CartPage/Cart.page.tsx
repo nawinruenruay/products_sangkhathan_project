@@ -23,13 +23,14 @@ import {
 } from "@tabler/icons-react";
 import { DataTable } from "mantine-datatable";
 import { Notifications } from "@mantine/notifications";
-
+import { useDocumentTitle } from "@mantine/hooks";
 import classes from "./Card.module.css";
 import cartempty from "../../assets/img/cartempty.png";
 
 import { useCartsum } from "../../components/CartContext";
 
 export function CartPage() {
+  useDocumentTitle("ตระกร้า | ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน");
   const { cartsum, fetchCartsum } = useCartsum();
   const nav = useNavigate();
   const { id } = JSON.parse(localStorage.getItem("dataUser") || "{}");
