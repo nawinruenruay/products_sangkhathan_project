@@ -76,7 +76,7 @@ export function CartPage() {
             if (Data.length >= 1) {
               setData([]);
             }
-            nav("/user/account/purchase");
+            nav("/user/account/?v=purchase");
           } else if (res.data === 400) {
             Notifications.show({
               title: "สั่งซื้อสินค้าไม่สำเร็จ",
