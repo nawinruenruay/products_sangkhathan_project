@@ -284,7 +284,10 @@ export function CheckoutPage() {
                 </Grid.Col>
 
                 <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
-                  <Text fz={"h3"}>
+                  <Text fz={"h4"} fw={"bold"}>
+                    เลขที่การสั่งซื้อ : {order_id}
+                  </Text>
+                  <Text fz={"h4"}>
                     ยอดเงินที่ต้องชำระ {totalAmount.toLocaleString()} บาท
                   </Text>
                   <SimpleGrid cols={3}>
@@ -348,8 +351,8 @@ export function CheckoutPage() {
                           ? Api + "/public/uploadimg/noimage.png"
                           : form.values.img_preview
                       }
-                      w={250}
-                      h={250}
+                      w={220}
+                      h={220}
                       mb={10}
                     />
                   </Center>

@@ -12,8 +12,8 @@ import {
   Badge,
   Box,
   Image,
+  Tooltip,
 } from "@mantine/core";
-
 import { Notifications } from "@mantine/notifications";
 import { useNavigate } from "react-router-dom";
 import {
@@ -23,7 +23,6 @@ import {
   IconMoodSad,
   IconChevronRight,
 } from "@tabler/icons-react";
-
 import { DataTable } from "mantine-datatable";
 import Swal from "sweetalert2";
 import clsx from "clsx";
@@ -209,17 +208,19 @@ export function Purchase() {
             highlightOnHover
             columns={[
               {
-                accessor: "order_id",
+                accessor: "x",
                 title: "",
                 render: ({ order_id }) => (
                   <>
-                    <IconChevronRight
-                      className={clsx(classes.expandIcon, {
-                        [classes.expandIconRotated]:
-                          Expanded.includes(order_id),
-                      })}
-                      stroke={1}
-                    />
+                    <Tooltip label="ดูรายการที่สั่งซื้อ">
+                      <IconChevronRight
+                        className={clsx(classes.expandIcon, {
+                          [classes.expandIconRotated]:
+                            Expanded.includes(order_id),
+                        })}
+                        stroke={1}
+                      />
+                    </Tooltip>
                   </>
                 ),
               },
@@ -232,6 +233,12 @@ export function Purchase() {
                     {new Date(order_date).toLocaleDateString("TH-th", options2)}
                   </>
                 ),
+              },
+              {
+                accessor: "order_id",
+                textAlign: "center",
+                title: "เลขที่การสั่งซื้อ",
+                render: ({ order_id }) => <>{order_id}</>,
               },
               {
                 accessor: "status",
