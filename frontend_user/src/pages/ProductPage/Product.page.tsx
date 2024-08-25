@@ -18,14 +18,14 @@ import {
 } from "@mantine/core";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useDocumentTitle } from "@mantine/hooks";
-import { IconBrandProducthunt } from "@tabler/icons-react";
+import { IconBrandProducthunt, IconPray } from "@tabler/icons-react";
 import classes from "./Product.module.css";
 
 export function ProductPage() {
   useDocumentTitle("สินค้า & สังฆทาน | ศูนย์ร่มโพธิ์ร่มไทรวัยดอกลำดวน");
   const [searchParams, setSearchParams] = useSearchParams();
   const tabsValue = searchParams.get("t") || "สินค้าผลิตภัณฑ์";
-  const iconStyle = { width: rem(12), height: rem(12) };
+  const iconStyle = { width: rem(18), height: rem(18) };
   const nav = useNavigate();
   const [ShowIMG, setShowIMG] = useState(false);
   const [ImagePath, setImagePath] = useState("");
@@ -77,6 +77,8 @@ export function ProductPage() {
         onChange={(value: any) => {
           setSearchParams({ t: value });
         }}
+        variant="unstyled"
+        classNames={classes}
         mb={50}
       >
         <Tabs.List grow>
@@ -88,7 +90,7 @@ export function ProductPage() {
           </Tabs.Tab>
           <Tabs.Tab
             value="สังฆฑานออนไลน์"
-            leftSection={<IconBrandProducthunt style={iconStyle} />}
+            leftSection={<IconPray style={iconStyle} />}
           >
             สังฆฑานออนไลน์
           </Tabs.Tab>
