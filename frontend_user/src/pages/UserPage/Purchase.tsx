@@ -53,47 +53,42 @@ export function Purchase() {
     {}
   );
 
-  const LoadDatatable = async () => {
+  const LoadDatatable = () => {
     setLoadingProfile(true);
     if (id) {
-      try {
-        const ordersResponse = await axios.post(Api + "User/Showorderbuy/", {
+      axios
+        .post(Api + "User/Showorderbuy/", {
           userid: atob(id),
+        })
+        .then((res) => {
+          const data = res.data;
+          // console.log(data);
+          if (data.length !== 0) {
+            const configData = data.map((i: any, key: any) => ({
+              ...i,
+              id: key + 1,
+            }));
+            setTable(configData);
+          }
+          setLoadingProfile(false);
         });
-        const ordersData = ordersResponse.data;
+    }
+  };
 
-        if (ordersData.length !== 0) {
-          const ordersWithId = ordersData.map((i: any, key: any) => ({
-            ...i,
-            id: key + 1,
-          }));
-          setTable(ordersWithId);
-
-          const detailsPromises = ordersWithId.map((order: any) =>
-            axios.post(Api + "/User/Showorderbuydetail", {
-              userid: atob(id),
-              order_id: order.order_id,
-            })
-          );
-          const detailsResponses = await Promise.all(detailsPromises);
-
-          const detailsData = detailsResponses.reduce(
-            (acc: any, res: any, index: number) => {
-              const order_id = ordersWithId[index].order_id;
-              acc[order_id] = res.data.map((item: any, key: any) => ({
-                ...item,
-                id: key + 1,
-              }));
-              return acc;
-            },
-            {}
-          );
-          setExpandedData(detailsData);
-        }
-      } catch (err) {
-        console.error("error", err);
+  const Loaddata2 = async (order_id: any) => {
+    if (!ExpandedData[order_id]) {
+      const res = await axios.post(Api + "/User/Showorderbuydetail", {
+        userid: atob(id),
+        order_id: order_id,
+      });
+      const data = res.data;
+      if (data.length !== 0) {
+        const configData = data.map((i: any, key: any) => ({
+          ...i,
+          id: key + 1,
+        }));
+        setExpandedData((prev) => ({ ...prev, [order_id]: configData }));
       }
-      setLoadingProfile(false);
     }
   };
 
@@ -341,10 +336,18 @@ export function Purchase() {
               </Box>
             }
             rowExpansion={{
-              allowMultiple: true,
+              allowMultiple: false,
               expanded: {
                 recordIds: Expanded,
-                onRecordIdsChange: setExpanded,
+                onRecordIdsChange: async (newExpanded: any) => {
+                  setExpanded(newExpanded);
+                  if (newExpanded.length > 0) {
+                    const order_id = newExpanded[0];
+                    if (!ExpandedData[order_id]) {
+                      await Loaddata2(order_id);
+                    }
+                  }
+                },
               },
               content: ({ record }) => {
                 const order_id = record.order_id;
@@ -352,30 +355,41 @@ export function Purchase() {
                 return (
                   <DataTable
                     striped
-                    // noHeader
                     columns={[
                       {
                         accessor: "name",
                         title: "รายการ",
                         render: ({ pname, img }) => (
-                          <Group ml={30}>
-                            <Image src={Api + img} w={30} />
-                            <Text>{pname}</Text>
-                          </Group>
+                          <>
+                            <Group ml={30}>
+                              <Image src={Api + img} h={30} w={30} />
+                              <Text>{pname}</Text>
+                            </Group>
+                          </>
                         ),
                       },
                       {
                         accessor: "qty",
                         title: "จำนวน (ชิ้น)",
                         textAlign: "center",
-                        render: ({ qty }) => <Box component="span">{qty}</Box>,
+                        render: ({ qty }) => (
+                          <>
+                            <Box component="span">
+                              <span> {qty}</span>
+                            </Box>
+                          </>
+                        ),
                       },
                       {
                         accessor: "price",
                         title: "ราคา (บาท)",
                         textAlign: "center",
                         render: ({ total }) => (
-                          <Box component="span">{total.toLocaleString()}</Box>
+                          <>
+                            <Box component="span">
+                              <span>{total.toLocaleString()}</span>
+                            </Box>
+                          </>
                         ),
                       },
                     ]}

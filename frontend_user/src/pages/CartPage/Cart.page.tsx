@@ -152,6 +152,7 @@ export function CartPage() {
                 }}
                 // scrollAreaProps={{ type: "never" }}
                 minHeight={350}
+                height={400}
                 idAccessor="pid"
                 fetching={LoadingData}
                 loaderType="dots"
