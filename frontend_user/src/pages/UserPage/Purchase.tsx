@@ -163,7 +163,7 @@ export function Purchase() {
       nav("/login");
     }
     window.scrollTo(0, 0);
-  }, []);
+  }, [id, nav]);
 
   const PAGE_SIZES = [5, 10, 15];
   const [page, setPage] = useState(1);
