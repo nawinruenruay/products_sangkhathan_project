@@ -208,13 +208,15 @@ export function Purchase() {
                 render: ({ order_id }) => (
                   <>
                     <Tooltip label="ดูรายการที่สั่งซื้อ">
-                      <IconChevronRight
-                        className={clsx(classes.expandIcon, {
-                          [classes.expandIconRotated]:
-                            Expanded.includes(order_id),
-                        })}
-                        stroke={1}
-                      />
+                      <Flex align={"center"} justify={"center"}>
+                        <IconChevronRight
+                          className={clsx(classes.expandIcon, {
+                            [classes.expandIconRotated]:
+                              Expanded.includes(order_id),
+                          })}
+                          stroke={1}
+                        />
+                      </Flex>
                     </Tooltip>
                   </>
                 ),
@@ -336,7 +338,7 @@ export function Purchase() {
               </Box>
             }
             rowExpansion={{
-              allowMultiple: false,
+              allowMultiple: true,
               expanded: {
                 recordIds: Expanded,
                 onRecordIdsChange: async (newExpanded: any) => {
