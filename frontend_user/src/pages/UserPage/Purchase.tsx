@@ -162,7 +162,7 @@ export function Purchase() {
       nav("/login");
     }
     window.scrollTo(0, 0);
-  }, [id, nav]);
+  }, []);
 
   const PAGE_SIZES = [5, 10, 15];
   const [page, setPage] = useState(1);
@@ -341,7 +341,7 @@ export function Purchase() {
               </Box>
             }
             rowExpansion={{
-              allowMultiple: false,
+              allowMultiple: true,
               expanded: {
                 recordIds: Expanded,
                 onRecordIdsChange: setExpanded,
@@ -352,6 +352,7 @@ export function Purchase() {
                 return (
                   <DataTable
                     striped
+                    // noHeader
                     columns={[
                       {
                         accessor: "name",
