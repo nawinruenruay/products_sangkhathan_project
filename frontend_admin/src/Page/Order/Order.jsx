@@ -137,7 +137,7 @@ function Order() {
                             onClick={() => {
                               setOverLayLoad(true);
                               ShowImage(
-                                "http://localhost/sangkhathan/" + i.pay_slip,
+                                TT + i.pay_slip,
                                 i.order_id,
                                 i.pay_date,
                                 i.pay_time
