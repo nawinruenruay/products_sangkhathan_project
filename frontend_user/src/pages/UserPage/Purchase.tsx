@@ -250,12 +250,16 @@ export function Purchase() {
                           รอการชำระเงิน
                         </Badge>
                       ) : status == 2 ? (
-                        <Badge color="yellow" size="lg" variant="light">
+                        <Badge color="orange" size="lg" variant="light">
                           รอตรวจสอบการชำระเงิน
                         </Badge>
                       ) : status == 3 ? (
-                        <Badge color="green" size="lg" variant="light">
+                        <Badge color="blue" size="lg" variant="light">
                           รอดำเนินการ
+                        </Badge>
+                      ) : status == 4 ? (
+                        <Badge color="green" size="lg" variant="light">
+                          ดำเนินการเรียบร้อย
                         </Badge>
                       ) : status == 5 ? (
                         <Badge color="red" size="lg" variant="light">
@@ -263,7 +267,7 @@ export function Purchase() {
                         </Badge>
                       ) : (
                         <Badge color="black" size="lg" variant="light">
-                          test123
+                          <></>
                         </Badge>
                       )}
                     </Flex>
