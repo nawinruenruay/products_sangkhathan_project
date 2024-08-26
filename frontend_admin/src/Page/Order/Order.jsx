@@ -75,18 +75,18 @@ function Order() {
     setLoadingTable(true);
     axios.get(TT + "Order/ShowOrder").then((res) => {
       const data = res.data;
-      // console.log(data);
       if (data.length !== 0) {
         setData({
           columns: column,
           rows: [
             ...data.map((i, key) => ({
               num: key + 1,
-              order_date: new Date(i.order_date).toLocaleDateString(
-                "TH-th",
-                options2
+              order_date: (
+                <>
+                  {new Date(i.order_date).toLocaleDateString("TH-th", options2)}
+                </>
               ),
-              name: i.name,
+              name: <>{i.name}</>,
               orderdetail: (
                 <>
                   <Button
