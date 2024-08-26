@@ -88,7 +88,7 @@ function UploadNote_tracking({ close, closeWithSuccess, orderId }) {
       axios
         .post(TT + "Order/UploadNote_tracking", {
           order_id: orderId,
-          note_tracking: note_tracking,
+          note_tracking: val.note_tracking,
           typeadd: "note_tracking",
         })
         .then((res) => {
