@@ -180,7 +180,6 @@ function Order() {
   };
 
   const Confirmpay = (order_id) => {
-    console.log(order_id);
     Swal.fire({
       icon: "warning",
       title: "ยืนยันการชำระเงิน?",
