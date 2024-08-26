@@ -1,2 +1,2 @@
-const TT = "http://localhost/apisangkhathan/";
+const TT = "http://localhost/api-sangkhathan/";
 export default TT;

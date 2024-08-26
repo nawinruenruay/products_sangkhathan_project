@@ -82,8 +82,8 @@ function Product() {
 
   const LoadData = () => {
     setLoadingTable(true);
-    axios.get(TT + "Product/ShowProduct").then((res) => {
-      const data = res.data;
+    axios.get(TT + "product/index").then((res) => {
+      const data = res.data.data.data;
       if (data.length !== 0) {
         setData({
           columns: column,

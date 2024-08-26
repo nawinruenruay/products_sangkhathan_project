@@ -68,8 +68,8 @@ function Banner() {
 
   const LoadData = () => {
     setLoadingTable(true);
-    axios.get(TT + "Banner/ShowBanner").then((res) => {
-      const data = res.data;
+    axios.get(TT + "banner/index").then((res) => {
+      const data = res.data.data.data;
       if (data.length !== 0) {
         setData({
           columns: column,

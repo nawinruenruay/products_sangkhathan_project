@@ -338,7 +338,7 @@ export function Purchase() {
               </Box>
             }
             rowExpansion={{
-              allowMultiple: true,
+              allowMultiple: false,
               expanded: {
                 recordIds: Expanded,
                 onRecordIdsChange: async (newExpanded: any) => {

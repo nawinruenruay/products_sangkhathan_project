@@ -82,8 +82,8 @@ function Activity() {
 
   const LoadData = () => {
     setLoadingTable(true);
-    axios.get(TT + "Activity/ShowActivity").then((res) => {
-      const data = res.data;
+    axios.get(TT + "activity/index").then((res) => {
+      const data = res.data.data.data;
       if (data.length !== 0) {
         setData({
           columns: column,
