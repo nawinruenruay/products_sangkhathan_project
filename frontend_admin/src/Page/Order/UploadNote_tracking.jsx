@@ -15,12 +15,11 @@ import { useForm } from "@mantine/form";
 import { Notifications, notifications } from "@mantine/notifications";
 import { IconDeviceFloppy } from "@tabler/icons-react";
 import axios from "axios";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import TT from "../../Api";
 import Swal from "sweetalert2";
 
-function UploadNote_tracking({ close }) {
-  //// if not img ===  public/uploadimg/Defualt/noimage.png
+function UploadNote_tracking({ close, closeWithSuccess, orderId }) {
   const resetRef = useRef();
   const form = useForm({
     initialValues: {
@@ -40,7 +39,6 @@ function UploadNote_tracking({ close }) {
     form.setValues({
       img: files,
     });
-    // const file = files[0];
     if (files) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -69,21 +67,10 @@ function UploadNote_tracking({ close }) {
     resetRef.current?.();
   };
 
-  useEffect(() => {
-    // FetchFisicalYear();
-    // FetchStatus();
-    // FetchType();
-    // FetchDate();
-    // FetchAgen();
-    // FetchMoney();
-    // FetchRoom();
-  }, []);
-
   const [LoadingSubmit, setLoadingSubmit] = useState(false);
 
   const Submit = (val) => {
     setLoadingSubmit(true);
-
     if (val.img === null) {
       Notifications.show({
         title: "กรุณาเพิ่มรูปภาพการถวายสังฆทาน",
@@ -94,23 +81,32 @@ function UploadNote_tracking({ close }) {
       return;
     }
     const Update = new FormData();
+    Update.append("order_id", orderId);
     Update.append("file", val.img);
-    Update.append("typeimg", "add");
-    axios.post(TT + "Order/UploadIMG", Update).then((res) => {
-      const ress = res.data;
-      if (ress[0].message === "success") {
-        setLoadingSubmit(false);
-        Swal.fire({
-          icon: "success",
-          title: "อัพโหลดหลักฐานการส่งสินค้าหรือรูปภาพการถวายสังฆทานเรียบร้อย",
-          timer: 1500,
-          timerProgressBar: true,
-          allowOutsideClick: false,
-          showConfirmButton: false,
-        }).then((reees) => {
-          close();
+    Update.append("typeimg", "update");
+    axios.post(TT + "Order/UploadIMG", Update).then(() => {
+      axios
+        .post(TT + "Order/UploadNote_tracking", {
+          order_id: orderId,
+          note_tracking: note_tracking,
+          typeadd: "note_tracking",
+        })
+        .then((res) => {
+          if (res.data === 200) {
+            setLoadingSubmit(false);
+            Swal.fire({
+              icon: "success",
+              title:
+                "อัพโหลดหลักฐานการส่งสินค้าหรือรูปภาพการถวายสังฆทานเรียบร้อย",
+              timer: 1500,
+              timerProgressBar: true,
+              allowOutsideClick: false,
+              showConfirmButton: false,
+            }).then((reees) => {
+              closeWithSuccess();
+            });
+          }
         });
-      }
     });
   };
 
@@ -124,9 +120,9 @@ function UploadNote_tracking({ close }) {
         })}
       >
         <Flex mah={300} justify={"space-between"} direction={"column"} pt={10}>
-          <label style={{ fontSize: "14px", fontWeight: "500" }}>
+          <Text fw={"bold"} mb={5}>
             รูปภาพการถวายสังฆทาน
-          </label>
+          </Text>
           {selectedImage && <Image w={150} src={selectedImage} mb={10} />}
           <Group justify={"flex-start"}>
             <FileButton

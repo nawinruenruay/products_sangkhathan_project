@@ -29,6 +29,7 @@ function Order() {
   const [OpenDetail, setOpenDetail] = useState(false);
   const [ShowIMG, setShowIMG] = useState(false);
   const [ModalUploadSkt, setModalUploadSkt] = useState(false);
+  const [selectedOrderId, setSelectedOrderId] = useState(null);
 
   const column = [
     {
@@ -237,7 +238,8 @@ function Order() {
     }, 800);
   };
 
-  const UploadNote_skt = () => {
+  const UploadNote_skt = (order_id) => {
+    setSelectedOrderId(order_id);
     setModalUploadSkt(true);
   };
 
@@ -330,10 +332,16 @@ function Order() {
         opened={ModalUploadSkt}
         onClose={() => {
           setModalUploadSkt(false);
+          setSelectedOrderId(null);
         }}
         centered
       >
         <UploadNote_tracking
+          orderId={selectedOrderId}
+          closeWithSuccess={() => {
+            LoadData();
+            setModalUploadSkt(false);
+          }}
           close={() => {
             setModalUploadSkt(false);
           }}
