@@ -227,7 +227,7 @@ export function CheckoutPage() {
                 color: "green",
                 icon: <IconCheck />,
               });
-              nav("/user/account/purchase");
+              nav("/user/account/?v=purchase");
             }
           });
       });
