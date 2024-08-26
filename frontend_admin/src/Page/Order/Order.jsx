@@ -180,6 +180,7 @@ function Order() {
   };
 
   const Confirmpay = (order_id) => {
+    console.log(order_id);
     Swal.fire({
       icon: "warning",
       title: "ยืนยันการชำระเงิน?",
@@ -191,9 +192,17 @@ function Order() {
     }).then((res) => {
       if (res.isConfirmed === true) {
         axios
-          .post(TT + "Order/Confirmpay", {
-            order_id: order_id,
-          })
+          .post(
+            TT + "Order/Confirmpay",
+            {
+              order_id: order_id,
+            },
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+            }
+          )
           .then((res) => {
             if (res.data === "success") {
               Swal.fire({
