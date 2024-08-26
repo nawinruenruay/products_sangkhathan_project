@@ -83,7 +83,6 @@ function UploadNote_tracking({ close }) {
 
   const Submit = (val) => {
     setLoadingSubmit(true);
-    console.log(val);
 
     if (val.img === null) {
       Notifications.show({
