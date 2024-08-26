@@ -14,6 +14,7 @@ import {
   Paper,
   Center,
   Skeleton,
+  Textarea,
 } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
 import { useForm } from "@mantine/form";
@@ -269,7 +270,7 @@ export function CheckoutPage() {
             })}
           >
             <Paper radius={5} shadow="sm" p={15} mb={50} pos={"relative"}>
-              <Grid gutter={50} justify="center" align="center">
+              <Grid gutter={20} justify="center" align="center">
                 <Grid.Col span={{ base: 12, md: 6, lg: 6 }}>
                   <Flex justify="center" direction="column" wrap="wrap">
                     <Center>
@@ -277,7 +278,6 @@ export function CheckoutPage() {
                         src={
                           "https://i.pinimg.com/564x/c6/ad/81/c6ad815f01a76c92634b751bd67db271.jpg"
                         }
-                        mb={10}
                       />
                     </Center>
                   </Flex>
@@ -290,6 +290,36 @@ export function CheckoutPage() {
                   <Text fz={"h4"}>
                     ยอดเงินที่ต้องชำระ {totalAmount.toLocaleString()} บาท
                   </Text>
+                  <Center mt={10}>
+                    <Image
+                      src={
+                        form.values.img_preview === null
+                          ? Api + "/public/uploadimg/noimage.png"
+                          : form.values.img_preview
+                      }
+                      w={220}
+                      h={220}
+                      mb={10}
+                    />
+                  </Center>
+                  <FileButton
+                    onChange={handleFileChange}
+                    accept="image/png, image/jpeg, image/jpg"
+                  >
+                    {(props) => (
+                      <Button variant="outline" {...props} w={"100%"}>
+                        แนบหลักฐานการโอนเงิน
+                      </Button>
+                    )}
+                  </FileButton>
+                  <Text c={"#999999"} fz={"14px"}>
+                    ขนาดไฟล์: สูงสุด 1 MB ไฟล์ที่รองรับ: JPEG,JPG,PNG
+                  </Text>
+                  {/* <Textarea
+                    label="Input label"
+                    placeholder="Input placeholder"
+                    withAsterisk
+                  /> */}
                   <SimpleGrid cols={3}>
                     <Select
                       allowDeselect={false}
@@ -344,31 +374,7 @@ export function CheckoutPage() {
                       withAsterisk
                     />
                   </SimpleGrid>
-                  <Center mt={10}>
-                    <Image
-                      src={
-                        form.values.img_preview === null
-                          ? Api + "/public/uploadimg/noimage.png"
-                          : form.values.img_preview
-                      }
-                      w={220}
-                      h={220}
-                      mb={10}
-                    />
-                  </Center>
-                  <FileButton
-                    onChange={handleFileChange}
-                    accept="image/png, image/jpeg, image/jpg"
-                  >
-                    {(props) => (
-                      <Button variant="outline" {...props} w={"100%"}>
-                        แนบหลักฐานการโอนเงิน
-                      </Button>
-                    )}
-                  </FileButton>
-                  <Text c={"#999999"} fz={"14px"}>
-                    ขนาดไฟล์: สูงสุด 1 MB ไฟล์ที่รองรับ: JPEG,JPG,PNG
-                  </Text>
+
                   <Flex pt={10} justify={"flex-start"} gap={5} pos={"relative"}>
                     <Button
                       loading={LoadingSubmit}
