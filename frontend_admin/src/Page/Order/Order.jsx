@@ -21,12 +21,14 @@ import Swal from "sweetalert2";
 
 import TT from "../../Api";
 import DetailItems from "./DetailItems";
+import UploadNote_tracking from "./UploadNote_tracking";
 
 function Order() {
   const [OverLayLoad, setOverLayLoad] = useState(false);
   const [LoadingTable, setLoadingTable] = useState(false);
   const [OpenDetail, setOpenDetail] = useState(false);
   const [ShowIMG, setShowIMG] = useState(false);
+  const [ModalUploadSkt, setModalUploadSkt] = useState(false);
 
   const column = [
     {
@@ -132,7 +134,7 @@ function Order() {
                       ""
                     ) : i.status == 2 ? (
                       [
-                        <Tooltip key="check" label="ตรวจสอบการชำระเงิน">
+                        <Tooltip label="ตรวจสอบการชำระเงิน">
                           <ActionIcon
                             onClick={() => {
                               setOverLayLoad(true);
@@ -148,7 +150,7 @@ function Order() {
                             <IconEye />
                           </ActionIcon>
                         </Tooltip>,
-                        <Tooltip key="confirm" label="ยืนยันการชำระเงิน">
+                        <Tooltip label="ยืนยันการชำระเงิน">
                           <ActionIcon
                             color="green"
                             onClick={() => {
@@ -160,8 +162,13 @@ function Order() {
                         </Tooltip>,
                       ]
                     ) : i.status == 3 ? (
-                      <Tooltip key="test" label="test">
-                        <ActionIcon color="grape">
+                      <Tooltip label="อัพโหลดหลักฐานการส่งสินค้าหรือรูปภาพการถวายสังฆทาน">
+                        <ActionIcon
+                          color="grape"
+                          onClick={() => {
+                            UploadNote_skt(i.order_id);
+                          }}
+                        >
                           <IconPlus />
                         </ActionIcon>
                       </Tooltip>
@@ -230,6 +237,10 @@ function Order() {
     }, 800);
   };
 
+  const UploadNote_skt = () => {
+    setModalUploadSkt(true);
+  };
+
   return (
     <>
       <Container pt={10} fluid p={{ base: "0px", sm: 10, md: 20, lg: 30 }}>
@@ -276,6 +287,7 @@ function Order() {
           )}
         </Paper>
       </Container>
+
       <Modal
         title={
           "ชำระเงินวันที่  " +
@@ -298,6 +310,7 @@ function Order() {
       >
         <Image src={localStorage.getItem("pay_slip")} />
       </Modal>
+
       <Modal
         title={"รายการสินค้าที่สั่งซื้อ " + localStorage.getItem("name")}
         size={"lg"}
@@ -310,6 +323,21 @@ function Order() {
         centered
       >
         <DetailItems />
+      </Modal>
+      <Modal
+        title={"อัพโหลดหลักฐานการส่งสินค้าหรือรูปภาพการถวายสังฆทาน"}
+        size={"lg"}
+        opened={ModalUploadSkt}
+        onClose={() => {
+          setModalUploadSkt(false);
+        }}
+        centered
+      >
+        <UploadNote_tracking
+          close={() => {
+            setModalUploadSkt(false);
+          }}
+        />
       </Modal>
     </>
   );

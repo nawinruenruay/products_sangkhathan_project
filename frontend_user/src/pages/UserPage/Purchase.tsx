@@ -255,7 +255,7 @@ export function Purchase() {
                         </Badge>
                       ) : status == 3 ? (
                         <Badge color="green" size="lg" variant="light">
-                          ชำระเงินเรียบร้อยแล้ว
+                          รอดำเนินการ
                         </Badge>
                       ) : status == 5 ? (
                         <Badge color="red" size="lg" variant="light">

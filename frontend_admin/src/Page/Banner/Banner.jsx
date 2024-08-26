@@ -280,7 +280,6 @@ function Banner() {
         <FormAddItems
           close={() => {
             setModalAdd(false);
-            LoadData();
           }}
         />
       </Modal>
