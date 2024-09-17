@@ -58,7 +58,7 @@ export function AddEmail({ closeWithSuccess, close }: AddItemsProps) {
   const Submit = (v: any) => {
     setLoadingSubmit(true);
     axios
-      .post(Api + "User/Updatedata", {
+      .post(Api + "user/index/3", {
         userid: atob(id),
         email: v.email,
         typeadd: "email",
@@ -156,7 +156,7 @@ export function Addphone({ closeWithSuccess, close }: AddItemsProps) {
   const Submit = (v: any) => {
     setLoadingSubmit(true);
     axios
-      .post(Api + "User/Updatedata", {
+      .post(Api + "user/index/3", {
         userid: atob(id),
         phone: v.phone,
         typeadd: "phone",
@@ -332,7 +332,7 @@ export function AddBirthday({ closeWithSuccess, close }: AddItemsProps) {
       return;
     } else {
       axios
-        .post(Api + "User/Updatedata", {
+        .post(Api + "user/index/3", {
           userid: atob(id),
           birthday: BD_year - 543 + "-" + BD_month + "-" + BD_day,
           typeadd: "birthday",
@@ -519,27 +519,6 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
       });
   };
 
-  // const FetchData = () => {
-  //   axios
-  //     .post(Api + "/User/Showuser", {
-  //       userid: atob(id),
-  //     })
-  //     .then((res) => {
-  //       const data = res.data;
-  //       if (data.length !== 0) {
-  //         form.setValues({
-  //           address: data[0].address,
-  //           ad_name: data[0].ad_name,
-  //           ad_phone: data[0].ad_phone,
-  //           ad_province: data[0].ad_province,
-  //           ad_amphure: data[0].ad_amphure,
-  //           ad_tambon: data[0].ad_tambon,
-  //           zip_code: data[0].zip_code,
-  //         });
-  //       }
-  //     });
-  // };
-
   const Submit = (v: any) => {
     setLoadingSubmit(true);
     const selectedProvince =
@@ -549,7 +528,7 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
     const selectedTambon =
       Tambon.find((i) => i.value === v.ad_tambon)?.label || "";
     axios
-      .post(Api + "User/Updatedata", {
+      .post(Api + "user/index/3", {
         userid: atob(id),
         address: v.address,
         ad_name: v.ad_name,
@@ -570,7 +549,6 @@ export function AddAddress({ closeWithSuccess, close }: AddItemsProps) {
 
   useEffect(() => {
     FetchProvince();
-    // FetchData();
   }, []);
 
   return (

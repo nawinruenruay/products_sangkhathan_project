@@ -41,12 +41,11 @@ export function CartPage() {
     setLoadingData(true);
     if (v) {
       axios
-        .post(Api + "Cart/Showcart/", {
+        .post(Api + "cart/index/1", {
           userid: v,
         })
         .then((res) => {
           const data = res.data;
-          // console.log(data);
           if (data.length !== 0) {
             setData(data);
           }
@@ -58,7 +57,7 @@ export function CartPage() {
   const Buy = () => {
     if (id) {
       axios
-        .post(Api + "Buy/Buyproduct", {
+        .post(Api + "buy/index/1", {
           userid: atob(id),
         })
         .then((res) => {
@@ -93,7 +92,7 @@ export function CartPage() {
   const Delcart = (qty: number, price: number, pid: string) => {
     if (id && qty && price && pid) {
       axios
-        .post(Api + "Cart/Delcart", {
+        .post(Api + "cart/index/3", {
           qty: qty,
           price: price,
           pid: pid,

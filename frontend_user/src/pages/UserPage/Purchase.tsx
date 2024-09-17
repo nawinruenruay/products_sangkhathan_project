@@ -13,8 +13,14 @@ import {
   Box,
   Image,
   Tooltip,
+  CopyButton,
+  ActionIcon,
+  rem,
+  Modal,
+  Center,
 } from "@mantine/core";
 import { Notifications } from "@mantine/notifications";
+import { Carousel } from "@mantine/carousel";
 import { useNavigate } from "react-router-dom";
 import {
   IconCheck,
@@ -22,6 +28,8 @@ import {
   IconCash,
   IconMoodSad,
   IconChevronRight,
+  IconEye,
+  IconCopy,
 } from "@tabler/icons-react";
 import { DataTable } from "mantine-datatable";
 import Swal from "sweetalert2";
@@ -40,6 +48,12 @@ interface Items {
   order_id: any;
   order_date: any;
   status: any;
+  note_tracking: any;
+}
+
+interface Image {
+  id: string;
+  url: string;
 }
 
 export function Purchase() {
@@ -52,17 +66,21 @@ export function Purchase() {
   const [ExpandedData, setExpandedData] = useState<{ [key: string]: any[] }>(
     {}
   );
+  const [DataImg, setDataImg] = useState<Image[]>([]);
+  const [cachedImages, setCachedImages] = useState<{ [key: string]: Image[] }>(
+    {}
+  );
+  const [ModalImg, setModalImg] = useState(false);
 
   const LoadDatatable = () => {
     setLoadingProfile(true);
     if (id) {
       axios
-        .post(Api + "User/Showorderbuy/", {
+        .post(Api + "user/index/1", {
           userid: atob(id),
         })
         .then((res) => {
           const data = res.data;
-          // console.log(data);
           if (data.length !== 0) {
             const configData = data.map((i: any, key: any) => ({
               ...i,
@@ -77,7 +95,7 @@ export function Purchase() {
 
   const Loaddata2 = async (order_id: any) => {
     if (!ExpandedData[order_id]) {
-      const res = await axios.post(Api + "/User/Showorderbuydetail", {
+      const res = await axios.post(Api + "user/index/2", {
         userid: atob(id),
         order_id: order_id,
       });
@@ -92,41 +110,26 @@ export function Purchase() {
     }
   };
 
+  const FetchImage = async (order_id: any) => {
+    if (!cachedImages[order_id]) {
+      try {
+        const res = await axios.post(Api + "order/index/1", { order_id });
+        if (res.data.length !== 0) {
+          setCachedImages((prev) => ({ ...prev, [order_id]: res.data }));
+          setDataImg(res.data);
+        }
+      } catch (error) {
+        console.error("Failed to fetch images:", error);
+      }
+    } else {
+      setDataImg(cachedImages[order_id]);
+    }
+  };
+
   const options2: DateOptions = {
     year: "numeric",
     month: "short",
     day: "numeric",
-  };
-
-  const CancelOrder = (order_id: any) => {
-    Swal.fire({
-      title: "คุณต้องการยกเลิกออเดอร์?",
-      showCancelButton: true,
-      icon: "warning",
-      confirmButtonText: "ตกลง",
-      confirmButtonColor: "#40C057",
-      cancelButtonText: "ยกเลิก",
-      cancelButtonColor: "red",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        axios
-          .post(Api + "Buy/CancelOrder", {
-            order_id: order_id,
-          })
-          .then((res) => {
-            if (res.data === 200) {
-              Notifications.show({
-                title: "ยกเลิกออเดอร์สำเร็จ",
-                message: "คุณได้ยกเลิกออเดอร์เรียบร้อยแล้ว",
-                autoClose: 2000,
-                color: "green",
-                icon: <IconCheck />,
-              });
-              LoadDatatable();
-            }
-          });
-      }
-    });
   };
 
   const Checkoutt = async (order_id: any) => {
@@ -139,7 +142,7 @@ export function Purchase() {
         icon: "warning",
         showCancelButton: false,
         confirmButtonText: "ตกลง",
-        confirmButtonColor: "#40C057",
+        confirmButtonColor: "green",
       }).then((result) => {
         if (result.isConfirmed) {
           nav("/user/account/?v=address");
@@ -148,6 +151,37 @@ export function Purchase() {
     } else {
       nav("/checkout", { state: { order_id } });
     }
+  };
+
+  const CancelOrder = (order_id: any) => {
+    Swal.fire({
+      title: "คุณต้องการยกเลิกการสั่งซื้อ?",
+      showCancelButton: true,
+      icon: "warning",
+      confirmButtonText: "ตกลง",
+      confirmButtonColor: "green",
+      cancelButtonText: "ยกเลิก",
+      cancelButtonColor: "red",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axios
+          .post(Api + "buy/index/4", {
+            order_id: order_id,
+          })
+          .then((res) => {
+            if (res.data === 200) {
+              Notifications.show({
+                title: "ยกเลิกการสั่งซื้อสำเร็จ",
+                message: "คุณได้ยกเลิกการสั่งซื้อเรียบร้อยแล้ว",
+                autoClose: 2000,
+                color: "green",
+                icon: <IconCheck />,
+              });
+              LoadDatatable();
+            }
+          });
+      }
+    });
   };
 
   useEffect(() => {
@@ -227,7 +261,12 @@ export function Purchase() {
                 title: "วันที่สั่งซื้อ",
                 render: ({ order_date }) => (
                   <>
-                    {new Date(order_date).toLocaleDateString("TH-th", options2)}
+                    <Text size={"md"}>
+                      {new Date(order_date).toLocaleDateString(
+                        "TH-th",
+                        options2
+                      )}
+                    </Text>
                   </>
                 ),
               },
@@ -235,7 +274,11 @@ export function Purchase() {
                 accessor: "order_id",
                 textAlign: "center",
                 title: "เลขที่การสั่งซื้อ",
-                render: ({ order_id }) => <>{order_id}</>,
+                render: ({ order_id }) => (
+                  <>
+                    <Text size={"md"}>{order_id}</Text>
+                  </>
+                ),
               },
               {
                 accessor: "status",
@@ -266,9 +309,7 @@ export function Purchase() {
                           ยกเลิกการสั่งซื้อ
                         </Badge>
                       ) : (
-                        <Badge color="black" size="lg" variant="light">
-                          <></>
-                        </Badge>
+                        <></>
                       )}
                     </Flex>
                   </>
@@ -278,7 +319,7 @@ export function Purchase() {
                 accessor: "xx",
                 textAlign: "center",
                 title: "จัดการ",
-                render: ({ status, order_id }) => (
+                render: ({ status, order_id, note_tracking }) => (
                   <Flex
                     align={"center"}
                     justify={"center"}
@@ -288,8 +329,7 @@ export function Purchase() {
                     {status == 1 ? (
                       <>
                         <Button
-                          h={30}
-                          variant="outline"
+                          variant={"subtle"}
                           leftSection={<IconCash />}
                           onClick={(e: React.MouseEvent) => {
                             e.stopPropagation();
@@ -299,8 +339,7 @@ export function Purchase() {
                           ชำระเงิน
                         </Button>
                         <Button
-                          h={30}
-                          variant="outline"
+                          variant={"subtle"}
                           color="red"
                           leftSection={<IconX />}
                           onClick={(e: React.MouseEvent) => {
@@ -315,6 +354,55 @@ export function Purchase() {
                       <></>
                     ) : status == 3 ? (
                       <></>
+                    ) : status == 4 ? (
+                      <>
+                        {note_tracking ? (
+                          <>
+                            <Text size={"md"}>
+                              หมายเลขพัสดุ : {note_tracking}
+                            </Text>
+                            <CopyButton value={note_tracking} timeout={1500}>
+                              {({ copied, copy }) => (
+                                <Tooltip
+                                  label={copied ? "Copied" : "Copy"}
+                                  withArrow
+                                  position="right"
+                                >
+                                  <ActionIcon
+                                    color={copied ? "teal" : "gray"}
+                                    variant="subtle"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      copy();
+                                    }}
+                                  >
+                                    {copied ? (
+                                      <IconCheck style={{ width: rem(16) }} />
+                                    ) : (
+                                      <IconCopy style={{ width: rem(16) }} />
+                                    )}
+                                  </ActionIcon>
+                                </Tooltip>
+                              )}
+                            </CopyButton>
+                          </>
+                        ) : (
+                          <>
+                            <Button
+                              variant={"subtle"}
+                              color={"dark"}
+                              leftSection={<IconEye />}
+                              onClick={(e: React.MouseEvent) => {
+                                e.stopPropagation();
+                                FetchImage(order_id);
+                                setModalImg(true);
+                              }}
+                            >
+                              ดูรูปภาพการถวายสังฆทาน
+                            </Button>
+                          </>
+                        )}
+                      </>
                     ) : status == 5 ? (
                       <></>
                     ) : (
@@ -407,6 +495,35 @@ export function Purchase() {
           />
         </Box>
       </Paper>
+
+      <Modal
+        title={"รูปภาพการถวายสังฆทาน"}
+        opened={ModalImg}
+        onClose={() => {
+          setModalImg(false);
+        }}
+        size={"xl"}
+        overlayProps={{
+          backgroundOpacity: 0.55,
+          blur: 3,
+        }}
+        // classNames={{
+        //   content: classes.customModal,
+        //   header: classes.customModal,
+        // }}
+        centered
+      >
+        <Carousel withIndicators height="100%">
+          {Array.isArray(DataImg) &&
+            DataImg.map((img: any, key: number) => (
+              <Carousel.Slide p={10} key={key}>
+                <Center>
+                  <Image maw={250} src={Api + img.pic_skt} />
+                </Center>
+              </Carousel.Slide>
+            ))}
+        </Carousel>
+      </Modal>
     </>
   );
 }

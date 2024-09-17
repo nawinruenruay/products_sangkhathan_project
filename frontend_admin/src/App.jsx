@@ -1,13 +1,13 @@
-import "./App.css";
-import React from "react";
 import { Route, Routes } from "react-router-dom";
+import "./App.css";
 import Layout from "./Layout/Layout";
-
 import Home from "./Page/Home/Home";
 import Product from "./Page/Product/Product";
 import Activity from "./Page/Activity/Activity";
 import Banner from "./Page/Banner/Banner";
 import Order from "./Page/Order/Order";
+
+import Test from "./Page/Test/Test.page";
 
 import Login from "./Auth/Login";
 import Logout from "./Auth/Logout";
@@ -25,6 +25,8 @@ function App() {
           <Route path="/activity" element={<Activity />} />
           <Route path="/banner" element={<Banner />} />
           <Route path="/order" element={<Order />} />
+
+          <Route path="/test" element={<Test />} />
         </Route>
 
         <Route path="/login" element={<Login />} />

@@ -24,3 +24,8 @@
 .expandIconRotated {
   transform: rotate(90deg);
 }
+
+.customModal {
+  background-color: transparent;
+  box-shadow: none;
+}

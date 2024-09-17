@@ -95,7 +95,7 @@ export function ProductDetailPage() {
         nav("/login");
       } else {
         axios
-          .post(Api + "Cart/Addcart", {
+          .post(Api + "cart/index/2", {
             qty: Qty,
             price: Price,
             pid: useProductId,

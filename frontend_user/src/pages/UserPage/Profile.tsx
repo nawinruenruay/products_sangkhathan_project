@@ -26,9 +26,6 @@ import { AddEmail, Addphone, AddBirthday } from "./AddItems";
 type FormValues = {
   name: string;
   sex: string;
-  img: string;
-  img_file: File | null;
-  img_preview: any | ArrayBuffer | null;
 };
 
 export function Profile() {
@@ -48,9 +45,6 @@ export function Profile() {
     initialValues: {
       name: "",
       sex: "",
-      img: "",
-      img_file: null,
-      img_preview: null,
     },
     validate: {
       name: (value) =>
@@ -67,7 +61,6 @@ export function Profile() {
         form.setValues({
           name: userData.name,
           sex: userData.sex,
-          img: userData.img,
         });
         setEmail(userData.email);
         setPhone(userData.phone);
@@ -99,58 +92,25 @@ export function Profile() {
   const Submit = (val: any) => {
     setLoadingSubmit(true);
     setTimeout(() => {
-      if (val.img_file !== null) {
-        const Update = new FormData();
-        Update.append("userid", atob(id));
-        Update.append("file", val.img_file);
-        Update.append("typeimg", "update");
-        axios.post(Api + "User/UploadIMG", Update).then(() => {
-          axios
-            .post(Api + "User/Updatedata", {
-              userid: atob(id),
-              name: val.name,
-              sex: val.sex,
-              typeadd: "name_sex",
-            })
-            .then((res) => {
-              if (res.data === 200) {
-                setLoadingSubmit(false);
-                Notifications.show({
-                  title: "บันทึกข้อมูลสำเร็จ",
-                  message: "คุณได้เพิ่มข้อมูลเรียบร้อยแล้ว",
-                  autoClose: 2000,
-                  color: "green",
-                  icon: <IconCheck />,
-                });
-              }
+      axios
+        .post(Api + "user/index/3", {
+          userid: atob(id),
+          name: val.name,
+          sex: val.sex,
+          typeadd: "name_sex",
+        })
+        .then((res) => {
+          if (res.data === 200) {
+            setLoadingSubmit(false);
+            Notifications.show({
+              title: "บันทึกข้อมูลสำเร็จ",
+              message: "คุณได้เพิ่มข้อมูลเรียบร้อยแล้ว",
+              autoClose: 2000,
+              color: "green",
+              icon: <IconCheck />,
             });
+          }
         });
-      } else {
-        const Update = new FormData();
-        Update.append("file", val.img);
-        Update.append("typeimg", "update");
-        axios.post(Api + "User/UploadIMG", Update).then(() => {
-          axios
-            .post(Api + "User/Updatedata", {
-              userid: atob(id),
-              name: val.name,
-              sex: val.sex,
-              typeadd: "name_sex",
-            })
-            .then((res) => {
-              if (res.data === 200) {
-                setLoadingSubmit(false);
-                Notifications.show({
-                  title: "บันทึกข้อมูลสำเร็จ",
-                  message: "คุณได้เพิ่มข้อมูลเรียบร้อยแล้ว",
-                  autoClose: 2000,
-                  color: "green",
-                  icon: <IconCheck />,
-                });
-              }
-            });
-        });
-      }
     }, 2000);
   };
 

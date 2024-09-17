@@ -161,7 +161,7 @@ export function CheckoutPage() {
   const Fetchdata = () => {
     setLoadingdata(true);
     axios
-      .post(Api + "User/Showorderbuydetail/", {
+      .post(Api + "user/index/2", {
         userid: atob(id),
         order_id: order_id,
       })
@@ -209,9 +209,9 @@ export function CheckoutPage() {
       Update.append("order_id", order_id);
       Update.append("file", v.img_file);
       Update.append("typeimg", "update");
-      axios.post(Api + "Buy/UploadIMG", Update).then(() => {
+      axios.post(Api + "buy/index/3", Update).then(() => {
         axios
-          .post(Api + "Buy/Checkout", {
+          .post(Api + "buy/index/2", {
             order_id: order_id,
             pay_date: YearSelect - 543 + "-" + MonthSelect + "-" + DaySelect,
             pay_time: HourSelect + ":" + MinuteSelect,

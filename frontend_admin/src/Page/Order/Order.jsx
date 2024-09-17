@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from "react";
 import {
   ActionIcon,
   Flex,
@@ -12,11 +13,9 @@ import {
   LoadingOverlay,
   Image,
 } from "@mantine/core";
-
-import { IconPlus, IconEye, IconCheck, IconClick } from "@tabler/icons-react";
 import axios from "axios";
 import { MDBDataTableV5 } from "mdbreact";
-import React, { useEffect, useState } from "react";
+import { IconPlus, IconEye, IconCheck, IconClick } from "@tabler/icons-react";
 import Swal from "sweetalert2";
 
 import TT from "../../Api";
@@ -89,7 +88,7 @@ function Order() {
                   {new Date(i.order_date).toLocaleDateString("TH-th", options2)}
                 </>
               ),
-              name: <>{i.name}</>,
+              name: i.name,
               orderdetail: (
                 <>
                   <Button
@@ -256,7 +255,6 @@ function Order() {
           bg={"white"}
           radius={8}
           shadow="sm"
-          // p={10}
           style={{ borderRadius: "8px" }}
         >
           <LoadingOverlay
@@ -275,7 +273,7 @@ function Order() {
               <MDBDataTableV5
                 barReverse={true}
                 responsive
-                searchLabel="วันที่สั่งซื้อ , ชื่อลูกค้า"
+                searchLabel="ค้นหา..."
                 searchTop={true}
                 searchBottom={false}
                 data={Data}
